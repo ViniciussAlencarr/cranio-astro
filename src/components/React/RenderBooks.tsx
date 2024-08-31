@@ -28,10 +28,6 @@ export const RenderBooks = () => {
     const [books, setBooks] = useState<Book[]>([])
 
     useEffect(() => {
-        console.log(books)
-    }, [books])
-
-    useEffect(() => {
         const getBooks = async () => {
             try {
                 const url = `https://capable-cuddle-84d83ce599.strapiapp.com/api/books`
