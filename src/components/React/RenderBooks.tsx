@@ -6,6 +6,7 @@ import { CoverBookImg } from '../../utils/getSvgIcons'
 
 // icons
 import { FaPlus } from "react-icons/fa6";
+import { SeeFlowsSkeleton } from './skeleton';
 
 interface Book {
     createdAt: string;
@@ -26,6 +27,7 @@ const themes = [
 
 export const RenderBooks = () => {
     const [books, setBooks] = useState<Book[]>([])
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getBooks = async () => {
@@ -33,6 +35,7 @@ export const RenderBooks = () => {
                 const url = `https://capable-cuddle-84d83ce599.strapiapp.com/api/books`
                 const { data } = await axios(url)
                 setBooks(data.data.map((book: any) => ({ ...book.attributes, id: book.id })))
+                setLoading(false)
             } catch (err) {
                 console.log(err)
             }
@@ -42,6 +45,12 @@ export const RenderBooks = () => {
 
     const formatPrice = (price: number) => price.toLocaleString('pt-BR', { currency: 'BRL', style: 'currency' })
 
+    if (loading) {
+        return (
+            <SeeFlowsSkeleton />
+        )
+    }
+
     return (
         <div className="">
             <div className="grid grid-cols-2 2xl:grid-cols-4 gap-2 md:gap-3 2xl:gap-4 w-full text-white">
@@ -49,7 +58,7 @@ export const RenderBooks = () => {
             </div>
             <div className='bg-white rounded-xl my-6 md:my-8 2xl:my-11'>
                 {books.length !== 0 ? (<div className='grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-4'>
-                    {books.map((book, index) => <div key={index} className='flex flex-col items-center text-center'>
+                    {books.slice(-12).map((book, index) => <div key={index} className='flex flex-col items-center text-center'>
                         <div><CoverBookImg className='h-fit w-inherit max-w-[130px] sm:w-[180px] md:w-[210px] lg:w-[250px] sm:max-w-none 2xl:max-w-none 2xl:w-[340px]' /></div>
                         <div className=''>
                             <div className='text-[14px] md:text-[18px] 2xl:text-[26px]'>{book.title}</div>
@@ -58,7 +67,7 @@ export const RenderBooks = () => {
                         </div>
                     </div>)}
                 </div>)
-                : <div className='text-center py-6'>Nenhum livro encontrado.</div>}
+                    : <div className='text-center py-6'>Nenhum livro encontrado.</div>}
                 <div className='py-6 w-full flex justify-center items-center'>
                     <div className='bg-[#EE8A21] cursor-pointer hover:opacity-70 transition-all rounded-full py-2 w-fit flex items-center text-white px-7'>
                         <div><FaPlus size={15} color='' /></div>
