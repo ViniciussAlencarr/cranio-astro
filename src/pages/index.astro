@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { HomeImg01, HomeImg02, HomeImg03 } from '../utils/getSvgIcons'
+---
+
+<Layout title="Home">
+	<div class="py-3 px-5 sm:px-7 md:px-14 xl:py-8 xl:px-14 h-full ">
+		<div class="items-center flex flex-col 2xl:flex-row justify-between">
+			<div class="w-full flex items-center rounded-xl bg-white p-2 md:p-4 2xl:p-6 min-h-[150px] sm:min-h-[200px] md:min-h-[250px] lg:min-h-[350px] 2xl:min-h-[400px] transition-all ease-in-out shadow-xl hover:shadow-[#fbba1433] shadow-transparent">
+				<div class="flex items-center w-full">
+					<div class="w-full"><HomeImg01 className='h-fit max-w-[200px] w-inherit sm:w-[220px] md:w-[250px] lg:w-[350px] 2xl:w-[407px] sm:max-w-none 2xl:max-w-none' /></div>
+					<div class="flex flex-col items-start ml-2 sm:ml-4 md:ml-6 2xl:ml-8  h-full w-full">
+						<div class="font-semibold text-[18px] sm:text-[24px] md:text-[35px] 2xl:text-[40px] leading-[1.5rem] md:leading-[3rem] 2xl:leading-[3rem] max-w-min">Área do Usuário</div>
+						<div class="mt-6 md:mt-8 2xl:mt-11 w-full"><button class="text-[12px] md:text-[14px] lg:text-[17px] 2xl:text-[20px] bg-[#FBB914] hover:opacity-70 transition-all py-2 px-6 md:py-3 md:px-4 2xl:px-6 2xl:py-3 rounded-full w-full sm:w-[120px] md:w-[150px] lg:w-[180px] 2xl:w-[200px] text-white font-semibold">Entrar</button></div>
+					</div>
+				</div>
+			</div>
+			<div class="w-full flex items-center rounded-xl mt-2 md:mt-4 lg:mt-6 2xl:mt-0 2xl:ml-6 bg-white p-2 md:p-4 2xl:p-6 min-h-[150px] sm:min-h-[200px] md:min-h-[250px] lg:min-h-[350px] 2xl:min-h-[400px] transition-all ease-in-out shadow-xl hover:shadow-[#ee8b212d] shadow-transparent">
+				<div class="flex items-center w-full">
+					<div class="w-full"><HomeImg02  className='h-fit w-inherit max-w-[200px] sm:w-[220px] md:w-[250px] lg:w-[350px] sm:max-w-none 2xl:max-w-none 2xl:w-[407px]' /></div>
+					<div class="flex flex-col items-start ml-2 sm:ml-4 md:ml-6 2xl:ml-8 h-full w-full">
+						<div class="font-semibold text-[18px] sm:text-[24px] md:text-[35px] 2xl:text-[40px] leading-[1.5rem] md:leading-[3rem] 2xl:leading-[3rem] max-w-min">Últimos Lançamentos</div>
+						<div class="mt-6 md:mt-8 2xl:mt-11 w-full"><button class="text-[12px] md:text-[14px] lg:text-[17px] 2xl:text-[20px] bg-[#EE8A21] hover:opacity-70 transition-all py-2 px-6 md:py-3 md:px-4 2xl:px-6 2xl:py-3 rounded-full w-full sm:w-[120px] md:w-[150px] lg:w-[180px] 2xl:w-[200px] text-white font-semibold">Ver agora</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bg-transparent w-full mt-6">
+			<div class="flex items-center flex-col sm:flex-row 2xl:flex-row">
+				<div><HomeImg03 className='h-fit w-inherit max-w-[80px] sm:w-[120px] md:w-[140px] lg:w-[160px] sm:max-w-none 2xl:max-w-none 2xl:w-[185px]' /></div>
+				<div class="flex flex-col ml-2 mt-2 sm:ml-4 md:ml-6 2xl:ml-8 sm:mt-0 2xl:mt-0">
+					<div class="text-[#EE8A21] mb-2 md:mb-4 2xl:mb-6 font-medium text-[18px] sm:text-[24px] md:text-[35px] 2xl:text-[40px]">Como funciona?</div>
+					<p class="p-0 m-0 text-start font-medium text-[12px] md:text-[14px] 2xl:text-[16px]">
+						Lorem ipsum dolor sit amet consectetur. Curabitur mollis sed venenatis aliquet. At auctor cras ullamcorper augue mauris. Sagittis nibh velit porta interdum integer condimentum pellentesque. Pulvinar sit urna arcu in. Et orci arcu felis eget eget ut eros ullamcorper molestie. Sed netus sit gravida cursus pulvinar dui eros netus. Felis turpis ornare tincidunt eget. Sapien sit accumsan massa ut molestie ut aliquam. Auctor magna a ullamcorper elementum dignissim id venenatis pellentesque nulla.<br/><br/>
+						At feugiat leo maecenas mus eget nisl mauris velit. Tincidunt nunc id faucibus volutpat imperdiet. At sit erat fermentum velit ornare. Tortor semper convallis quisque ultricies orci. Elementum in in arcu nulla tristique vulputate ut. Vitae sed quam a arcu donec in est. Non aenean in parturient turpis. Gravida nulla pellentesque feugiat platea sodales dictum suspendisse. Vulputate odio feugiat quis ac.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>

@@ -1,0 +1,33 @@
+---
+import { FaFacebookF } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FaLinkedinIn } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa6";
+
+const topics = [
+    { title: 'Topico', childrens: [{ text: 'Informação' }, { text: 'Informação' }, { text: 'Informação' }, { text: 'Informação' }] },
+    { title: 'Topico', childrens: [{ text: 'Informação' }, { text: 'Informação' }, { text: 'Informação' }, { text: 'Informação' }] },
+    { title: 'Topico', childrens: [{ text: 'Informação' }, { text: 'Informação' }, { text: 'Informação' }, { text: 'Informação' }] },
+]
+---
+
+<div class="bg-[#000] py-3 px-5 sm:px-7 md:px-14 xl:px-14 text-white">
+    <div class="flex flex-col w-full pt-12 h-full">
+        <div class="flex flex-col sm:flex-row 2xl:flex-row justify-center text-center sm:text-start 2xl:text-start sm:justify-between 2xl:justify-between items-center text-white">
+            {topics.map(topic => (<div class="flex flex-col">
+                <div class="text-white font-semibold uppercase my-3 sm:m-0 2xl:m-0">{topic.title}</div>
+                {topic.childrens.map(child => <div class="hover:underline transition-all cursor-pointer ">{child.text}</div>)}
+            </div>))}
+            <div class="flex flex-col items-center sm:items-start 2xl:items-start mt-3 sm:m-0 2xl:m-0">
+                <div class="text-white font-semibold uppercase">Redes sociais</div>
+                <div class="flex flex-row items-center mt-3">
+                    <div class="cursor-pointer hover:opacity-70 transition-all bg-[#DDCC13] rounded-xl pt-2 px-1 pb-0 text-black mr-3"><FaFacebookF size={30} color="#000"/></div>
+                    <div class="cursor-pointer hover:opacity-70 transition-all bg-[#DDCC13] rounded-xl p-2 text-black mr-3"><FaInstagram size={25} color="#000"/></div>
+                    <div class="cursor-pointer hover:opacity-70 transition-all bg-[#DDCC13] rounded-xl p-2 text-black mr-3"><FaLinkedinIn size={25} color="#000"/></div>
+                    <div class="cursor-pointer hover:opacity-70 transition-all bg-[#DDCC13] rounded-xl p-2 text-black mr-3"><FaYoutube size={25} color="#000"/></div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center pt-12 text-[12px] sm:text-[14px] 2xl:text-[16px]">© 2024 CRÂNIO  - Todos os direitos reservados.</div>
+    </div>
+</div>
