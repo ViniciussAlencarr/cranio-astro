@@ -43,7 +43,7 @@ export const Header = () => {
                     <input type="text" className="border-none w-full placeholder:text-black text-center text-[14px] md:text-[16px] lg:text-[16px] bg-none bg-transparent outline-none" placeholder="O que você busca?" />
                 </div>
             </div>
-            <div className={`bg-white h-svh w-[200px] rounded-lg shadow-lg fixed top-0 left-0 z-10 ${openOpts ? 'translate-x-0' : '-translate-x-full'} duration-300 lg:hidden xl:hidden`}></div>
+            {/* <div className={`bg-white h-lvh v w-[200px] rounded-lg shadow-lg fixed top-0 left-0 z-10 ${openOpts ? 'translate-x-0' : '-translate-x-full'} duration-300 lg:hidden xl:hidden`}></div> */}
         </div>
     )
 }

@@ -1,5 +1,12 @@
 {
     "editor.cursorBlinking": "smooth",
     "editor.cursorSmoothCaretAnimation": "on",
-    "editor.cursorSurroundingLinesStyle": "all"
+    "editor.cursorSurroundingLinesStyle": "all",
+    "editor.defaultFormatter": null,
+    "[astro]": {
+        "editor.defaultFormatter": "astro-build.astro-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    }
 }

@@ -6,6 +6,9 @@ export default {
 			width: {
 				'inherit': 'inherit',
 			},
+			screens: {
+				sm2: '960px'
+			}
 		},
 	},
 	plugins: [],

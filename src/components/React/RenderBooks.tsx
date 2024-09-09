@@ -58,14 +58,14 @@ export const RenderBooks = () => {
             </div>
             <div className='bg-white rounded-xl my-6 md:my-8 2xl:my-11'>
                 {books.length !== 0 ? (<div className='grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-4'>
-                    {books.slice(-12).map((book, index) => <div key={index} className='flex flex-col items-center text-center'>
+                    {books.slice(-12).map((book, index) => <a href="/livro" key={index} className='flex cursor-pointer flex-col items-center text-center'>
                         <div><CoverBookImg className='h-fit w-inherit max-w-[130px] sm:w-[180px] md:w-[210px] lg:w-[250px] sm:max-w-none 2xl:max-w-none 2xl:w-[340px]' /></div>
                         <div className=''>
                             <div className='text-[14px] md:text-[18px] 2xl:text-[26px]'>{book.title}</div>
                             <div className='text-[#D76B2A] text-[12px] md:text-[14px] 2xl:text-[14px] mb-2 md:mb-3 2xl:mb-3'>{book.authorName}</div>
                             <div className='text-[#CFDA29] text-[14px] md:text-[18px] 2xl:text-[26px] font-semibold'>{formatPrice(book.price)}</div>
                         </div>
-                    </div>)}
+                    </a>)}
                 </div>)
                     : <div className='text-center py-6'>Nenhum livro encontrado.</div>}
                 <div className='py-6 w-full flex justify-center items-center'>
