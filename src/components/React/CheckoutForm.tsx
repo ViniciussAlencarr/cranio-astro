@@ -1,0 +1,245 @@
+import { useEffect, useState } from 'react';
+import api from '../../api';
+import {
+    Elements,
+    useStripe,
+    useElements,
+    CardNumberElement,
+    CardExpiryElement,
+    CardCvcElement
+} from '@stripe/react-stripe-js';
+import { loadStripe, type CreatePaymentMethodData } from '@stripe/stripe-js';
+import type { ShoppingCart } from '../../types/globalTypes';
+import { CoverBookImg } from '../../utils/getSvgIcons';
+
+interface PaymentMethods {
+    credit_card: string;
+    pix: string;
+    debit_card: string;
+}
+
+const CheckoutForm = () => {
+    const stripe = useStripe();
+    const elements = useElements();
+
+    const [shoppingCart, setShoppingCart] = useState<ShoppingCart[]>([])
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [email, setEmail] = useState('')
+    const [name, setName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [phone, setPhone] = useState('')
+    const [cpf, setCpf] = useState('')
+    const [paymentMethod, setPaymentMethod] = useState<keyof PaymentMethods>('credit_card')
+
+    useEffect(() => {
+        const getShoppingCartProducts = async () => {
+            try {
+                const { data } = await api.get('/products-in-cart')
+                setShoppingCart(data)
+                setTotalPrice(data.reduce((acc: any, value: any) => acc + value.price, 0))
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        getShoppingCartProducts()
+    }, [])
+
+    const handleSubmit = async (event: any) => {
+        event.preventDefault();
+        if (!stripe || !elements) {
+            console.log('stripe or elements is not set')
+            return
+        }
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: 'card',
+            card: elements.getElement(CardNumberElement),
+            billing_details: {
+                email,
+                name,
+                phone
+            }
+        } as CreatePaymentMethodData);
+
+        if (error) {
+            alert(error.message)
+            console.error(error);
+        } else {
+            const { data } = await api.post('/create-payment-intent', {
+                amount: totalPrice * 100,
+                payment_method_id: paymentMethod.id
+            });
+
+            const { client_secret } = data
+
+            const { error: confirmError } = await stripe.confirmCardPayment(client_secret);
+
+            if (confirmError) {
+                console.error(confirmError);
+            } else {
+                await clearCart()
+            }
+        }
+    };
+
+    const clearCart = async () => {
+        try {
+            await api.delete('/clear-cart')
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const phoneMask = (phone: string) => {
+        return phone.replace(/\D/g, '')
+            .replace(/^(\d)/, '($1')
+            .replace(/^(\(\d{2})(\d)/, '$1) $2')
+            .replace(/(\d{5})(\d{1,4})/, '$1-$2')
+            .replace(/(-\d{4})\d+?$/, '$1');
+    }
+
+    const cpfMask = (cpf: string) => {
+        // Remove caracteres não numéricos
+        cpf = cpf.replace(/\D/g, '');
+
+        // Aplica a máscara
+        if (cpf.length <= 3) return cpf;
+        if (cpf.length <= 6) return `${cpf.slice(0, 3)}.${cpf.slice(3)}`;
+        if (cpf.length <= 9) return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6)}`;
+        return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9, 11)}`;
+    };
+
+    const formatPrice = (valor: number) => {
+        try {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: 2, // Número mínimo de casas decimais
+                maximumFractionDigits: 2, // Número máximo de casas decimais
+            }).format(valor);
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    return (
+        <form onSubmit={handleSubmit} className='flex-1 w-full'>
+            <div className="mt-3 md2:mt-6 2xl:mt-12 flex-col md2:flex-row flex justify-center items-center w-full">
+                <div className='flex-1 w-full'>
+                    <div>
+                        <div className='font-semibold text-[16px] sm:text-[20px] md:text-[24px] 2xl:text-[30px]'>Dados Pessoais</div>
+                        <div className='mt-3 md:mt-6'>
+                            <div className='p-3 md:p-6 border-2 border-[#969696] hover:border-[#4b4b4b] bg-transparent gap-3 flex flex-col transition-all rounded-2xl'>
+                                <div className='w-full'>
+                                    <label className='text-[#969696] px-2' htmlFor="email-value-form">Email</label>
+                                    <input required id='email-value-form' value={email} onChange={event => setEmail(event.target.value)} type="email" placeholder='Digite aqui' className='rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
+                                </div>
+                                <div className='flex flex-col sm3:flex-row items-center gap-3'>
+                                    <div className='w-full'>
+                                        <label className='text-[#969696] px-2' htmlFor="name-value-form">Nome</label>
+                                        <input required id='name-value-form' type="text" value={name} onChange={event => setName(event.target.value)} placeholder='Digite aqui' className='rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
+                                    </div>
+                                    <div className='w-full'>
+                                        <label className='text-[#969696] px-2' htmlFor="lastname-value-form">Sobrenome</label>
+                                        <input id='lastname-value-form' type="text" value={lastName} onChange={event => setLastName(event.target.value)} placeholder='Digite aqui' className='rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
+                                    </div>
+                                </div>
+                                <div className='flex flex-col sm3:flex-row items-center gap-3'>
+                                    <div className='w-full'>
+                                        <label className='text-[#969696] px-2' htmlFor="name-value-form">CPF</label>
+                                        <input required id='name-value-form' type="text" value={cpf} onChange={event => setCpf(cpfMask(event.target.value))} placeholder='Digite aqui' className='rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
+                                    </div>
+                                    <div className='w-full'>
+                                        <label className='text-[#969696] px-2' htmlFor="lastname-value-form">Telefone</label>
+                                        <input id='lastname-value-form' type="tel" value={phone} onChange={event => setPhone(phoneMask(event.target.value))} placeholder='Digite aqui' className='rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='flex flex-col mt-3 md:mt-6 2xl:mt-12'>
+                        <div className='font-semibold text-[16px] sm:text-[20px] md:text-[24px] 2xl:text-[30px]'>Pagamento</div>
+                        <div className='mt-3 md:mt-6 flex flex-col sm:flex-row items-center border-2 border-[#DDCC13] rounded-2xl p-3 md:p-6'>
+                            <div className='flex-1 flex-col text-[14px] md:text-[18px] 2xl:text-[26px] w-full'>
+                                <div onClick={() => setPaymentMethod('pix')} className={`${paymentMethod === 'pix' ? 'bg-[#DDCC13] !text-white' : 'text-[#DDCC13]'} w-full text-center border-[#DDCC13] rounded-full border-2 py-2 px-6 uppercase font-semibold mt-3 cursor-pointer hover:opacity-75`}>
+                                    pix
+                                </div>
+                                <div onClick={() => setPaymentMethod('credit_card')} className={`${paymentMethod === 'credit_card' ? 'bg-[#DDCC13] !text-white' : 'text-[#DDCC13]'} w-full text-center border-[#DDCC13] rounded-full border-2 py-2 px-6 uppercase font-semibold mt-3 cursor-pointer hover:opacity-75`}>
+                                    cartão de crédito
+                                </div>
+                                <div onClick={() => setPaymentMethod('debit_card')} className={`${paymentMethod === 'debit_card' ? 'bg-[#DDCC13] !text-white' : 'text-[#DDCC13]'} w-full text-center border-[#DDCC13] border-2 rounded-full py-2 px-6 uppercase font-semibold mt-3 cursor-pointer hover:opacity-75`}>
+                                    cartão de débito
+                                </div>
+                            </div>
+                            <div className='flex-1 ml-0 mt-3 sm:mt-0 sm:ml-3 md:ml-6 bg-[#E7EAC0] rounded-2xl border-2 border-[#CFDA29] p-3 w-full'>
+                                <div className='w-full p'>
+                                    <label className='px-2' htmlFor="">Número do cartão</label>
+                                    <CardNumberElement className='rounded-full bg-white p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
+                                </div>
+                                <div className='flex flex-col sm3:flex-row items-center mt-3'>
+                                    <div className='w-full'>
+                                        <label htmlFor="">Validade</label>
+                                        <CardExpiryElement className='rounded-full bg-white p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
+                                    </div>
+                                    <div className='w-full ml-0 mt-3 sm3:mt-0 sm3:ml-3'>
+                                        <label htmlFor="">Código de segurança</label>
+                                        <CardCvcElement className='rounded-full bg-white p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='flex-1 ml-0 mt-3 sm:mt-6 md2:mt-0 md2:ml-6 2xl:ml-12 border-2 rounded-2xl border-[#969696] w-full'>
+                    <div id='shoppin-cart-payment' className='p-3 m-3 h-auto max-h-[400px] overflow-y-auto overflow-x-hidden'>
+                        {shoppingCart.length !== 0 ? shoppingCart.slice(0, 10).map((item, index) => <div key={index} className="rounded-2xl flex justify-between items-center gap-2 md:gap-3">
+                            <div>
+                                <CoverBookImg
+                                    className="h-fit w-inherit max-w-[60px] sm:w-[110px] md:w-[110px] lg:w-[110px] sm:max-w-none 2xl:max-w-none 2xl:h-[150px] 2xl:w-[110px]" /></div>
+                            <div className="flex-1 flex flex-col sm:flex-row justify-evenly">
+                                <div className="flex-1 flex flex-col items-start text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] 2xl:text-[20px]">
+                                    <div className="font-semibold">{item.bookTitle}</div>
+                                    <div className="text-[#D76B2A]">{item.bookAuthor}</div>
+                                </div>
+                                <div className="flex-1 flex items-center justify-end sm:justify-center">
+                                    <div className="flex flex-col items-center">
+                                        {<div className="text-[14px] sm:text-[16px] md:text-[18px] 2xl:text-[24px] font-medium">{formatPrice(item.price)}</div>}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        ) : <div className="font-semibold text-center h-full text-[14px] flex-1 flex justify-center items-center md:text-[16px] 2xl:text-[18px] pt-12">Seu carrinho está vazio.</div>}
+                    </div>
+                    <div className="flex-1 flex flex-col gap-3 text-[14px] md:text-[16px] 2xl:text-[20px] border-t-2 border-[#969696] p-6 rounded-t-2xl">
+                        <a href='/carrinho/sacola' className='text-center underline text-[#EE8A21] text-[12px] md:text-[14px] 2xl:text-[16px]'>Voltar ao carrinho</a>
+                        <div className="border-b-[2px] flex flex-row justify-between items-center pb-3">
+                            <div>Subtotal</div>
+                            <div className="font-semibold">{formatPrice(totalPrice)}</div>
+                        </div>
+                        <div className="border-b-[2px] flex flex-row justify-between items-center pb-3">
+                            <div>Descontos</div>
+                            <div className="font-semibold">R$000,00</div>
+                        </div>
+                        <div className="flex flex-row justify-between items-center text-[#CFDA29] pb-3">
+                            <div>Total</div>
+                            <div className="font-semibold">{formatPrice(totalPrice)}</div>
+                        </div>
+                        <div className='w-full'>
+
+                            <button type="submit" disabled={!stripe} className="bg-[#CFDA29] text-black hover:opacity-70 font-medium rounded-full py-2 px-10 w-full text-center">Finalizar Compra</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    );
+};
+
+interface Params {
+    stripePk: string;
+}
+
+export const Checkout = ({ stripePk }: Params) => (
+    <Elements stripe={loadStripe(stripePk)}>
+        <CheckoutForm />
+    </Elements>
+);

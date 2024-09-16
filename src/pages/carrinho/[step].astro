@@ -1,0 +1,20 @@
+---
+// components
+import LayoutCarrinho from "../../layouts/LayoutCarrinho.astro";
+import BagComponent from '../../components/Astro/Bag.astro'
+import IdentificationComponent from '../../components/Astro/Identification.astro'
+import PagamentoComponent from '../../components/Astro/Payment.astro'
+
+const { step } = Astro.params;
+---
+
+<LayoutCarrinho title="Carrinho">
+    <div class="w-full h-full">
+        <div class="flex flex-col py-3 px-5 sm:px-7 md:px-14 md:py-3 xl:py-6 xl:px-14 h-full">
+            {step === 'sacola' && (<BagComponent />)}
+            {step === 'identificacao' && (<IdentificationComponent />)}
+            {step === 'pagamento' && (<PagamentoComponent />)}
+        </div>
+    </div>
+</LayoutCarrinho>
+

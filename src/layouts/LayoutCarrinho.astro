@@ -1,0 +1,102 @@
+---
+import { AiOutlineSafety } from "react-icons/ai";
+import { IoReorderThreeOutline } from "react-icons/io5";
+import Footer from "../components/Astro/Footer.astro";
+import { Header } from "../components/React/Header";
+import { LogoIcon } from "../utils/getSvgIcons";
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap">
+        <link rel="stylesheet" href="../components/React/index.css">
+		<title>{title}</title>
+		
+	</head>
+	<body class="min-w-[300px] bg-[#f4f4f4] flex-col flex h-screen">
+		<header class="flex-none">
+            <div class='bg-[#CFDA29] relative py-3 px-5 sm:px-7 md:px-14 xl:px-14'>
+                <div class="flex flex-col sm:flex-row items-center w-full relative">
+                    <div class="flex-1 justify-between sm:justify-center flex items-center w-full">
+                        <div class="block cursor-pointer z-20 lg:hidden xl:hidden"><IoReorderThreeOutline className="w-[38px] h-[38px] sm:w-[45px] sm:h-[45px] md:w-[50px] md:h-[50px]" /></div>
+                        <a href="/" class="flex-1 justify-center flex"><LogoIcon className="w-[150px] sm:w-[160px] md:w-[180px] xl:w-[200px]" /></a>
+                    </div>
+                    <div class="flex flex-row items-center md:absolute right-0">
+                        <div><AiOutlineSafety size={30} /></div>
+                        <div class="ml-3 ">Sua compra é <b>100 segura</b></div>
+                    </div>
+                </div>
+            </div>
+		</header>
+		<main class="flex-1">
+			<slot />
+		</main>
+		<footer class="flex-none">
+			<Footer />
+		</footer>
+		<style>
+			.scrollbar-hidden {
+				overflow: -moz-scrollbars-none; /* Para navegadores baseados em Gecko (Firefox) */
+				-ms-overflow-style: none; /* Para Internet Explorer e Edge */
+				scrollbar-width: none; /* Para navegadores baseados em WebKit (Chrome, Safari) */
+			}
+		
+			.scrollbar-hidden::-webkit-scrollbar {
+				display: none; /* Para navegadores baseados em WebKit (Chrome, Safari) */
+			}
+		</style>
+	</body>
+</html>
+
+<style>
+     .scrollbar-hidden {
+        overflow: -moz-scrollbars-none;
+        /* Para navegadores baseados em Gecko (Firefox) */
+        -ms-overflow-style: none !important;
+        /* Para Internet Explorer e Edge */
+        scrollbar-width: none !important;
+        /* Para navegadores baseados em WebKit (Chrome, Safari) */
+    }
+
+    /* A parte de rolagem */
+    *::-webkit-scrollbar {
+        width: 6px;
+        /* Largura da barra de rolagem vertical */
+        height: 12px;
+        /* Altura da barra de rolagem horizontal */
+    }
+
+    /* Parte da barra de rolagem */
+    *::-webkit-scrollbar-track {
+        background: #c3c3c3;
+        /* Cor do trilho da barra de rolagem */
+        border-radius: 10px;
+    }
+
+    /* Parte do "polegar" da barra de rolagem */
+    *::-webkit-scrollbar-thumb {
+        background: #CFDA29;
+        /* Cor do "polegar" da barra de rolagem */
+        border-radius: 10px;
+    }
+
+    /* Efeito quando o "polegar" é hoverado */
+    *::-webkit-scrollbar-thumb:hover {
+        background: #555;
+        /* Cor do "polegar" quando está em hover */
+    }
+</style>

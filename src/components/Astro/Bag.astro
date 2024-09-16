@@ -1,0 +1,30 @@
+---
+import { FaCheckCircle, FaRegCheckCircle } from "react-icons/fa";
+import { ShoppingCartItems } from "../React/ShoppingCartItems";
+---
+
+<div class="flex justify-center items-center">
+    <div class="flex flex-row items-center gap-1 sm:gap-2 md:gap-3 2xlgap-4 text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]">
+        <a href="/carrinho/sacola" class="flex flex-col items-center">
+            <div><FaCheckCircle color="#CFDA29" size={30} /></div>
+            <div class="font-semibold pt-2">Sacola</div>
+        </a>
+        <div class="w-[40px] sm:w-[80px] md:w-[120px] lg:w-[150px] 2xl:w-[200px] h-[2px] rounded-lg bg-[#CFDA29]"></div>
+        <a href="/carrinho/identificacao"  class="flex flex-col items-center">
+            <div><FaRegCheckCircle color="#CFDA29" size={30} /></div>
+            <div class="pt-2">Identificação</div>
+        </a>
+        <div class="w-[40px] sm:w-[80px] md:w-[120px] lg:w-[150px] 2xl:w-[200px] h-[2px] rounded-lg bg-[#969696]"></div>
+        <a href="/carrinho/pagamento" class="flex flex-col items-center">
+            <div><FaRegCheckCircle color="#CFDA29" size={30} /></div>
+            <div class="pt-2">Pagamento</div>
+        </a>
+    </div>
+</div>
+<div class="pt-12 flex flex-col flex-1">
+    <div class="flex flex-row justify-evenly text-[14px] md:text-[16px] 2xl:text-[20px]">
+        <div class="font-semibold">Produto</div>
+        <div class="font-semibold">Valor</div>
+    </div>
+    <ShoppingCartItems client:load />
+</div>

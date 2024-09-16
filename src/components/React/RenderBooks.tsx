@@ -8,6 +8,8 @@ import { CoverBookImg } from '../../utils/getSvgIcons'
 import { FaPlus } from "react-icons/fa6";
 import { SeeFlowsSkeleton } from './skeleton';
 
+import api from '../../api';
+
 interface Book {
     createdAt: string;
     id: number;
@@ -32,8 +34,7 @@ export const RenderBooks = () => {
     useEffect(() => {
         const getBooks = async () => {
             try {
-                const url = `https://capable-cuddle-84d83ce599.strapiapp.com/api/books`
-                const { data } = await axios(url)
+                const { data } = await api.get('books')
                 setBooks(data.data.map((book: any) => ({ ...book.attributes, id: book.id })))
                 setLoading(false)
             } catch (err) {
@@ -58,7 +59,7 @@ export const RenderBooks = () => {
             </div>
             <div className='bg-white rounded-xl my-6 md:my-8 2xl:my-11'>
                 {books.length !== 0 ? (<div className='grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-4'>
-                    {books.slice(-12).map((book, index) => <a href="/livro" key={index} className='flex cursor-pointer flex-col items-center text-center'>
+                    {books.slice(-12).map((book, index) => <a href={`/livro/${book.id}`} key={index} className='flex cursor-pointer flex-col items-center text-center'>
                         <div><CoverBookImg className='h-fit w-inherit max-w-[130px] sm:w-[180px] md:w-[210px] lg:w-[250px] sm:max-w-none 2xl:max-w-none 2xl:w-[340px]' /></div>
                         <div className=''>
                             <div className='text-[14px] md:text-[18px] 2xl:text-[26px]'>{book.title}</div>

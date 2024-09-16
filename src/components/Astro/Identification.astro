@@ -1,0 +1,71 @@
+---
+// icons
+import { FaCheckCircle, FaRegCheckCircle } from "react-icons/fa";
+import { IoIosCheckmark } from "react-icons/io";
+
+// components
+import { IdentificationForm } from '../React/FormIdentification'
+
+---
+
+<div class="flex justify-center items-center">
+    <div
+        class="flex flex-row items-center gap-1 sm:gap-2 md:gap-3 2xlgap-4 text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]"
+    >
+        <a href="/carrinho/sacola" class="flex flex-col items-center">
+            <div><FaCheckCircle color="#CFDA29" size={30} /></div>
+            <div class="font-semibold pt-2">Sacola</div>
+        </a>
+        <div
+            class="w-[40px] sm:w-[80px] md:w-[120px] lg:w-[150px] 2xl:w-[200px] h-[2px] rounded-lg bg-[#CFDA29]"
+        >
+        </div>
+        <a href="/carrinho/identificacao" class="flex flex-col items-center">
+            <div><FaCheckCircle color="#CFDA29" size={30} /></div>
+            <div class="pt-2">Identificação</div>
+        </a>
+        <div
+            class="w-[40px] sm:w-[80px] md:w-[120px] lg:w-[150px] 2xl:w-[200px] h-[2px] rounded-lg bg-[#969696]"
+        >
+        </div>
+        <a href="/carrinho/pagamento" class="flex flex-col items-center">
+            <div><FaRegCheckCircle color="#CFDA29" size={30} /></div>
+            <div class="pt-2">Pagamento</div>
+        </a>
+    </div>
+</div>
+<div class="mt-3 md:mt-6 2xl:mt-12 flex-col flex justify-center items-center flex-1">
+    <div class="font-medium text-[12px] md:text-[16px] 2xl:text-[20px]">
+        Para finalizar a compra, informe seu e-mail.
+    </div>
+    <IdentificationForm client:load />
+    <div class="mt-3 md:mt-6 flex flex-col">
+        <div class="font-medium text-[12px] md:text-[16px] 2xl:text-[20px]">
+            Usamos seu e-mail de forma 100% segura para:
+        </div>
+        <div class="flex flex-col text-[12px] md:text-[14px] 2xl:text-[16px] mt-2 md:mt-3 ml-2 md:ml-3">
+            <div class="flex items-center gap-2 md:gap-3">
+                <div><IoIosCheckmark size={20} color="#CFDA29" /></div>
+                <div class="text-[#969696]">Identificar seu perfil</div>
+            </div>
+            <div class="flex items-center gap-2 md:gap-3">
+                <div><IoIosCheckmark size={20} color="#CFDA29" /></div>
+                <div class="text-[#969696]">
+                    Gerenciar seu histórico de compras
+                </div>
+            </div>
+            <div class="flex items-center gap-2 md:gap-3">
+                <div><IoIosCheckmark size={20} color="#CFDA29" /></div>
+                <div class="text-[#969696]">
+                    Notificar sobre o andamento do seu pedido
+                </div>
+            </div>
+            <div class="flex items-center gap-2 md:gap-3">
+                <div><IoIosCheckmark size={20} color="#CFDA29" /></div>
+                <div class="text-[#969696]">
+                    Acelerar o preenchimento de suas informações
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

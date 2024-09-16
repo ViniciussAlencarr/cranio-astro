@@ -7,7 +7,9 @@ export default {
 				'inherit': 'inherit',
 			},
 			screens: {
-				sm2: '960px'
+				sm2: '960px',
+				sm3: '416px',
+				md2: '1230px'
 			}
 		},
 	},
