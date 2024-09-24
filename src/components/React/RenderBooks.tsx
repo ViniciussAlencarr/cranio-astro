@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios'
 
 // utils
 import { CoverBookImg } from '../../utils/getSvgIcons'

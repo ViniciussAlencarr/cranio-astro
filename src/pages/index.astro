@@ -1,6 +1,5 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { MdKeyboardArrowRight } from "react-icons/md";
 import {
 	LogoIcon,
 	HomeImg01,
@@ -11,9 +10,6 @@ import {
 	HomeImg05,
 	HomeImg06,
 	HomeImg07,
-	DepoimentImg01,
-	DepoimentImg02,
-	DepoimentImg03,
 } from "../utils/getSvgIcons";
 import { DepoimentsComponent } from "../components/React/Depoiments";
 
@@ -88,6 +84,7 @@ const depoinments = [
 						</div>
 						<div class="mt-6 md:mt-8 2xl:mt-11 w-full">
 							<button
+							id="goToLoginBtn"
 								class="text-[12px] md:text-[14px] lg:text-[17px] 2xl:text-[20px] bg-[#FBB914] hover:opacity-70 transition-all py-2 px-6 md:py-3 md:px-4 2xl:px-6 2xl:py-3 rounded-full w-full sm:w-[120px] md:w-[150px] lg:w-[180px] 2xl:w-[200px] text-white font-semibold"
 								>Entrar</button
 							>
@@ -393,3 +390,7 @@ const depoinments = [
 	</div>
 	<DepoimentsComponent client:load items={depoinments} />
 </Layout>
+
+<script>
+	document.getElementById('goToLoginBtn')?.addEventListener('click', () => window.location.href = `${window.location.origin}/login`)
+</script>

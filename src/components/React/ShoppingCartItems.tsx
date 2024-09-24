@@ -8,7 +8,7 @@ import { IoTrashOutline } from "react-icons/io5"
 import { CoverBookImg } from "../../utils/getSvgIcons"
 
 // style
-import './index.css'
+import '../../../index.css'
 
 // types
 import type { ShoppingCart } from "../../types/globalTypes";
@@ -31,6 +31,8 @@ export const ShoppingCartItems = () => {
 
     useEffect(() => setTotal(shoppingCart.reduce((acc, value) => acc + value.price, 0)), [shoppingCart])
 
+    useEffect(() => localStorage.setItem('shoppingCartSize', JSON.stringify(shoppingCart.length)), [shoppingCart])
+
     const removeItem = (removedItem: ShoppingCart) => {
         removeFromCart(removedItem.id)
             .then(() => {
@@ -39,12 +41,12 @@ export const ShoppingCartItems = () => {
             .catch(err => console.log(err))
     }
 
-    function getRandomFloat(min: number, max: number) {
+    /* function getRandomFloat(min: number, max: number) {
         const randomNumber = Math.random() * (max - min) + min;
 
         // Arredonda para duas casas decimais
         return Math.round(randomNumber * 100) / 100;
-    };
+    }; */
 
     const removeFromCart = async (productId: string) => {
         try {

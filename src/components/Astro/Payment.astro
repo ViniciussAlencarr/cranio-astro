@@ -3,6 +3,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import { Checkout } from "../React/CheckoutForm";
 
 const stripePk = import.meta.env.PK_STRIPE
+
+const { email } = Astro.props;
 ---
 
 <div class="flex justify-center items-center">
@@ -26,7 +28,7 @@ const stripePk = import.meta.env.PK_STRIPE
         </div>
         <a href="/carrinho/pagamento" class="flex flex-col items-center">
             <div><FaCheckCircle color="#CFDA29" size={30} /></div>
-            <div class="pt-2">Pagamento</div>
+            <div class="pt-2">Pagamento {email}</div>
         </a>
     </div>
 </div>

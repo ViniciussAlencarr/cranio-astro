@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 
 // icons
 import { MdKeyboardArrowRight } from "react-icons/md"
@@ -17,24 +16,23 @@ interface Params {
     items: Depoiment[];
 }
 
-const ITEMS_PER_PAGE = 1;
+// const ITEMS_PER_PAGE = 1;
 
 export const DepoimentsComponent = ({
-    items
 }: Params) => {
-    const [currentPage, setCurrentPage] = useState(0);
+    // const [currentPage] = useState(0);
 
     // Calcular o índice inicial e final dos itens para a página atual
-    const startIndex = currentPage * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-    const currentItems = items.slice(startIndex, endIndex);
+    // const startIndex = currentPage * ITEMS_PER_PAGE;
+    // const endIndex = startIndex + ITEMS_PER_PAGE;
+    // const currentItems = items.slice(startIndex, endIndex);
 
-    // Função para mudar a página
+    /* // Função para mudar a página
     const goToPage = (page: number) => {
         if (page >= 0 && page < Math.ceil(items.length / ITEMS_PER_PAGE)) {
             setCurrentPage(page);
         }
-    };
+    }; */
 
     return (
         <div className="mt-3 md:mt-6 2xl:mt-12 bg-[#FBB914] w-full">

@@ -1,6 +1,4 @@
 // utils
-import { CoverBookImg } from '../../utils/getSvgIcons'
-
 interface Params {
 
 }

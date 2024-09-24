@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { IoIosSearch } from "react-icons/io";
 import { IoReorderThreeOutline } from "react-icons/io5";
@@ -9,8 +9,19 @@ import {
     UserIcon
 } from "../../utils/getSvgIcons";
 
-
 export const Header = () => {
+    const [shoppingCartSize, setShoppingCartSize] = useState<string | null>(null)
+
+    useEffect(() => {
+        document.addEventListener('UpdateShoppingCartSize', updateShoppingCartSize)
+        updateShoppingCartSize()
+    }, [])
+
+    const updateShoppingCartSize = () => {
+        const currentSize = localStorage.getItem('shoppingCartSize') || '0'
+        setShoppingCartSize(currentSize)
+    }
+
     const [openOpts, setOpenOpts] = useState(false);
 
     const links = [
@@ -35,15 +46,17 @@ export const Header = () => {
                         <div><IoIosSearch color="#CFDA29" size={25} /></div>
                         <input type="text" className="border-none w-full placeholder:text-black text-center bg-none bg-transparent outline-none" placeholder="O que você busca?" />
                     </div>
-                    <a href="/carrinho/sacola" className="cursor-pointer hover:opacity-70"><ShoppingCartIcon size={"57"} className="w-[45px] sm:w-[48px] md:w-[57px] xl:w-[57px]" /></a>
-                    <div className="hidden lg:block xl:block cursor-pointer hover:opacity-70"><UserIcon size={"61"} className="md:w-[50px] lg:w-[58px] xl:w-[61px]" /></div>
+                    <div className="relative">
+                        {shoppingCartSize && (<div className="p-2 flex justify-center items-center font-semibold w-[20px] h-[20px] border-white text-center  text-[14px] border rounded-full bg-[#fff] absolute top-0 right-0 z-20">{shoppingCartSize}</div>)}
+                        <a href="/carrinho/sacola" className="cursor-pointer hover:opacity-70"><ShoppingCartIcon size={"57"} className="w-[45px] sm:w-[48px] md:w-[57px] xl:w-[57px]" /></a>
+                    </div>
+                    <a href="/login" className="hidden lg:block xl:block cursor-pointer hover:opacity-70"><UserIcon size={"61"} className="md:w-[50px] lg:w-[58px] xl:w-[61px]" /></a>
                 </div>
                 <div className="items-center justify-center p-2 sm:px-3 sm:py-2 md:px-4 md:py-3 lg:px-4 lg:py-3 w-full sm:w-[350px] lg:w-[350px] mt-3 rounded-full bg-white flex xl:hidden">
                     <div><IoIosSearch color="#CFDA29" size={25} /></div>
                     <input type="text" className="border-none w-full placeholder:text-black text-center text-[14px] md:text-[16px] lg:text-[16px] bg-none bg-transparent outline-none" placeholder="O que você busca?" />
                 </div>
             </div>
-            {/* <div className={`bg-white h-lvh v w-[200px] rounded-lg shadow-lg fixed top-0 left-0 z-10 ${openOpts ? 'translate-x-0' : '-translate-x-full'} duration-300 lg:hidden xl:hidden`}></div> */}
         </div>
     )
 }

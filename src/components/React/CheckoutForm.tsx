@@ -9,14 +9,24 @@ import {
     CardCvcElement
 } from '@stripe/react-stripe-js';
 import { loadStripe, type CreatePaymentMethodData } from '@stripe/stripe-js';
-import type { ShoppingCart } from '../../types/globalTypes';
+import { ToastContainer, toast } from 'react-toastify';
+
+// utils
 import { CoverBookImg } from '../../utils/getSvgIcons';
 
+// css
+import 'react-toastify/dist/ReactToastify.css';
+
+// types
+interface Params {
+    stripePk: string;
+}
 interface PaymentMethods {
     credit_card: string;
     pix: string;
     debit_card: string;
 }
+import type { ShoppingCart } from '../../types/globalTypes';
 
 const CheckoutForm = () => {
     const stripe = useStripe();
@@ -29,6 +39,7 @@ const CheckoutForm = () => {
     const [lastName, setLastName] = useState('')
     const [phone, setPhone] = useState('')
     const [cpf, setCpf] = useState('')
+    const [userId] = useState()
     const [paymentMethod, setPaymentMethod] = useState<keyof PaymentMethods>('credit_card')
 
     useEffect(() => {
@@ -44,8 +55,7 @@ const CheckoutForm = () => {
         getShoppingCartProducts()
     }, [])
 
-    const handleSubmit = async (event: any) => {
-        event.preventDefault();
+    const as = async () => {
         if (!stripe || !elements) {
             console.log('stripe or elements is not set')
             return
@@ -76,16 +86,55 @@ const CheckoutForm = () => {
             if (confirmError) {
                 console.error(confirmError);
             } else {
+                await createSale()
                 await clearCart()
             }
         }
+    }
+
+    const handleSubmit = (event: any) => {
+        event.preventDefault();
+        toast.promise(
+            as,
+            {
+                pending: 'Finalizando compra...',
+                success: {
+                    render: () => {
+                        setTimeout(() => window.location.reload(), 600)
+                        return 'Compra realizada com sucesso!'
+                    }
+                },
+                error: 'Ocorreu um problema ao realizar a compra.'
+            }
+        )
     };
 
     const clearCart = async () => {
         try {
             await api.delete('/clear-cart')
+            localStorage.removeItem('shoppingCartSize')
         } catch (err) {
-            console.log(err)
+            throw err
+        }
+    }
+
+    const createSale = async () => {
+        try {
+            if (!shoppingCart || shoppingCart.length === 0) return;
+            for (let product of shoppingCart) {
+                await api.post('/sales', {
+                    data: {
+
+                        price: product.price,
+                        userId: userId,
+                        couponCodes: "",
+                        status: "Em progresso",
+                        productId: `${product.id}`
+                    }
+                })
+            }
+        } catch (err) {
+            throw err
         }
     }
 
@@ -177,11 +226,11 @@ const CheckoutForm = () => {
                                 </div>
                                 <div className='flex flex-col sm3:flex-row items-center mt-3'>
                                     <div className='w-full'>
-                                        <label htmlFor="">Validade</label>
+                                        <label className='px-2' htmlFor="">Validade</label>
                                         <CardExpiryElement className='rounded-full bg-white p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
                                     </div>
                                     <div className='w-full ml-0 mt-3 sm3:mt-0 sm3:ml-3'>
-                                        <label htmlFor="">Código de segurança</label>
+                                        <label className='px-2' htmlFor="">Código de segurança</label>
                                         <CardCvcElement className='rounded-full bg-white p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
                                     </div>
                                 </div>
@@ -190,8 +239,8 @@ const CheckoutForm = () => {
                     </div>
                 </div>
                 <div className='flex-1 ml-0 mt-3 sm:mt-6 md2:mt-0 md2:ml-6 2xl:ml-12 border-2 rounded-2xl border-[#969696] w-full'>
-                    <div id='shoppin-cart-payment' className='p-3 m-3 h-auto max-h-[400px] overflow-y-auto overflow-x-hidden'>
-                        {shoppingCart.length !== 0 ? shoppingCart.slice(0, 10).map((item, index) => <div key={index} className="rounded-2xl flex justify-between items-center gap-2 md:gap-3">
+                    {shoppingCart.length !== 0 && (<div id='shoppin-cart-payment' className='p-3 m-3 h-auto max-h-[400px] overflow-y-auto overflow-x-hidden'>
+                        {shoppingCart.slice(0, 10).map((item, index) => <div key={index} className="rounded-2xl flex justify-between items-center gap-2 md:gap-3">
                             <div>
                                 <CoverBookImg
                                     className="h-fit w-inherit max-w-[60px] sm:w-[110px] md:w-[110px] lg:w-[110px] sm:max-w-none 2xl:max-w-none 2xl:h-[150px] 2xl:w-[110px]" /></div>
@@ -207,10 +256,12 @@ const CheckoutForm = () => {
                                 </div>
                             </div>
                         </div>
-                        ) : <div className="font-semibold text-center h-full text-[14px] flex-1 flex justify-center items-center md:text-[16px] 2xl:text-[18px] pt-12">Seu carrinho está vazio.</div>}
-                    </div>
-                    <div className="flex-1 flex flex-col gap-3 text-[14px] md:text-[16px] 2xl:text-[20px] border-t-2 border-[#969696] p-6 rounded-t-2xl">
-                        <a href='/carrinho/sacola' className='text-center underline text-[#EE8A21] text-[12px] md:text-[14px] 2xl:text-[16px]'>Voltar ao carrinho</a>
+                        )}
+                    </div>)}
+                    <div className={`flex-1 flex flex-col gap-3 text-[14px] md:text-[16px] 2xl:text-[20px] ${shoppingCart.length !== 0 ? 'border-t-2' : 'border-none'}  border-[#969696] p-6 rounded-t-2xl`}>
+                        {shoppingCart.length !== 0 ? (
+                            <a href='/carrinho/sacola' className='text-center underline text-[#EE8A21] text-[12px] md:text-[14px] 2xl:text-[16px]'>Voltar ao carrinho</a>)
+                            : <div className="font-semibold text-center h-full text-[14px] flex-1 flex justify-center items-center md:text-[16px] 2xl:text-[18px] pt-12">Seu carrinho está vazio.</div>}
                         <div className="border-b-[2px] flex flex-row justify-between items-center pb-3">
                             <div>Subtotal</div>
                             <div className="font-semibold">{formatPrice(totalPrice)}</div>
@@ -225,7 +276,7 @@ const CheckoutForm = () => {
                         </div>
                         <div className='w-full'>
 
-                            <button type="submit" disabled={!stripe} className="bg-[#CFDA29] text-black hover:opacity-70 font-medium rounded-full py-2 px-10 w-full text-center">Finalizar Compra</button>
+                            <button type="submit" disabled={!stripe || shoppingCart.length === 0} className="bg-[#CFDA29] disabled:cursor-not-allowed disabled:bg-[#c3c3c3] disabled:opacity-70 text-black hover:opacity-70 font-medium rounded-full py-2 px-10 w-full text-center">Finalizar Compra</button>
                         </div>
                     </div>
                 </div>
@@ -234,12 +285,9 @@ const CheckoutForm = () => {
     );
 };
 
-interface Params {
-    stripePk: string;
-}
-
 export const Checkout = ({ stripePk }: Params) => (
     <Elements stripe={loadStripe(stripePk)}>
         <CheckoutForm />
+        <ToastContainer />
     </Elements>
 );

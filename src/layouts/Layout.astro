@@ -20,7 +20,7 @@ const { title } = Astro.props;
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap">
-        <link rel="stylesheet" href="../components/React/index.css">
+        <link rel="stylesheet" href="index.css">
 		<title>{title}</title>
 		
 	</head>
@@ -36,34 +36,3 @@ const { title } = Astro.props;
 		</footer>
 	</body>
 </html>
-
-<style>
-
-    /* A parte de rolagem */
-    *::-webkit-scrollbar {
-        width: 6px;
-        /* Largura da barra de rolagem vertical */
-        height: 12px;
-        /* Altura da barra de rolagem horizontal */
-    }
-
-    /* Parte da barra de rolagem */
-    *::-webkit-scrollbar-track {
-        background: #c3c3c3;
-        /* Cor do trilho da barra de rolagem */
-        border-radius: 10px;
-    }
-
-    /* Parte do "polegar" da barra de rolagem */
-    *::-webkit-scrollbar-thumb {
-        background: #CFDA29;
-        /* Cor do "polegar" da barra de rolagem */
-        border-radius: 10px;
-    }
-
-    /* Efeito quando o "polegar" é hoverado */
-    *::-webkit-scrollbar-thumb:hover {
-        background: #555;
-        /* Cor do "polegar" quando está em hover */
-    }
-</style>

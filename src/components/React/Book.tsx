@@ -13,6 +13,9 @@ import { TfiWorld } from "react-icons/tfi"
 // utils
 import { CoverBookImg } from "../../utils/getSvgIcons"
 
+// css
+import '../../../index.css'
+
 interface Book {
     id: string;
     authorName: string;
@@ -72,7 +75,7 @@ export const Book = ({ id = '' }) => {
         }
     };
 
-    const addToCart = async () => {
+    const createCartProduct = async () => {
         if (!book || Object.keys(book).length === 0) return;
         try {
             await api.post('/add-to-cart', {
@@ -84,11 +87,35 @@ export const Book = ({ id = '' }) => {
                     amount: 1
                 }
             })
-            window.location.href = `${window.location.origin}/carrinho/sacola`
+            updateSizeOfShoppingCart()
+        } catch (err) {
+            throw err
+        }
+    }
 
+    const getShoppingCartProducts = async () => {
+        try {
+            const { data } = await api.get('/products-in-cart')
+            localStorage.setItem('shoppingCartSize', JSON.stringify(data.length))
         } catch (err) {
             console.log(err)
         }
+    }
+
+    const updateSizeOfShoppingCart = () => {
+        getShoppingCartProducts()
+        const event = new Event('UpdateShoppingCartSize')
+        document.dispatchEvent(event)
+        window.location.reload()
+    }
+
+    const addToCart = async () => {
+        await createCartProduct()
+    }
+
+    const shopNow = async () => {
+        await createCartProduct()
+        window.location.href = `${window.location.origin}/carrinho/sacola`
     }
 
     return (
@@ -222,11 +249,12 @@ export const Book = ({ id = '' }) => {
                             <div className="flex flex-col sm:flex-row 2xl:flex-row items-start">
                                 <div>
                                     <button onClick={() => addToCart()}
-                                        className="bg-[#CFDA29] rounded-full py-1 px-3 md:py-2 md:px-12 2xl:py-2 2xl:px-12 text-white font-semibold hover:opacity-70 text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]">Adicionar
+                                        className="bg-[#CFDA29] rounded-full py-1 px-3 md:py-2 md:px-12 2xl:py-2 2xl:px-12 text-white font-semibold hover:opacity-70 text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]">Adicionar ao
                                         carrinho</button>
                                 </div>
                                 <div className="ml-0 mt-2 sm:mt-0 sm:ml-2 2xl:mt-0 2xl:ml-3">
                                     <button
+                                        onClick={() => shopNow()}
                                         className="bg-[#EE8A21] rounded-full py-1 px-3 md:py-2 md:px-12 2xl:py-2 2xl:px-12 text-white font-semibold hover:opacity-70 text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]">Comprar
                                         agora</button>
                                 </div>
