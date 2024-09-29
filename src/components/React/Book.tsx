@@ -12,6 +12,7 @@ import { TfiWorld } from "react-icons/tfi"
 
 // utils
 import { CoverBookImg } from "../../utils/getSvgIcons"
+import { getShoppingInCart } from "../../utils/getShoppingItems"
 
 // css
 import '../../../index.css'
@@ -78,13 +79,15 @@ export const Book = ({ id = '' }) => {
     const createCartProduct = async () => {
         if (!book || Object.keys(book).length === 0) return;
         try {
+            const userId = localStorage.getItem('user_id') as string
             await api.post('/add-to-cart', {
                 data: {
                     productId: JSON.stringify(book.id),
                     price: book.price,
                     bookAuthor: book.authorName,
                     bookTitle: book.title,
-                    amount: 1
+                    amount: 1,
+                    customerId: userId
                 }
             })
             updateSizeOfShoppingCart()
@@ -95,7 +98,7 @@ export const Book = ({ id = '' }) => {
 
     const getShoppingCartProducts = async () => {
         try {
-            const { data } = await api.get('/products-in-cart')
+            const { data } = await getShoppingInCart()
             localStorage.setItem('shoppingCartSize', JSON.stringify(data.length))
         } catch (err) {
             console.log(err)

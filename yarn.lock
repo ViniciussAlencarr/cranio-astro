@@ -2214,6 +2214,7 @@ __metadata:
     astro: ^4.14.6
     axios: ^1.7.6
     dotenv: ^16.4.5
+    jwt-decode: ^4.0.0
     prettier: ^3.3.3
     prettier-plugin-astro: ^0.14.1
     react: ^18.3.1
@@ -2221,6 +2222,7 @@ __metadata:
     react-icons: ^5.3.0
     react-loading-skeleton: ^3.4.0
     react-router-dom: ^6.26.1
+    react-spinners: ^0.14.1
     react-toastify: ^10.0.5
     tailwindcss: ^3.4.10
     typescript: ^5.5.4
@@ -3437,6 +3439,13 @@ __metadata:
   version: 3.3.1
   resolution: "jsonc-parser@npm:3.3.1"
   checksum: 81ef19d98d9c6bd6e4a37a95e2753c51c21705cbeffd895e177f4b542cca9cda5fda12fb942a71a2e824a9132cf119dc2e642e9286386055e1365b5478f49a47
+  languageName: node
+  linkType: hard
+
+"jwt-decode@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "jwt-decode@npm:4.0.0"
+  checksum: 390e2edcb31a92e86c8cbdd1edeea4c0d62acd371f8a8f0a8878e499390c0ecf4c658b365c4e941e4ef37d0170e4ca650aaa49f99a45c0b9695a235b210154b0
   languageName: node
   linkType: hard
 
@@ -4941,6 +4950,16 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: 810949febc1bf2a6f8dd65f4c0532a2413d0532df462b3e78891aec81dca5a088d387b32c9922cde52bd9770f32263590993cab2383c94ddc1cdb50a20fd7adc
+  languageName: node
+  linkType: hard
+
+"react-spinners@npm:^0.14.1":
+  version: 0.14.1
+  resolution: "react-spinners@npm:0.14.1"
+  peerDependencies:
+    react: ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 42da89561e8ebcd2576f5ea96a6ac6a5288783d271769901edd00f03f66565ea1be79f5519766d6fe576a6f2c6a29bd2ae5bedaf9e90b1765adfd9ea7f30a78e
   languageName: node
   linkType: hard
 

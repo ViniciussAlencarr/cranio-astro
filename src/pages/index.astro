@@ -392,5 +392,14 @@ const depoinments = [
 </Layout>
 
 <script>
-	document.getElementById('goToLoginBtn')?.addEventListener('click', () => window.location.href = `${window.location.origin}/login`)
+	import { validateTokenJwt } from '../utils/validateJwt'
+
+	const goToLoginBtn = document.getElementById('goToLoginBtn')
+	if (goToLoginBtn) {
+		const tokenExpired = validateTokenJwt()
+
+		goToLoginBtn.addEventListener('click', () => window.location.href = tokenExpired ? `${window.location.origin}/login` : `${window.location.origin}/estante`)
+
+		goToLoginBtn.innerHTML = tokenExpired ? 'Entrar' : 'Acessar'
+	}
 </script>

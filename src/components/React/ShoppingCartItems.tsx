@@ -6,6 +6,7 @@ import { IoTrashOutline } from "react-icons/io5"
 
 //utils
 import { CoverBookImg } from "../../utils/getSvgIcons"
+import { getShoppingInCart } from "../../utils/getShoppingItems";
 
 // style
 import '../../../index.css'
@@ -20,7 +21,7 @@ export const ShoppingCartItems = () => {
     useEffect(() => {
         const getShoppingCartProducts = async () => {
             try {
-                const { data } = await api.get('/products-in-cart')
+                const { data } = await getShoppingInCart()
                 setShoppingCart(data)
             } catch (err) {
                 console.log(err)

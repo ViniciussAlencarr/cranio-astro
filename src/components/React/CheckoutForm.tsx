@@ -13,6 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 // utils
 import { CoverBookImg } from '../../utils/getSvgIcons';
+import { getShoppingInCart } from '../../utils/getShoppingItems';
 
 // css
 import 'react-toastify/dist/ReactToastify.css';
@@ -39,13 +40,19 @@ const CheckoutForm = () => {
     const [lastName, setLastName] = useState('')
     const [phone, setPhone] = useState('')
     const [cpf, setCpf] = useState('')
-    const [userId] = useState()
+    const [userId, setUserId] = useState<string | undefined>()
     const [paymentMethod, setPaymentMethod] = useState<keyof PaymentMethods>('credit_card')
+
+    useEffect(() => {
+        const userIdStorage = localStorage.getItem('user_id') as string
+        setUserId(userIdStorage)
+        getUserById(userIdStorage)
+    }, [])
 
     useEffect(() => {
         const getShoppingCartProducts = async () => {
             try {
-                const { data } = await api.get('/products-in-cart')
+                const { data } = await getShoppingInCart()
                 setShoppingCart(data)
                 setTotalPrice(data.reduce((acc: any, value: any) => acc + value.price, 0))
             } catch (err) {
@@ -55,7 +62,21 @@ const CheckoutForm = () => {
         getShoppingCartProducts()
     }, [])
 
-    const as = async () => {
+    const getUserById = async (userId: string) => {
+        try {
+            const { data } = await api.get(`/customers/${userId}`) 
+            if (data) {
+                setCpf(cpfMask(data.cpf))
+                setPhone(phoneMask(data.phone))
+                setName(data.name)
+                setEmail(data.email)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const sendPayment = async () => {
         if (!stripe || !elements) {
             console.log('stripe or elements is not set')
             return
@@ -95,7 +116,7 @@ const CheckoutForm = () => {
     const handleSubmit = (event: any) => {
         event.preventDefault();
         toast.promise(
-            as,
+            sendPayment,
             {
                 pending: 'Finalizando compra...',
                 success: {
@@ -121,15 +142,14 @@ const CheckoutForm = () => {
     const createSale = async () => {
         try {
             if (!shoppingCart || shoppingCart.length === 0) return;
-            for (let product of shoppingCart) {
+            for (let buy of shoppingCart) {
                 await api.post('/sales', {
                     data: {
-
-                        price: product.price,
+                        price: buy.price,
                         userId: userId,
                         couponCodes: "",
                         status: "Em progresso",
-                        productId: `${product.id}`
+                        productId: `${buy.productId}`
                     }
                 })
             }
@@ -199,7 +219,7 @@ const CheckoutForm = () => {
                                     </div>
                                     <div className='w-full'>
                                         <label className='text-[#969696] px-2' htmlFor="lastname-value-form">Telefone</label>
-                                        <input id='lastname-value-form' type="tel" value={phone} onChange={event => setPhone(phoneMask(event.target.value))} placeholder='Digite aqui' className='rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
+                                        <input id='lastname-value-form' type="tel" required value={phone} onChange={event => setPhone(phoneMask(event.target.value))} placeholder='Digite aqui' className='rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
                                     </div>
                                 </div>
                             </div>
@@ -275,7 +295,6 @@ const CheckoutForm = () => {
                             <div className="font-semibold">{formatPrice(totalPrice)}</div>
                         </div>
                         <div className='w-full'>
-
                             <button type="submit" disabled={!stripe || shoppingCart.length === 0} className="bg-[#CFDA29] disabled:cursor-not-allowed disabled:bg-[#c3c3c3] disabled:opacity-70 text-black hover:opacity-70 font-medium rounded-full py-2 px-10 w-full text-center">Finalizar Compra</button>
                         </div>
                     </div>
