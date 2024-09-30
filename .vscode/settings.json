@@ -8,5 +8,8 @@
     },
     "[typescriptreact]": {
         "editor.defaultFormatter": "vscode.typescript-language-features"
-    }
+    },
+    "editor.cursorStyle": "underline",
+    "editor.wrappingStrategy": "advanced",
+    "editor.wrappingIndent": "same"
 }

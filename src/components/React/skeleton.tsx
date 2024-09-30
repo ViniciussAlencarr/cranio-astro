@@ -10,7 +10,7 @@ export const SeeFlowsSkeleton = () => {
         >
             <div className='h-full items-stretch flex flex-col'>
                 <Skeleton className='w-[20px] h-[60px]' />
-                <Skeleton className='h-[50svh] box-border my-6 md:my-8 2xl:my-11' width={'100%'} />
+                <Skeleton className='h-[69svh] box-border my-6 md:my-8 2xl:my-11' width={'100%'} />
             </div>
         </SkeletonTheme>
     )
