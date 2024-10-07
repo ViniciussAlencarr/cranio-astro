@@ -21,6 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // types
 interface Params {
     stripePk: string;
+    baseUrl: string;
 }
 interface PaymentMethods {
     credit_card: string;
@@ -30,7 +31,7 @@ interface PaymentMethods {
 import type { ShoppingCart } from '../../types/globalTypes';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ baseUrl = '' }) => {
     const stripe = useStripe();
     const elements = useElements();
 
@@ -57,7 +58,7 @@ const CheckoutForm = () => {
         const getShoppingCartProducts = async () => {
             try {
                 const { data } = await getShoppingInCart()
-                setShoppingCart(data)
+                setShoppingCart(data.map((book: any) => ({ ...book, cover: { ...book.product?.cover }, id: book.id, })))
                 setTotalPrice(data.reduce((acc: any, value: any) => acc + value.price, 0))
                 setLoading(false)
             } catch (err) {
@@ -307,9 +308,12 @@ const CheckoutForm = () => {
                     <div className='flex-1 ml-0 mt-3 sm:mt-6 md2:mt-0 md2:ml-6 2xl:ml-12 border-2 rounded-2xl border-[#969696] w-full'>
                         {shoppingCart.length !== 0 && (<div id='shoppin-cart-payment' className='p-3 m-3 h-auto max-h-[400px] overflow-y-auto overflow-x-hidden'>
                             {shoppingCart.slice(0, 10).map((item, index) => <div key={index} className="rounded-2xl flex justify-between items-center gap-2 md:gap-3">
-                                <div>
-                                    <CoverBookImg
-                                        className="h-fit w-inherit max-w-[60px] sm:w-[110px] md:w-[110px] lg:w-[110px] sm:max-w-none 2xl:max-w-none 2xl:h-[150px] 2xl:w-[110px]" /></div>
+                                <div className='py-2'>
+                                    {/* <CoverBookImg
+                                        className="h-fit w-inherit max-w-[60px] sm:w-[110px] md:w-[110px] lg:w-[110px] sm:max-w-none 2xl:max-w-none 2xl:h-[150px] 2xl:w-[110px]" /> */}
+                                    <img src={`${baseUrl}${item?.cover.url}`} alt="" className='object-containh-fit w-inherit max-w-[60px] sm:w-[110px] md:w-[110px] lg:w-[110px] sm:max-w-none 2xl:max-w-none 2xl:h-[150px] 2xl:w-[110px]' />
+
+                                </div>
                                 <div className="flex-1 flex flex-col sm:flex-row justify-evenly">
                                     <div className="flex-1 flex flex-col items-start text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] 2xl:text-[20px]">
                                         <div className="font-semibold">{item.bookTitle}</div>
@@ -351,9 +355,9 @@ const CheckoutForm = () => {
     );
 };
 
-export const Checkout = ({ stripePk }: Params) => (
+export const Checkout = ({ stripePk, baseUrl }: Params) => (
     <Elements stripe={loadStripe(stripePk)}>
-        <CheckoutForm />
+        <CheckoutForm  baseUrl={baseUrl} />
         <ToastContainer />
     </Elements>
 );

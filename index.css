@@ -1,3 +1,11 @@
+* {
+    user-select: none; /* Para navegadores modernos */
+    -moz-user-select: none; /* Para Firefox */
+    -webkit-user-select: none; /* Para Safari */
+    -ms-user-select: none; /* Para Internet Explorer/Edge */
+    scroll-behavior: smooth;
+}
+
 /* A parte de rolagem */
 #shoppin-cart-payment::-webkit-scrollbar {
     width: 6px;

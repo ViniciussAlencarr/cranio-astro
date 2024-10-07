@@ -20,6 +20,12 @@ const { href, title, body } = Astro.props;
 	</a>
 </li>
 <style>
+	* {
+		user-select: none; /* Para navegadores modernos */
+		-moz-user-select: none; /* Para Firefox */
+		-webkit-user-select: none; /* Para Safari */
+		-ms-user-select: none; /* Para Internet Explorer/Edge */
+	}
 	.link-card {
 		list-style: none;
 		display: flex;

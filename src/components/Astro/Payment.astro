@@ -3,6 +3,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { Checkout } from "../React/CheckoutForm";
 
 const stripePk = import.meta.env.PK_STRIPE
+const baseUrl = import.meta.env.BASE_URL_API
 
 const { email } = Astro.props;
 ---
@@ -32,4 +33,4 @@ const { email } = Astro.props;
         </a>
     </div>
 </div>
-<Checkout stripePk={stripePk} client:load />
+<Checkout baseUrl={baseUrl} stripePk={stripePk} client:load />

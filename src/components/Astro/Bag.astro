@@ -1,6 +1,8 @@
 ---
 import { FaCheckCircle, FaRegCheckCircle } from "react-icons/fa";
 import { ShoppingCartItems } from "../React/ShoppingCartItems";
+
+const baseUrl = import.meta.env.BASE_URL_API
 ---
 
 <div class="flex justify-center items-center">
@@ -26,5 +28,5 @@ import { ShoppingCartItems } from "../React/ShoppingCartItems";
         <div class="font-semibold">Produto</div>
         <div class="font-semibold">Valor</div>
     </div>
-    <ShoppingCartItems client:load />
+    <ShoppingCartItems baseUrl={baseUrl} client:load />
 </div>

@@ -1,6 +1,5 @@
 ---
-import Footer from "../components/Astro/Footer.astro";
-import { Header } from "../components/React/Header";
+import ClientAreaHeader from '../components/Astro/ClientAreaHeader.astro';
 
 interface Props {
 	title: string;
@@ -25,17 +24,13 @@ const { title } = Astro.props;
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap">
         <link rel="stylesheet" href="index.css">
 		<title>{title}</title>
-		
 	</head>
 	<body class="min-w-[300px] bg-[#f4f4f4] h-full">
-		<header>
-			<Header client:load />
-		</header>
+        <header>
+            <ClientAreaHeader />
+        </header>
 		<main>
 			<slot />
 		</main>
-		<footer>
-			<Footer />
-		</footer>
 	</body>
 </html>

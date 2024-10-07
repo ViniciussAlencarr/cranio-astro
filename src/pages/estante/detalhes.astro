@@ -1,0 +1,14 @@
+---
+import { BookhelfDetails } from "../../components/React/BookShelfDetails";
+import LayoutClientArea from "../../layouts/LayoutClientArea.astro";
+
+const { searchParams } = Astro.url;
+const initialIndex = searchParams.get("index");
+
+const baseUrl = import.meta.env.BASE_URL_API
+
+---
+
+<LayoutClientArea title="Sua Estante">
+    <BookhelfDetails baseUrl={baseUrl} initialIndex={parseInt(initialIndex as string)} client:load />
+</LayoutClientArea>

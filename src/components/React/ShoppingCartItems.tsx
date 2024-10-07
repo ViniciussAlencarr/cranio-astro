@@ -5,7 +5,6 @@ import api from "../../api";
 import { IoTrashOutline } from "react-icons/io5"
 
 //utils
-import { CoverBookImg } from "../../utils/getSvgIcons"
 import { getShoppingInCart } from "../../utils/getShoppingItems";
 
 // style
@@ -16,7 +15,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import type { ShoppingCart } from "../../types/globalTypes";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
-export const ShoppingCartItems = () => {
+export const ShoppingCartItems = ({ baseUrl = '' }) => {
     const [shoppingCart, setShoppingCart] = useState<ShoppingCart[]>([])
     const [loading, setLoading] = useState(false)
     const [total, setTotal] = useState(0.0)
@@ -25,7 +24,7 @@ export const ShoppingCartItems = () => {
         const getShoppingCartProducts = async () => {
             try {
                 const { data } = await getShoppingInCart()
-                setShoppingCart(data)
+                setShoppingCart(data.map((book: any) => ({ ...book, cover: { ...book.product?.cover }, id: book.id, })))
                 setLoading(true)
             } catch (err) {
                 console.log(err)
@@ -89,12 +88,12 @@ export const ShoppingCartItems = () => {
                 </SkeletonTheme>
             )}
             <div className={`flex flex-col transition-opacity duration-500 ${!loading ? 'opacity-0 h-0' : 'opacity-100 h-full'}`}>
-                <div className="flex-1 overflow-auto h-auto max-h-[470px] scrollbar-hidden">
+                <div className="flex-1 overflow-auto h-auto max-h-[570px] md:max-h-[740px] scrollbar-hidden">
                     <div className="flex-col flex h-full gap-3">
                         {shoppingCart.length !== 0 ? shoppingCart.slice(0, 10).map((item, index) => <div key={index} className="border rounded-2xl p-2 md:p-4 2xl:p-6 border-[#636363] flex justify-between items-center gap-2 md:gap-3">
-                            <div>
-                                <CoverBookImg
-                                    className="h-fit w-inherit max-w-[50px] sm:w-[110px] md:w-[110px] lg:w-[110px] sm:max-w-none 2xl:max-w-none 2xl:h-[150px] 2xl:w-[110px]" /></div>
+                            <div className="rounded-lg">
+                                <img src={`${baseUrl}${item?.cover.url}`} alt="" className='object-contain rounded-lg h-fit w-inherit max-w-[100px] sm:w-[180px] md:w-[210px] lg:w-[250px] sm:max-w-none 2xl:max-w-none 2xl:h-[368px] 2xl:w-[257px] shadow-xl' />
+                            </div>
                             <div className="flex-1 flex flex-col sm:flex-row justify-evenly">
                                 <div className="flex-1 flex flex-col items-start text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] 2xl:text-[20px]">
                                     <div className="font-semibold">{item.bookTitle}</div>

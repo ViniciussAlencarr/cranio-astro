@@ -1,0 +1,22 @@
+---
+import { BookReader } from "../components/React/BookReader";
+import LayoutReaderBook from "../layouts/LayoutReaderBook.astro";
+
+const { bookName } = Astro.params;
+const { searchParams } = Astro.url;
+
+const bookId = searchParams.get("book-id");
+
+const baseUrl = import.meta.env.BASE_URL_API
+---
+
+<LayoutReaderBook title={bookName as string}>
+    <div class="bg-[#9FA722] flex justify-center">
+        <div class="sm:flex-grow"></div>
+        <div class="mx-6 sm:mx-0 bg-[#FFFFFF] flex-grow text-[14px] md:text-[16px] 2xl:text-[20px] text-center py-3 rounded-t-full shadow-xl">{bookName}</div>
+        <div class="sm:flex-grow"></div>
+    </div>
+    <div class="bg-[#323232]">
+        <BookReader id={bookId as string} baseUrl={baseUrl} client:load />
+    </div>
+</LayoutReaderBook>

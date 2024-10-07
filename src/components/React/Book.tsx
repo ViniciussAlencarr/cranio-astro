@@ -33,6 +33,7 @@ interface Book {
     indicatedAge: string;
     isbnCode: string;
     language: string;
+    cover: any;
     pages: number;
     publisher: string;
     synopsis: string;
@@ -40,14 +41,14 @@ interface Book {
     ebook: boolean;
 }
 
-export const Book = ({ id = '' }) => {
+export const Book = ({ id = '', baseUrl = '' }) => {
     const [book, setBook] = useState<Book>()
 
     useEffect(() => {
         const getBookById = async () => {
             try {
-                const { data } = await api.get(`/books/${id}`)
-                setBook({ ...data.data.attributes, id: data.data.id })
+                const { data } = await api.get(`/books/${id}?populate=*`)
+                setBook({ ...data.data.attributes, cover: { ...data.data.attributes.cover.data?.attributes }, id: data.data.id })
             } catch (err) {
                 console.log(err)
             }
@@ -154,9 +155,8 @@ export const Book = ({ id = '' }) => {
                 </div>
                 <div className="bg-white rounded-xl p-3 mt-3 2xl:mt-6">
                     <div className="flex flex-row justify-center items-start md:justify-start">
-                        <div>
-                            <CoverBookImg
-                                className="h-fit w-inherit max-w-[100px] sm:w-[180px] md:w-[210px] lg:w-[250px] sm:max-w-none 2xl:max-w-none 2xl:h-[368px] 2xl:w-[266px]" />
+                        <div className="pr-3 rounded-lg">
+                            <img src={`${baseUrl}${book?.cover.url}`} alt="" className='object-contain rounded-lg h-fit w-inherit max-w-[100px] sm:w-[180px] md:w-[210px] lg:w-[250px] sm:max-w-none 2xl:max-w-none 2xl:h-[368px] 2xl:w-[257px] shadow-xl' />
                         </div>
                         <div className="flex flex-col h-full items-baseline justify-start mt-3">
                             <div className="block w-full">

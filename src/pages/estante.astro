@@ -1,10 +1,11 @@
 ---
 import { Bookshelf } from "../components/React/Bookshelf";
 import LayoutClientArea from "../layouts/LayoutClientArea.astro";
+
+const baseUrl = import.meta.env.BASE_URL_API
+
 ---
 
 <LayoutClientArea title="Sua Estante">
-    <div class="py-3 px-5 sm:px-7 md:px-14 xl:py-8 xl:px-14 h-full">
-        <Bookshelf client:load />
-    </div>
+    <Bookshelf baseUrl={baseUrl} client:load />
 </LayoutClientArea>
