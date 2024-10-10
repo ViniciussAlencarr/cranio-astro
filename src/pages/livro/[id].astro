@@ -1,56 +1,14 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
-// icons
-import { AiFillStar } from "react-icons/ai";
-import { FiUser } from "react-icons/fi";
-
 // utils
 import { Book } from "../../components/React/Book";
 
-const reviews = [
-    { id: '', rate: 5, createdAt: new Date().toISOString(), owner: 'José Silva Santos', value: 'Lorem ipsum dolor sit amet consectetur. Curabitur mollis sed venenatis aliquet. At auctor cras ullamcorper augue mauris. Sagittis nibh velit porta interdum integer condimentum pellentesque.'},
-    { id: '', rate: 5, createdAt: new Date().toISOString(), owner: 'José Silva Santos', value: 'Lorem ipsum dolor sit amet consectetur. Curabitur mollis sed venenatis aliquet. At auctor cras ullamcorper augue mauris. Sagittis nibh velit porta interdum integer condimentum pellentesque.'},
-    { id: '', rate: 5, createdAt: new Date().toISOString(), owner: 'José Silva Santos', value: 'Lorem ipsum dolor sit amet consectetur. Curabitur mollis sed venenatis aliquet. At auctor cras ullamcorper augue mauris. Sagittis nibh velit porta interdum integer condimentum pellentesque.'},
-    { id: '', rate: 5, createdAt: new Date().toISOString(), owner: 'José Silva Santos', value: 'Lorem ipsum dolor sit amet consectetur. Curabitur mollis sed venenatis aliquet. At auctor cras ullamcorper augue mauris. Sagittis nibh velit porta interdum integer condimentum pellentesque.'},
-]
-
-const formatISODate = (isoDate: string) => {
-  const date = new Date(isoDate);
-
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
-
-  return `${day}/${month}/${year}`;
-}
-
 const { id } = Astro.params;
 
-const baseUrl = import.meta.env.BASE_URL_API
-
+const baseUrl = import.meta.env.BASE_URL_API;
 ---
 
 <Layout title="Livro">
-    <div class="py-3 px-5 sm:px-7 md:px-14 md:py-3 xl:py-6 xl:px-14 h-full">
-        <Book id={id} baseUrl={baseUrl} client:load />
-    </div>
-    <div class="py-3 bg-[#FBB914] px-5 sm:px-7 md:px-14 xl:px-14 h-full">
-        <div class="text-white text-[25px] text-center md:text-start md:text-[30px] 2xl:text-[35px] font-medium">Avaliações</div>
-        <div class="flex flex-col gap-3 mt-2 sm:mt-3 2xl:mt-3">
-            {reviews.map(review => <div class="border border-black rounded-xl p-3 block">
-                <div class="flex justify-between flex-col md:flex-row 2xl:flex-row items-center">
-                    <div class="flex flex-row">
-                        <div class="p-3 rounded-full bg-white"><FiUser color="#CFDA29" size={45}/></div>
-                        <div class="flex flex-col ml-3">
-                            <div class="flex-row flex items-center">{Array.from({ length: review.rate }).map(() => (<div><AiFillStar color="#D76B2A" size={20} /></div>))}</div>
-                            <div class="text-white text-[12px] md:text-[14px] 2xl:text-[16px]">{formatISODate(review.createdAt)}</div>
-                            <div class="font-semibold text-[12px] md:text-[14px] 2xl:text-[16px]">{review.owner}</div>
-                        </div>
-                    </div>
-                    <div class="flex-1 text-start md:text-end text-[12px] md:text-[14px] 2xl:text-[16px] mt-6 md:mt-0">"{review.value}”</div>
-                </div>
-            </div>)}
-        </div>
-    </div>
+    <Book id={id} baseUrl={baseUrl} client:load />
 </Layout>

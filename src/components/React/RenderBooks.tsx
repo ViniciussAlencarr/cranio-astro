@@ -1,19 +1,14 @@
 import { useEffect, useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
+import api from '../../api';
+
+// css
 import 'react-loading-skeleton/dist/skeleton.css';
-
-
-
-// utils
-import { CoverBookImg } from '../../utils/getSvgIcons'
 
 // icons
 import { FaPlus } from "react-icons/fa6";
 import { SeeFlowsSkeleton } from './skeleton';
 
-import api from '../../api';
-
-
+// types
 interface Book {
     createdAt: string;
     id: number;

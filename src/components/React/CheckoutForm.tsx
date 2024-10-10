@@ -12,7 +12,6 @@ import { loadStripe, type CreatePaymentMethodData } from '@stripe/stripe-js';
 import { ToastContainer, toast } from 'react-toastify';
 
 // utils
-import { CoverBookImg } from '../../utils/getSvgIcons';
 import { getShoppingInCart } from '../../utils/getShoppingItems';
 
 // css

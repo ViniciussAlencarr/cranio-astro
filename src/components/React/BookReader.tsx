@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { NavItem, Rendition } from 'epubjs'
 import { ReactReader } from 'react-reader'
 import useLocalStorageState from 'use-local-storage-state'
+import api from '../../api';
 
 // icons
 import { GoArrowUp } from "react-icons/go";
@@ -10,8 +11,6 @@ import { RxLetterCaseUppercase } from "react-icons/rx";
 import { RxLetterCaseLowercase } from "react-icons/rx";
 import { FiPlusCircle } from "react-icons/fi";
 import { GrSubtractCircle } from "react-icons/gr";
-import api from '../../api';
-
 
 export const BookReader = ({ id = '', baseUrl = '' }) => {
     const toc = useRef<NavItem[]>([])
