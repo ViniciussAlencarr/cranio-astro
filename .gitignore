@@ -3,9 +3,13 @@ dist/
 
 # generated types
 .astro/
+.vscode
+.astro
+.vercel
 .yarn
 # dependencies
 node_modules/
+yarn.lock
 
 # logs
 npm-debug.log*
