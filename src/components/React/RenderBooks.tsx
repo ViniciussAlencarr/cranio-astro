@@ -35,7 +35,7 @@ export const RenderBooks = ({ baseUrl = '' }) => {
         const getBooks = async () => {
             try {
                 const { data } = await api.get('books?populate=*')
-                setBooks(data.data.map((book: any) => ({ ...book.attributes, cover: { ...book.attributes.cover.data?.attributes }, id: book.id, })))
+                setBooks(data.map((book: any) => ({ ...book, cover: { ...book.cover }, id: book.id, })))
                 setLoading(false)
             } catch (err) {
                 console.log(err)

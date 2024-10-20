@@ -80,7 +80,7 @@ export const Bookshelf = ({ baseUrl }: Params) => {
                     {books.length !== 0 ? (<div className='grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-4'>
                         {books.slice(-12).map((book, index) => <div onClick={() => goToDetailShelfBooks(index)} key={index} className='flex cursor-pointer flex-col items-center text-center'>
                             <div className='py-2 px-1 md:p-3 2xl:p-6 items-center rounded-lg'>
-                                <img src={`${baseUrl}${book.cover.url}`} alt="" className='object-contain w-[122px] rounded-lg h-[175px] sm:w-[220px] sm:h-[300px] md:h-[420px] md:w-[300px] 2xl:h-[487px] 2xl:w-[340px] shadow-xl' />
+                                <img src={`${baseUrl}${book.cover.url}`} alt="" className='object-contain w-[122px] rounded-lg h-auto sm:w-[220px] md:w-[300px] 2xl:w-[340px] shadow-xl' />
                             </div>
                             <div className=''>
                                 <div className='text-[14px] md:text-[18px] 2xl:text-[26px]'>{book.product.title}</div>

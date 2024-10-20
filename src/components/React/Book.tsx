@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import api from "../../api"
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton"
 
@@ -10,14 +10,15 @@ import { ImBarcode } from "react-icons/im"
 import { MdKeyboardArrowRight, MdOutlinePhonelinkRing } from "react-icons/md"
 import { RiGroupLine } from "react-icons/ri"
 import { TfiWorld } from "react-icons/tfi"
+import { FiUser } from "react-icons/fi"
 
 // utils
 import { getShoppingInCart } from "../../utils/getShoppingItems"
+import { validateTokenJwt } from "../../utils/validateJwt"
 
 // css
 import '../../../index.css'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { FiUser } from "react-icons/fi"
 
 // types
 interface Book {
@@ -35,6 +36,7 @@ interface Book {
     language: string;
     cover: any;
     pages: number;
+    purchased?: boolean;
     publisher: string;
     synopsis: string;
     year: number;
@@ -56,6 +58,8 @@ export const Book = ({ id = '', baseUrl = '' }) => {
     const [book, setBook] = useState<Book>()
     const [reviews, setReviews] = useState<Review[]>()
     const [reviewsAverage, setReviewsAverage] = useState(0)
+    const [isLogged, setIsLogged] = useState(false)
+    const [shoppingCartItems, setShoppingCartItems] = useState([])
 
     useEffect(() => {
         if (reviews) {
@@ -66,17 +70,26 @@ export const Book = ({ id = '', baseUrl = '' }) => {
     }, [reviews])
 
     useEffect(() => {
-        const getBookById = async () => {
-            try {
-                const { data } = await api.get(`/books/${id}?populate=cover,reviews.picture`)
-                setBook({ ...data.data.attributes, cover: { ...data.data.attributes.cover.data?.attributes }, id: data.data.id })
-                setReviews(data.data.attributes.reviews.data.map(({ id, attributes }: any) => ({ id, ...attributes, picture: { ...attributes.picture.data.attributes } })))
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        getBookById()
+        const tokenExpired = validateTokenJwt()
+        setIsLogged(!tokenExpired)
     }, [])
+
+    useEffect(() => {
+        getBookById()
+    }, [shoppingCartItems])
+
+    const getBookById = useCallback(async () => {
+        try {
+            const userId = localStorage.getItem('user_id') as string
+
+            const { data } = await api.get(`/books/${id}?populate=cover,reviews.picture&userId=${userId}`)
+
+            setBook({ ...data, cover: { ...data.cover }, id: data.id })
+            setReviews(data.reviews.map((review: any) => ({ ...review, picture: { ...review.picture } })))
+        } catch (err) {
+            console.log(err)
+        }
+    }, [shoppingCartItems, book, reviews,])
 
     const formatPrice = (price: number) => price.toLocaleString('pt-BR', { currency: 'BRL', style: 'currency' })
 
@@ -149,11 +162,27 @@ export const Book = ({ id = '', baseUrl = '' }) => {
     }
 
     const addToCart = async () => {
+        if (!isLogged) {
+            return window.location.href = `${window.location.origin}/login`
+        }
+
         await createCartProduct()
     }
 
     const shopNow = async () => {
+        if (!isLogged) {
+            return window.location.href = `${window.location.origin}/login`
+        }
+
         await createCartProduct()
+        window.location.href = `${window.location.origin}/carrinho/sacola`
+    }
+
+    const goToShoppingCart = () => {
+        if (!isLogged) {
+            return window.location.href = `${window.location.origin}/login`
+        }
+
         window.location.href = `${window.location.origin}/carrinho/sacola`
     }
 
@@ -296,7 +325,7 @@ export const Book = ({ id = '', baseUrl = '' }) => {
                                         </div>
                                     </div>)}
                                 </div>
-                                <div className="mt-1 md:mt-3 2xl:mt-6 block w-full">
+                                {!book?.purchased ? (<div className="mt-1 md:mt-3 2xl:mt-6 block w-full">
                                     <div className="flex flex-col sm:flex-row 2xl:flex-row items-start">
                                         <div>
                                             <button onClick={() => addToCart()}
@@ -310,7 +339,14 @@ export const Book = ({ id = '', baseUrl = '' }) => {
                                                 agora</button>
                                         </div>
                                     </div>
-                                </div>
+                                </div>)
+                                    : (
+                                        <div className="mt-1 md:mt-3 2xl:mt-6 block w-full">
+                                            <div>
+                                                <button onClick={goToShoppingCart} className="bg-[#CFDA29] rounded-full py-1 px-3 md:py-2 md:px-12 2xl:py-2 2xl:px-12 text-white font-semibold hover:opacity-70 text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]">No carrinho</button>
+                                            </div>
+                                        </div>
+                                    )}
                             </div>
                         </div>
                         <div className="w-full mt-3 sm:hidden">
@@ -474,13 +510,13 @@ export const Book = ({ id = '', baseUrl = '' }) => {
                     </SkeletonTheme>
                 )}
                 {reviews && reviews.length !== 0 && (<div className={`transition-opacity duration-500 ${!reviews ? 'opacity-0 h-0' : 'flex flex-col gap-3 mt-2 sm:mt-3 2xl:mt-3 opacity-100 h-full'}`}>
-                    {reviews.map(review => <div className="border border-black rounded-xl p-3 block">
+                    {reviews.map((review, index) => <div key={index} className="border border-black rounded-xl p-3 block">
                         <div className="flex justify-between flex-wrap items-center gap-3">
                             <div className="flex flex-row flex-grow">
                                 {review?.picture.url ? (<div className="p-3 rounded-full bg-white"><img src={`${baseUrl}${review?.picture.url}`} alt="" className='object-contain h-[30px] w-[30px] md:h-[40px] md:w-[40px] lg:h-[50px] lg:w-[50px] sm:max-w-none 2xl:max-w-none 2xl:h-[60px] 2xl:w-[60px] rounded-full' /></div>)
                                     : (<div className="p-3 rounded-full bg-white"><FiUser color="#CFDA29" size={45} /></div>)}
                                 <div className="flex flex-col ml-3">
-                                    <div className="flex-row flex items-center">{Array.from({ length: review.assessment }).map(() => (<div><AiFillStar color="#D76B2A" size={20} /></div>))}</div>
+                                    <div className="flex-row flex items-center">{Array.from({ length: review.assessment }).map((_, index) => (<div key={index}><AiFillStar color="#D76B2A" size={20} /></div>))}</div>
                                     <div className="text-white text-[12px] md:text-[14px] 2xl:text-[16px]">{formatISODate(review.createdAt)}</div>
                                     <div className="font-semibold text-[12px] md:text-[14px] 2xl:text-[16px]">{review.evaluatorName}</div>
                                 </div>

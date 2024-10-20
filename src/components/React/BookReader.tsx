@@ -32,7 +32,7 @@ export const BookReader = ({ id = '', baseUrl = '' }) => {
             const getBookById = async () => {
                 try {
                     const { data } = await api.get(`/books/${id}?populate=epubFile`)
-                    setBookFilePath(data.data.attributes.epubFile.data.attributes.url)
+                    setBookFilePath(data.epubFile.url)
                 } catch (err) {
                     console.log(err)
                 }

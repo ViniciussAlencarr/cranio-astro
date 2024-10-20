@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // icons
 import { IoIosSearch } from "react-icons/io";
@@ -29,6 +29,8 @@ export const Header = () => {
                 const { data } = await getShoppingInCart()
                 const cartSize = JSON.stringify(data.length)
 
+                aux(data)
+
                 setShoppingCartSize(cartSize)
                 localStorage.setItem('shoppingCartSize', cartSize)
             } catch (err) {
@@ -43,6 +45,13 @@ export const Header = () => {
         setIsLogged(!tokenExpired)
         setStatusLoggedText(!tokenExpired ? 'Área do cliente' : '')
     }, [])
+
+    const aux = useCallback((shoppingCartData: any) => {
+        const event = new CustomEvent('ShoppingCartData', {
+            detail: shoppingCartData
+        })
+        document.dispatchEvent(event)
+    }, [shoppingCartSize])
 
     const updateShoppingCartSize = () => {
         const currentSize = localStorage.getItem('shoppingCartSize') || '0'
@@ -75,7 +84,7 @@ export const Header = () => {
                     </div>
                     <div className="relative">
                         {shoppingCartSize && (<div className="p-2 flex justify-center items-center font-semibold w-[20px] h-[20px] border-white text-center  text-[14px] border rounded-full bg-[#fff] absolute top-0 right-0 z-20">{shoppingCartSize}</div>)}
-                        <a href="/carrinho/sacola" className="cursor-pointer hover:opacity-70"><ShoppingCartIcon size={"57"} className="w-[45px] sm:w-[48px] md:w-[57px] xl:w-[57px]" /></a>
+                        <a href={isLogged ? "/carrinho/sacola" : '/login'} className="cursor-pointer hover:opacity-70"><ShoppingCartIcon size={"57"} className="w-[45px] sm:w-[48px] md:w-[57px] xl:w-[57px]" /></a>
                     </div>
                     <div className="min-w-[146px] flex justify-center items-center absolute text-center h-0 opacity-0 lg:relative lg:h-auto lg:opacity-100 transition-opacity duration-500">
                         {statusLoggedText === undefined ? (
