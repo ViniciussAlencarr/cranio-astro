@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { NavItem, Rendition } from 'epubjs'
-// import { ReactReader } from 'react-reader'
+import { ReactReader } from 'react-reader'
 import useLocalStorageState from 'use-local-storage-state'
 import api from '../../api';
 
@@ -69,7 +69,7 @@ export const BookReader = ({ id = '', baseUrl = '' }) => {
                 </div>
             </div>
             <div className='rounded-lg scroll-smooth' style={{ height: '100vh' }}>
-                {/* <ReactReader
+                <ReactReader
                     url={`${baseUrl}${bookFilePath}`}
                     swipeable
                     location={location}
@@ -90,7 +90,7 @@ export const BookReader = ({ id = '', baseUrl = '' }) => {
                         rendition.current = _rendition
                         rendition.current.themes.fontSize(largeText ? '140%' : '100%')
                     }}
-                /> */}
+                />
             </div>
             <div className='items-center justify-evenly gap-6 sm:gap-0 flex-wrap flex flex-row mt-6'>
                 <div className='flex-grow sm:flex-grow-0'>

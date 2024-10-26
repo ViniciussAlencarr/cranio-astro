@@ -86,7 +86,7 @@ export const BookhelfDetails = ({ baseUrl, initialIndex = 0 }: Params) => {
 
             return (
                 <div className="flex flex-col items-start justify-center">
-                    <div className="shadow-xl rounded-lg mb-6">
+                    <div className="shadow-xl rounded-lg mb-6 self-center">
                         <img src={`${baseUrl}${currentItem.cover.url}`} alt="" className='object-contain rounded-lg w-full h-full sm:w-[220px] sm:h-[300px] md:h-[420px] md:w-[300px] 2xl:h-[487px] 2xl:w-[340px]' />
                     </div>
                     <div className="flex">
