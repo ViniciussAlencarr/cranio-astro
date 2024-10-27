@@ -7,8 +7,7 @@ import api from '../../api';
 // icons
 import { GoArrowUp } from "react-icons/go";
 import { GoArrowDown } from "react-icons/go";
-import { RxLetterCaseUppercase } from "react-icons/rx";
-import { RxLetterCaseLowercase } from "react-icons/rx";
+import { RxLetterCaseLowercase, RxLetterCaseUppercase } from "react-icons/rx";
 import { FiPlusCircle } from "react-icons/fi";
 import { GrSubtractCircle } from "react-icons/gr";
 
