@@ -10,7 +10,6 @@ import { FiPlusCircle } from "react-icons/fi";
 import { GrSubtractCircle } from "react-icons/gr";
 
 export const BookReader = ({ id = '', baseUrl = '' }) => {
-
     const [page, setPage] = useState('')
     const [bookFilePath, setBookFilePath] = useState('')
     const [largeText, setLargeText] = useState(false)
