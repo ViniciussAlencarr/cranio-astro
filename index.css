@@ -30,7 +30,7 @@
 
 /* Efeito quando o "polegar" é hoverado */
 #shoppin-cart-payment::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #cfda29;
     /* Cor do "polegar" quando está em hover */
 }
 
@@ -69,7 +69,7 @@
 
 /* Efeito quando o "polegar" é hoverado */
 *::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #cfda29;
     /* Cor do "polegar" quando está em hover */
 }
 

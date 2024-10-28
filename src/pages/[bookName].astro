@@ -8,6 +8,7 @@ const { searchParams } = Astro.url;
 const bookId = searchParams.get("book-id");
 
 const baseUrl = import.meta.env.BASE_URL_API
+const baseUrlBookReader = import.meta.env.BASE_URL_BOOK_READER
 ---
 
 <LayoutReaderBook title={bookName as string}>
@@ -17,6 +18,6 @@ const baseUrl = import.meta.env.BASE_URL_API
         <div class="sm:flex-grow"></div>
     </div>
     <div class="bg-[#323232]">
-        <BookReader id={bookId as string} baseUrl={baseUrl} client:load />
+        <BookReader id={bookId as string} bookReaderUrl={baseUrlBookReader} baseUrl={baseUrl} client:load />
     </div>
 </LayoutReaderBook>

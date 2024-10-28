@@ -9,7 +9,7 @@ import { RxLetterCaseLowercase, RxLetterCaseUppercase } from "react-icons/rx";
 import { FiPlusCircle } from "react-icons/fi";
 import { GrSubtractCircle } from "react-icons/gr";
 
-export const BookReader = ({ id = '', baseUrl = '' }) => {
+export const BookReader = ({ id = '', baseUrl = '', bookReaderUrl = '' }) => {
     const [page, setPage] = useState('')
     const [bookFilePath, setBookFilePath] = useState('')
     const [largeText, setLargeText] = useState(false)
@@ -22,6 +22,7 @@ export const BookReader = ({ id = '', baseUrl = '' }) => {
     )
 
     useEffect(() => {
+        console.log()
         if (!!id) {
             const getBookById = async () => {
                 try {
@@ -34,7 +35,7 @@ export const BookReader = ({ id = '', baseUrl = '' }) => {
             getBookById()
         }
     }, [id])
-    
+
 
     const goToHome = () => window.location.href = window.location.origin
     const goToBookShelf = () => window.location.href = `${window.location.origin}/estante`
@@ -42,47 +43,10 @@ export const BookReader = ({ id = '', baseUrl = '' }) => {
 
     return (
         <div className='p-6 md:p-7 md:pt-4 2xl:p-12 2xl:pt-6'>
-            <div className='mb-6'>
-                <div className='flex flex-row text-[12px] items-center gap-3 md:gap-6 2xl:gap-12'>
-                    <div className='flex-grow gap-2 flex justify-end items-center'>
-                        <div className='cursor-pointer hover:opacity-75 transition-all'><GrSubtractCircle className='w-[20px] md:w-[30px] h-[20px] md:h-[30px]' color='#CFDA29' /></div>
-                        <div className='py-1 px-2 text-white font-semibold bg-[#5C5C5C] border border-black'>100%</div>
-                        <div className='cursor-pointer hover:opacity-75 transition-all'><FiPlusCircle className='w-[20px] md:w-[30px] h-[20px] md:h-[30px]' color='#CFDA29' /></div>
-                    </div>
-                    <div className='flex gap-2 flex-grow items-center'>
-                        <div className='cursor-pointer hover:opacity-75 transition-all'><GoArrowUp className='w-[20px] md:w-[30px] h-[20px] md:h-[30px]' color='#FBB914' /></div>
-                        <div className='py-1 px-2 text-white font-semibold bg-[#5C5C5C] border border-black'>{page || 'N/A'}</div>
-                        <div className='cursor-pointer hover:opacity-75 transition-all'><GoArrowDown className='w-[20px] md:w-[30px] h-[20px] md:h-[30px]' color='#FBB914' /></div>
-                    </div>
-                    <div className='items-center'>
-                        <div onClick={() => setLargeText(!largeText)} className='cursor-pointer hover:opacity-75 transition-all'>{largeText ? <RxLetterCaseLowercase className='w-[20px] md:w-[30px] h-[20px] md:h-[30px]' color='#FBB914' /> : <RxLetterCaseUppercase className='w-[20px] md:w-[30px] h-[20px] md:h-[30px]' color='#FBB914' />}</div>
-                    </div>
-                </div>
-            </div>
-            <div className='rounded-lg scroll-smooth' style={{ height: '100vh' }}>
-                <iframe className='w-full h-full' src="http://localhost:5173/" ></iframe>
-                {/* <ReactReader
-                    url={`${baseUrl}${bookFilePath}`}
-                    swipeable
-                    location={location}
-                    epubOptions={{
-                        allowScriptedContent: true
-                    }}
-                    epubInitOptions={{
-                        openAs: 'epub',
-                    }}
-                    locationChanged={(loc: string) => {
-                        setLocation(loc)
-                        if (rendition.current && toc.current) {
-                            const { displayed, href } = rendition.current.location.start
-                            setPage(`${displayed.page}/${displayed.total}`)
-                        }
-                    }}
-                    getRendition={(_rendition: Rendition) => {
-                        rendition.current = _rendition
-                        rendition.current.themes.fontSize(largeText ? '140%' : '100%')
-                    }}
-                /> */}
+            <div className='flex flex-col h-screen'>
+
+            <div className='h-full w-full'>
+                <iframe className='w-full h-full' src={`${bookReaderUrl}?path=${bookFilePath}`} ></iframe>
             </div>
             <div className='items-center justify-evenly gap-6 sm:gap-0 flex-wrap flex flex-row mt-6'>
                 <div className='flex-grow sm:flex-grow-0'>
@@ -94,6 +58,7 @@ export const BookReader = ({ id = '', baseUrl = '' }) => {
                 <div className='flex-grow sm:flex-grow-0'>
                     <button className="bg-[#EE8A21] w-full text-white font-medium hover:opacity-70 rounded-full py-2 px-6 text-[14px] md:text-[16px]">Livro atual</button>
                 </div>
+            </div>
             </div>
         </div>
     )
