@@ -125,7 +125,7 @@ export const BookhelfDetails = ({ baseUrl, initialIndex = 0 }: Params) => {
     };
 
     const goToReadBook = (book: Product) => {
-        window.location.href = `${window.location.origin}/${book.title}?book-id=${book.id}`
+        window.location.href = `${window.location.origin}/reader/${book.title}?book-id=${book.id}`
     }
 
     return (
