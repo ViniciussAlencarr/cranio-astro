@@ -1,0 +1,154 @@
+---
+import LayoutClientArea from "../layouts/LayoutClientArea.astro";
+---
+
+<LayoutClientArea title="Criar conta">
+    <div class="w-full h-full flex items-center justify-center">
+        <form
+            method="get"
+            class="flex flex-col gap-3 w-fit border rounded-xl py-6 px-3"
+        >
+            <label>
+                Nome:
+                <input
+                    class="rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]"
+                    type="text"
+                    placeholder="Digite aqui"
+                    name="name"
+                    required
+                />
+            </label>
+            <label>
+                CPF:
+                <input
+                    class="rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]"
+                    type="text"
+                    placeholder="Digite aqui"
+                    name="cpf"
+                    required
+                />
+            </label>
+            <label>
+                Email:
+                <input
+                    class="rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]"
+                    type="email"
+                    placeholder="Digite aqui"
+                    name="email"
+                    required
+                />
+            </label>
+            <label>
+                Telefone:
+                <input
+                    class="rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]"
+                    type="tel"
+                    placeholder="Digite aqui"
+                    name="phone"
+                    required
+                />
+            </label>
+            <label>
+                Idade:
+                <input
+                    class="rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]"
+                    type="number"
+                    placeholder="Digite aqui"
+                    name="age"
+                    required
+                />
+            </label>
+            <label>
+                Data de nascimento:
+                <input
+                    class="rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]"
+                    type="date"
+                    name="birthdayDate"
+                    required
+                />
+            </label>
+            <label>
+                Quantidade de filhos:
+                <input
+                    class="rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]"
+                    type="number"
+                    placeholder="Digite aqui"
+                    value="0"
+                    name="childrenNumber"
+                    required
+                />
+            </label>
+            <label>
+                CEP:
+                <input
+                    class="rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]"
+                    type="number"
+                    placeholder="Digite aqui"
+                    name="postalCode"
+                    required
+                />
+            </label>
+            <label>
+                Endereço:
+                <input
+                    class="rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]"
+                    type="text"
+                    placeholder="Digite aqui"
+                    name="address"
+                    required
+                />
+            </label>
+            <label>
+                Número:
+                <input
+                    class="rounded-full p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]"
+                    type="number"
+                    placeholder="Digite aqui"
+                    name="number"
+                    required
+                />
+            </label>
+            <button
+                type="submit"
+                class="bg-[#EE8A21] text-white py-2 px-8 rounded-full text-[12px] md:text-[14px] 2xl:text-[16px] mt-6"
+                >Criar conta</button
+            >
+        </form>
+    </div>
+</LayoutClientArea>
+
+<script>
+    const isProd = !window.location.href.includes("localhost");
+
+    const baseUrl = isProd
+        ? "https://api.cranio.converter.tec.br/api"
+        : "http://localhost:1337/api";
+
+    document
+        .querySelector("form")
+        ?.addEventListener("submit", async (event: any) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            try {
+                const response = await fetch(`${baseUrl}/customers`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ data }),
+                });
+
+                const result = await response.json();
+
+                if (result.error) {
+                    return alert(result.error.message);
+                }
+
+                localStorage.setItem("jwt", result.accessToken);
+                window.location.href = window.location.origin;
+            } catch (error) {
+                console.error("Erro ao enviar os dados:", error);
+            }
+        });
+</script>

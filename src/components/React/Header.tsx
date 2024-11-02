@@ -93,7 +93,7 @@ export const Header = () => {
 
     return (
         <div className='bg-[#CFDA29] relative py-3 px-5 sm:px-7 md:px-14 xl:px-14'>
-            <div className="flex flex-col xl:flex-row items-center w-full">
+            <div className="flex flex-col xl3:flex-row items-center w-full">
                 <div className="flex items-center justify-between lg:justify-evenly xl:justify-between w-full transition-all duration-500">
                     {openOpts && (<div className="w-[38px] h-[38px] sm:w-[45px] sm:h-[45px] md:w-[50px] md:h-[50px]"></div>)}
                     <div onClick={() => setOpenOpts(!openOpts)} className={`block cursor-pointer z-20 lg:hidden xl:hidden ${openOpts && 'fixed'}`}>
@@ -105,7 +105,7 @@ export const Header = () => {
                     <div className="hidden lg:flex xl:flex items-center justify-evenly ">
                         {links.map((link, index) => <a className="text-[#fff] truncate lg:mx-2 xl:mx-4 md:text-[16px] text-center lg:text-[18px] xl:text-[20px] font-semibold cursor-pointer hover:underline transition-all" key={index} href={link.path}>{link.text}</a>)}
                     </div>
-                    <div className="items-center justify-center px-4 py-3 w-auto xl:w-[350px] rounded-full bg-white hidden xl:flex">
+                    <div className="items-center justify-center px-4 py-3 w-auto xl3:w-[350px] rounded-full bg-white hidden xl3:flex">
                         <div><IoIosSearch color="#CFDA29" size={25} /></div>
                         <input type="text" className="border-none w-full placeholder:text-black text-center bg-none bg-transparent outline-none" placeholder="O que você busca?" />
                     </div>
@@ -124,7 +124,7 @@ export const Header = () => {
                             </a>) : (<a href="/login" className="cursor-pointer hover:opacity-70"><UserIcon size={"61"} className="md:w-[50px] lg:w-[58px] xl:w-[61px]" /></a>)}
                     </div>
                 </div>
-                <div className="items-center justify-center p-2 sm:px-3 sm:py-2 md:px-4 md:py-3 lg:px-4 lg:py-3 w-full sm:w-[350px] lg:w-[350px] mt-3 rounded-full bg-white flex xl:hidden">
+                <div className="items-center justify-center p-2 sm:px-3 sm:py-2 md:px-4 md:py-3 lg:px-4 lg:py-3 w-full sm:w-[350px] lg:w-[350px] mt-3 rounded-full bg-white flex xl3:hidden">
                     <div><IoIosSearch color="#CFDA29" size={25} /></div>
                     <input type="text" className="border-none w-full placeholder:text-black text-center text-[14px] md:text-[16px] lg:text-[16px] bg-none bg-transparent outline-none" placeholder="O que você busca?" />
                 </div>

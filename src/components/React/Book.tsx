@@ -188,7 +188,7 @@ export const Book = ({ id = '', baseUrl = '' }) => {
 
     return (
         <>
-            <div className="py-3 px-5 sm:px-7 md:px-14 md:py-3 xl:py-6 xl:px-14 h-full">
+            <div className=" h-full flex flex-col">
                 {!book && (
                     <SkeletonTheme
                         borderRadius="0.5rem"
@@ -200,7 +200,7 @@ export const Book = ({ id = '', baseUrl = '' }) => {
                         </div>
                     </SkeletonTheme>
                 )}
-                <div className={`transition-opacity duration-500 ${!book ? 'opacity-0 h-0' : 'opacity-100 h-full'}`}>
+                <div className={`transition-opacity duration-500 ${!book ? 'opacity-0 h-0' : 'opacity-100 h-full'} py-3 px-5 sm:px-7 md:px-14 md:py-3 xl:py-6 xl:px-14`}>
                     <div className="w-full block">
                         <div
                             className="flex items-center justify-start gap-1 2xl:gap-2 text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]">
@@ -494,8 +494,41 @@ export const Book = ({ id = '', baseUrl = '' }) => {
                         </div>
                     </div>
                 </div>
+                <div className="bg-[#FBB914] py-3 px-5 sm:px-7 md:px-14 xl:px-14 h-full mt-3">
+                    <div className="text-white text-[25px] text-center md:text-start md:text-[30px] 2xl:text-[35px] font-medium">Avaliações</div>
+                    {!reviews && (
+                        <SkeletonTheme
+                            borderRadius="0.5rem"
+                            baseColor="#fdd264"
+                            highlightColor="#fbb914"
+                            duration={4}
+                        >
+                            <div className='h-full items-stretch flex flex-col'>
+                                <Skeleton className='h-[100px] box-border p-3 mt-3 2xl:mt-6' width={'100%'} />
+                            </div>
+                        </SkeletonTheme>
+                    )}
+                    {reviews && reviews.length !== 0 ? (<div className={`transition-opacity duration-500 ${!reviews ? 'opacity-0 h-0' : 'flex flex-col gap-3 mt-2 sm:mt-3 2xl:mt-3 opacity-100 h-full'}`}>
+                        {reviews.map((review, index) => <div key={index} className="border border-black rounded-xl p-3 block">
+                            <div className="flex justify-between flex-wrap items-center gap-3">
+                                <div className="flex flex-row flex-grow">
+                                    {review?.picture.url ? (<div className="p-3 rounded-full bg-white"><img src={`${baseUrl}${review?.picture.url}`} alt="" className='object-contain h-[30px] w-[30px] md:h-[40px] md:w-[40px] lg:h-[50px] lg:w-[50px] sm:max-w-none 2xl:max-w-none 2xl:h-[60px] 2xl:w-[60px] rounded-full' /></div>)
+                                        : (<div className="p-3 rounded-full bg-white"><FiUser color="#CFDA29" size={45} /></div>)}
+                                    <div className="flex flex-col ml-3">
+                                        <div className="flex-row flex items-center">{Array.from({ length: review.assessment }).map((_, index) => (<div key={index}><AiFillStar color="#D76B2A" size={20} /></div>))}</div>
+                                        <div className="text-white text-[12px] md:text-[14px] 2xl:text-[16px]">{formatISODate(review.createdAt)}</div>
+                                        <div className="font-semibold text-[12px] md:text-[14px] 2xl:text-[16px]">{review.evaluatorName}</div>
+                                    </div>
+                                </div>
+                                <div className="flex-grow truncate text-start md:text-end text-[12px] md:text-[14px] 2xl:text-[16px] ">"{review.message}"</div>
+                            </div>
+                        </div>)}
+                    </div>)
+                    : <div className="py-3 text-white font-semibold text-center md:text-start text-[14px] md:text-[16px] 2xl:text-[20px] mt-1 md:mt-3">Nenhuma avaliação encontrada</div>
+                    }
+                </div>
             </div>
-            <div className="py-3 bg-[#FBB914] px-5 sm:px-7 md:px-14 xl:px-14 h-full">
+            {/* <div className="py-3 bg-[#FBB914] px-5 sm:px-7 md:px-14 xl:px-14 h-full">
                 <div className="text-white text-[25px] text-center md:text-start md:text-[30px] 2xl:text-[35px] font-medium">Avaliações</div>
                 {!reviews && (
                     <SkeletonTheme
@@ -526,7 +559,7 @@ export const Book = ({ id = '', baseUrl = '' }) => {
                     </div>)}
                 </div>)
                 }
-            </div>
+            </div> */}
         </>
     )
 }
