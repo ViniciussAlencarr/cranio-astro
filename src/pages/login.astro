@@ -1,5 +1,6 @@
 ---
 import LayoutClientArea from "../layouts/LayoutClientArea.astro";
+
 ---
 
 <LayoutClientArea title="Login">
@@ -23,13 +24,16 @@ import LayoutClientArea from "../layouts/LayoutClientArea.astro";
 </LayoutClientArea>
 
 <script>
+    const isProd = !window.location.href.includes('localhost')
+
+    const baseUrl = isProd ? 'https://api.cranio.converter.tec.br/api' : 'http://localhost:1337/api'
+
     document.querySelector("form")?.addEventListener("submit", async (event: any) => {
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
-        const baseUrl = import.meta.env.BASE_URL_API
         try {
-            const response = await fetch(`${baseUrl}/api/login`, {
+            const response = await fetch(`${baseUrl}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
