@@ -27,9 +27,9 @@ import LayoutClientArea from "../layouts/LayoutClientArea.astro";
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
-
+        const baseUrl = import.meta.env.BASE_URL_API
         try {
-            const response = await fetch('http://localhost:1337/api/login', {
+            const response = await fetch(`${baseUrl}/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
