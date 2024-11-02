@@ -3,6 +3,7 @@ import { AiOutlineSafety } from "react-icons/ai";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import Footer from "../components/Astro/Footer.astro";
 import { LogoIcon } from "../utils/getSvgIcons";
+import { CarrinhoHeader } from "../components/React/CarrinhoHeader";
 
 interface Props {
     title: string;
@@ -35,36 +36,7 @@ const { title } = Astro.props;
     </head>
     <body class="min-w-[300px] bg-[#f4f4f4] flex-col flex h-screen">
         <header class="flex-none">
-            <div
-                class="bg-[#CFDA29] relative py-3 px-5 sm:px-7 md:px-14 xl:px-14"
-            >
-                <div
-                    class="flex flex-col sm:flex-row items-center w-full relative"
-                >
-                    <div
-                        class="flex-1 justify-between sm:justify-center flex items-center w-full"
-                    >
-                        <div
-                            class="block cursor-pointer z-20 lg:hidden xl:hidden"
-                        >
-                            <IoReorderThreeOutline
-                                className="w-[38px] h-[38px] sm:w-[45px] sm:h-[45px] md:w-[50px] md:h-[50px]"
-                            />
-                        </div>
-                        <div class="flex-1 justify-center flex">
-                            <a href="/" class=""
-                                ><LogoIcon
-                                    className="w-[150px] sm:w-[160px] md:w-[180px] xl:w-[200px]"
-                                /></a
-                            >
-                        </div>
-                    </div>
-                    <div class="flex flex-row items-center md:absolute right-0">
-                        <div><AiOutlineSafety size={30} /></div>
-                        <div class="ml-3">Sua compra é <b>100 segura</b></div>
-                    </div>
-                </div>
-            </div>
+            <CarrinhoHeader client:load />
         </header>
         <main class="flex-1">
             <slot />

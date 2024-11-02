@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 // icons
 import { IoIosSearch } from "react-icons/io";
 import { IoReorderThreeOutline } from "react-icons/io5";
+import { IoMdClose } from "react-icons/io";
 
 // utils
 import {
@@ -12,12 +13,21 @@ import {
 } from "../../utils/getSvgIcons";
 import { validateTokenJwt } from "../../utils/validateJwt";
 import { getShoppingInCart } from "../../utils/getShoppingItems";
+import { LuUserSquare2 } from "react-icons/lu";
+import { CiLogout } from "react-icons/ci";
 
 export const Header = () => {
     const [statusLoggedText, setStatusLoggedText] = useState<string | undefined>(undefined)
     const [isLogged, setIsLogged] = useState(false)
+    const [userName, setUserName] = useState('')
+    const [openOpts, setOpenOpts] = useState(false);
 
     const [shoppingCartSize, setShoppingCartSize] = useState<string | null>(null)
+
+    useEffect(() => {
+        const username = localStorage.getItem('user_name')
+        setUserName(username as string || 'Seu nome')
+    }, [])
 
     useEffect(() => {
         document.addEventListener('UpdateShoppingCartSize', updateShoppingCartSize)
@@ -58,8 +68,6 @@ export const Header = () => {
         setShoppingCartSize(currentSize)
     }
 
-    const [openOpts, setOpenOpts] = useState(false);
-
     const links = [
         { key: 'home', text: 'Home', path: '/' },
         { key: 'howWorks', text: 'Como funciona?', path: '' },
@@ -69,11 +77,30 @@ export const Header = () => {
         { key: 'contact', text: 'Contato', path: '' }
     ]
 
+    const logOut = () => {
+        localStorage.clear()
+        window.location.href = window.location.origin
+    }
+
+    const goToAccount = () => {
+        const tokenExpired = validateTokenJwt()
+        window.location.href = tokenExpired ? `${window.location.origin}/login` : `${window.location.origin}/estante`
+    }
+
+    const goToBooks = () => {
+        window.location.href = `${window.location.origin}/livros`
+    }
+
     return (
-        <div className='bg-[#CFDA29] relative py-3 px-5 sm:px-7 md:px-14 xl:px-14 '>
+        <div className='bg-[#CFDA29] relative py-3 px-5 sm:px-7 md:px-14 xl:px-14'>
             <div className="flex flex-col xl:flex-row items-center w-full">
                 <div className="flex items-center justify-between lg:justify-evenly xl:justify-between w-full transition-all duration-500">
-                    <div onClick={() => setOpenOpts(!openOpts)} className="block cursor-pointer z-20 lg:hidden xl:hidden"><IoReorderThreeOutline className="w-[38px] h-[38px] sm:w-[45px] sm:h-[45px] md:w-[50px] md:h-[50px]" /></div>
+                    {openOpts && (<div className="w-[38px] h-[38px] sm:w-[45px] sm:h-[45px] md:w-[50px] md:h-[50px]"></div>)}
+                    <div onClick={() => setOpenOpts(!openOpts)} className={`block cursor-pointer z-20 lg:hidden xl:hidden ${openOpts && 'fixed'}`}>
+                        <>
+                            {openOpts ? (<IoMdClose className="w-[38px] h-[38px] sm:w-[45px] sm:h-[45px] md:w-[50px] md:h-[50px]" />) : (<IoReorderThreeOutline className="w-[38px] h-[38px] sm:w-[45px] sm:h-[45px] md:w-[50px] md:h-[50px]" />)}
+                        </>
+                    </div>
                     <div><LogoIcon className="w-[150px] sm:w-[160px] md:w-[180px] xl:w-[200px]" /></div>
                     <div className="hidden lg:flex xl:flex items-center justify-evenly ">
                         {links.map((link, index) => <a className="text-[#fff] truncate lg:mx-2 xl:mx-4 md:text-[16px] text-center lg:text-[18px] xl:text-[20px] font-semibold cursor-pointer hover:underline transition-all" key={index} href={link.path}>{link.text}</a>)}
@@ -100,6 +127,23 @@ export const Header = () => {
                 <div className="items-center justify-center p-2 sm:px-3 sm:py-2 md:px-4 md:py-3 lg:px-4 lg:py-3 w-full sm:w-[350px] lg:w-[350px] mt-3 rounded-full bg-white flex xl:hidden">
                     <div><IoIosSearch color="#CFDA29" size={25} /></div>
                     <input type="text" className="border-none w-full placeholder:text-black text-center text-[14px] md:text-[16px] lg:text-[16px] bg-none bg-transparent outline-none" placeholder="O que você busca?" />
+                </div>
+            </div>
+            <div className={`${openOpts ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-200 lg:hidden xl:hidden fixed z-10 left-0 w-[calc(100%-5rem)] bg-white p-3 top-0 h-svh border shadow-xl shadow-gray-700 rounded-br-2xl`}>
+                <div className="pt-[10vh] py-3 px-5 sm:px-7 md:px-14 xl:px-14 top-[10vh] h-full w-full left-0 flex flex-col">
+                    <div onClick={goToAccount} className="flex flex-row items-center cursor-pointer">
+                        <div><LuUserSquare2 className="w-[50px] h-[50px] md:w-[65px] md:h-[65px] 2xl:w-[75px] 2xl:h-[75px]" /></div>
+                        <div id="username" className="ml-3 2xl:ml-6 font-medium text-[20px]">{userName}</div>
+                    </div>
+                    <div onClick={goToBooks} className="mt-6 cursor-pointer">
+                        <span className="text-[20px] font-semibold text-[#CFDA29] hover:underline cursor-pointer">Livros</span>
+                    </div>
+                    <div className="content-end flex-1">
+                        <div onClick={logOut} id="logOutBtn" className="flex flex-row items-center cursor-pointer hover:opacity-70">
+                            <div><CiLogout color="#F7262E" className="w-[30px] h-[30px] md:w-[40px] md:h-[40px] 2xl:w-[50px] 2xl:h-[50px]" /></div>
+                            <div className="font-semibold ml-3 2xl:ml-6 text-[20px]">Sair</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

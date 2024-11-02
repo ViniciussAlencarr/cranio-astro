@@ -1,11 +1,12 @@
 ---
 // components
-import ClientAreaHeader from '../components/Astro/ClientAreaHeader.astro'
+// import ClientAreaHeader from '../components/Astro/ClientAreaHeader.astro'
 
 // icons
 import { CiLogout } from "react-icons/ci";
 import { LuUserSquare2 } from "react-icons/lu";
 import Footer from "../components/Astro/Footer.astro";
+import { ClientAreaHeader } from "../components/React/ClientAreaHeader";
 
 interface Props {
 	title: string;
@@ -35,7 +36,7 @@ const currentPath = Astro.request.url;
 	</head>
 	<body class="min-w-[300px] bg-[#f4f4f4] flex-col flex h-screen">
 		<header>
-			<ClientAreaHeader />
+			<ClientAreaHeader client:load />
 		</header>
 		<main class="flex-1">
 			<div class="py-3 px-5 sm:px-7 md:px-14 xl:py-8 xl:px-14 h-full">

@@ -127,7 +127,7 @@ const CheckoutForm = ({ baseUrl = '' }) => {
                 pending: 'Finalizando compra...',
                 success: {
                     render: () => {
-                        setTimeout(() => window.location.reload(), 600)
+                        setTimeout(() => window.location.href = `${window.location.origin}/estante`, 600)
                         return 'Compra realizada com sucesso!'
                     }
                 },
