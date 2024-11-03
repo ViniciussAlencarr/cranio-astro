@@ -11,6 +11,7 @@ import {
 	HomeImg06,
 	HomeImg07,
 } from "../utils/getSvgIcons";
+import '../../index.css'
 import { DepoimentsComponent } from "../components/React/Depoiments";
 
 const depoinments = [
@@ -63,332 +64,334 @@ const depoinments = [
 ---
 
 <Layout title="Home">
-	<div class="py-3 px-5 sm:px-7 md:px-14 xl:py-8 xl:px-14 h-full">
-		<div class="items-center flex flex-col 2xl:flex-row justify-between">
-			<div
-				class="w-full flex items-center rounded-xl bg-white p-2 md:p-4 2xl:p-6 min-h-[150px] sm:min-h-[200px] md:min-h-[250px] lg:min-h-[350px] 2xl:min-h-[400px] transition-all ease-in-out shadow-xl hover:shadow-[#fbba1433] shadow-transparent"
-			>
-				<div class="flex items-center w-full">
-					<div class="w-full">
-						<HomeImg01
-							className="h-fit max-w-[200px] w-inherit sm:w-[220px] md:w-[250px] lg:w-[350px] 2xl:w-[407px] sm:max-w-none 2xl:max-w-none"
-						/>
-					</div>
-					<div
-						class="flex flex-col items-start ml-2 sm:ml-4 md:ml-6 2xl:ml-8 h-full w-full"
-					>
+	<div class=" h-full flex flex-col">
+		<div class="py-3 px-5 sm:px-7 md:px-14 xl:py-8 xl:px-14 h-full flex-1">
+			<div class="items-center flex flex-col 2xl:flex-row justify-between">
+				<div
+					class="w-full flex items-center rounded-xl bg-white p-2 md:p-4 2xl:p-6 min-h-[150px] sm:min-h-[200px] md:min-h-[250px] lg:min-h-[350px] 2xl:min-h-[400px] transition-all ease-in-out shadow-xl hover:shadow-[#fbba1433] shadow-transparent"
+				>
+					<div class="flex items-center w-full">
+						<div class="w-full">
+							<HomeImg01
+								className="h-fit max-w-[200px] w-inherit sm:w-[220px] md:w-[250px] lg:w-[350px] 2xl:w-[407px] sm:max-w-none 2xl:max-w-none"
+							/>
+						</div>
 						<div
-							class="font-semibold text-[18px] sm:text-[24px] md:text-[35px] 2xl:text-[40px] leading-[1.5rem] md:leading-[3rem] 2xl:leading-[3rem] max-w-min"
+							class="flex flex-col items-start ml-2 sm:ml-4 md:ml-6 2xl:ml-8 h-full w-full"
 						>
-							Área do Usuário
-						</div>
-						<div class="mt-6 md:mt-8 2xl:mt-11 w-full">
-							<button
-							id="goToLoginBtn"
-								class="text-[12px] md:text-[14px] lg:text-[17px] 2xl:text-[20px] bg-[#FBB914] hover:opacity-70 transition-all py-2 px-6 md:py-3 md:px-4 2xl:px-6 2xl:py-3 rounded-full w-full sm:w-[120px] md:w-[150px] lg:w-[180px] 2xl:w-[200px] text-white font-semibold"
-								>Entrar</button
-							>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div
-				class="w-full flex items-center rounded-xl mt-2 md:mt-4 lg:mt-6 2xl:mt-0 2xl:ml-6 bg-white p-2 md:p-4 2xl:p-6 min-h-[150px] sm:min-h-[200px] md:min-h-[250px] lg:min-h-[350px] 2xl:min-h-[400px] transition-all ease-in-out shadow-xl hover:shadow-[#ee8b212d] shadow-transparent"
-			>
-				<div class="flex items-center w-full">
-					<div class="w-full">
-						<HomeImg02
-							className="h-fit w-inherit max-w-[200px] sm:w-[220px] md:w-[250px] lg:w-[350px] sm:max-w-none 2xl:max-w-none 2xl:w-[407px]"
-						/>
-					</div>
-					<div
-						class="flex flex-col items-start ml-2 sm:ml-4 md:ml-6 2xl:ml-8 h-full w-full"
-					>
-						<div
-							class="font-semibold text-[18px] sm:text-[24px] md:text-[35px] 2xl:text-[40px] leading-[1.5rem] md:leading-[3rem] 2xl:leading-[3rem] max-w-min"
-						>
-							Últimos Lançamentos
-						</div>
-						<div class="mt-6 md:mt-8 2xl:mt-11 w-full">
-							<button
-								class="text-[12px] md:text-[14px] lg:text-[17px] 2xl:text-[20px] bg-[#EE8A21] hover:opacity-70 transition-all py-2 px-6 md:py-3 md:px-4 2xl:px-6 2xl:py-3 rounded-full w-full sm:w-[120px] md:w-[150px] lg:w-[180px] 2xl:w-[200px] text-white font-semibold"
-								>Ver agora</button
-							>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="bg-transparent w-full mt-6">
-			<div class="flex items-center flex-col sm:flex-row 2xl:flex-row">
-				<div>
-					<HomeImg03
-						className="h-fit w-inherit max-w-[80px] sm:w-[120px] md:w-[140px] lg:w-[160px] sm:max-w-none 2xl:max-w-none 2xl:w-[185px]"
-					/>
-				</div>
-				<div
-					class="flex flex-col ml-2 mt-2 sm:ml-4 md:ml-6 2xl:ml-8 sm:mt-0 2xl:mt-0"
-				>
-					<div
-						class="text-[#EE8A21] mb-2 md:mb-4 2xl:mb-6 font-medium text-[18px] sm:text-[24px] md:text-[35px] 2xl:text-[40px]"
-					>
-						Como funciona?
-					</div>
-					<p
-						class="p-0 m-0 text-start font-medium text-[12px] md:text-[14px] 2xl:text-[16px]"
-					>
-						Lorem ipsum dolor sit amet consectetur. Curabitur mollis
-						sed venenatis aliquet. At auctor cras ullamcorper augue
-						mauris. Sagittis nibh velit porta interdum integer
-						condimentum pellentesque. Pulvinar sit urna arcu in. Et
-						orci arcu felis eget eget ut eros ullamcorper molestie.
-						Sed netus sit gravida cursus pulvinar dui eros netus.
-						Felis turpis ornare tincidunt eget. Sapien sit accumsan
-						massa ut molestie ut aliquam. Auctor magna a ullamcorper
-						elementum dignissim id venenatis pellentesque nulla.<br
-						/><br />
-						At feugiat leo maecenas mus eget nisl mauris velit. Tincidunt
-						nunc id faucibus volutpat imperdiet. At sit erat fermentum
-						velit ornare. Tortor semper convallis quisque ultricies orci.
-						Elementum in in arcu nulla tristique vulputate ut. Vitae
-						sed quam a arcu donec in est. Non aenean in parturient turpis.
-						Gravida nulla pellentesque feugiat platea sodales dictum
-						suspendisse. Vulputate odio feugiat quis ac.
-					</p>
-				</div>
-			</div>
-		</div>
-		<div class="w-full mt-12 border-[2px] rounded-2xl border-[#CFDA29]">
-			<div class="w-full bg-[#CFDA29] rounded-xl p-3 md:p-4 2lx:p-5">
-				<div
-					class="flex border-dotted border-[2px] border-black rounded-xl p-3 flex-col justify-center md:flex-row 2xl:flex-row items-center"
-				>
-					<div>
-						<LogoIcon
-							size="400"
-							height="300"
-							className="w-[200px] h-[100px] sm:w-[300px] sm:h-[150px] md:h-[250px] md:w-[250px] lg:w-[300px] xl:h-[300px] xl:w-[400px]"
-						/>
-					</div>
-					<div
-						class="ml-0 md:ml-12 2xl:ml-12 font-semibold text-white text-[30px] sm:text-[48px] md:text-[48px] lg:text-[55px] xl:text-[63px] 2xl:text-[70px] leading-[2rem] sm:leading-[4rem] 2xl:leading-[4rem] text-center md:text-start 2xl:text-start"
-					>
-						Um mundo <br />
-						E-Maginário para amar
-					</div>
-				</div>
-			</div>
-			<div class="p-3 md:p-4 2lx:p-5">
-				<div class="w-full block">
-					<p
-						class="p-0 m-0 text-start font-medium text-[12px] md:text-[14px] 2xl:text-[16px]"
-					>
-						Nossa história começa em 2023 em uma cidade maranhense
-						chamada Codó, na qual viviam um jovem e sua irmã mais
-						nova, eles tinham uma grande diferença de idade. Com o
-						passar do tempo sua irmãzinha havia perdido o interesse
-						em chama-lo para brincar como nos tempos antigos, ela
-						estava cada dia mais imersa no mundo das redes sociais,
-						fato que sempre trazia tristeza ao seu querido irmão. <br
-						/><br />
-						Buscando alternativas para que se reaproximasse dela, o garoto
-						foi atrás de coisas que ambos gostavam de fazer juntos. De
-						repente ele se lembrou que a leitura dos livros infantis,
-						que a pequena herdou dele, era um momento de grande diversão
-						e varias gargalhadas, principalmente com as imitações das
-						vozes que passavam pelas cabecinhas criativas dos dois. <br
-						/><br />
-						O bravo explorador enfrentou aranhas e escorpiões gigantes
-						para achar seus antigos livros, mas quando chegou com o tesouro
-						sua irmã não ligou nenhum pouco para a novidade. Com um instinto
-						voraz e uma esperança que moveria facilmente montanhas o
-						jovem passou noites em claro pensando em soluções. Numa bela
-						manhã ensolarada ele encaminha um link para sua irmã, o que
-						havia ali? Quando ela clicou, com uma curiosidade maior que
-						seu corpo, foi sugada para dentro do seu celular. Lá ela
-						encontrou seu irmão arrumando algo imenso com as próprias
-						mãos. <br /><br />
-						Desconfiada perguntou – O que você está fazendo?
-					</p>
-				</div>
-				<div
-					class="mt-2 sm:mt-6 md:mt-9 2xl:mt-12 relative w-full block"
-				>
-					<div class="flex flex-col w-full">
-						<div class="w-full block">
 							<div
-								class="flex items-center ml-0 sm:ml-24 md:ml-24 lg:ml-32 2xl:ml-48"
+								class="font-semibold text-[18px] sm:text-[24px] md:text-[35px] 2xl:text-[40px] leading-[1.5rem] md:leading-[3rem] 2xl:leading-[3rem] max-w-min"
 							>
-								<TalkBoxIcon
-									className="h-[74px] w-[25rem] sm:h-[120px] sm:w-[32rem] md:h-[150px] md:w-[42rem] lg:h-[200px] lg:w-[50rem] 2xl:w-[1286px] 2xl:h-[292px]"
-								/>
+								Área do Usuário
+							</div>
+							<div class="mt-6 md:mt-8 2xl:mt-11 w-full">
+								<button
+								id="goToLoginBtn"
+									class="text-[12px] md:text-[14px] lg:text-[17px] 2xl:text-[20px] bg-[#FBB914] hover:opacity-70 transition-all py-2 px-6 md:py-3 md:px-4 2xl:px-6 2xl:py-3 rounded-full w-full sm:w-[120px] md:w-[150px] lg:w-[180px] 2xl:w-[200px] text-white font-semibold"
+									>Entrar</button
+								>
 							</div>
 						</div>
-						<div class="flex flex-row items-center">
-							<div>
-								<HomeImg04
-									className="h-fit w-inherit max-w-[70px] sm:w-[145px] md:w-[180px] lg:w-[220px] sm:max-w-none 2xl:max-w-none 2xl:w-[341px]"
-								/>
+					</div>
+				</div>
+				<div
+					class="w-full flex items-center rounded-xl mt-2 md:mt-4 lg:mt-6 2xl:mt-0 2xl:ml-6 bg-white p-2 md:p-4 2xl:p-6 min-h-[150px] sm:min-h-[200px] md:min-h-[250px] lg:min-h-[350px] 2xl:min-h-[400px] transition-all ease-in-out shadow-xl hover:shadow-[#ee8b212d] shadow-transparent"
+				>
+					<div class="flex items-center w-full">
+						<div class="w-full">
+							<HomeImg02
+								className="h-fit w-inherit max-w-[200px] sm:w-[220px] md:w-[250px] lg:w-[350px] sm:max-w-none 2xl:max-w-none 2xl:w-[407px]"
+							/>
+						</div>
+						<div
+							class="flex flex-col items-start ml-2 sm:ml-4 md:ml-6 2xl:ml-8 h-full w-full"
+						>
+							<div
+								class="font-semibold text-[18px] sm:text-[24px] md:text-[35px] 2xl:text-[40px] leading-[1.5rem] md:leading-[3rem] 2xl:leading-[3rem] max-w-min"
+							>
+								Últimos Lançamentos
 							</div>
-							<div class="ml-6">
-								<p
-									class="p-0 leading-3 md:leading-5 2xl:leading-6 m-0 text-start font-medium text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]"
+							<div class="mt-6 md:mt-8 2xl:mt-11 w-full">
+								<button
+									class="text-[12px] md:text-[14px] lg:text-[17px] 2xl:text-[20px] bg-[#EE8A21] hover:opacity-70 transition-all py-2 px-6 md:py-3 md:px-4 2xl:px-6 2xl:py-3 rounded-full w-full sm:w-[120px] md:w-[150px] lg:w-[180px] 2xl:w-[200px] text-white font-semibold"
+									>Ver agora</button
 								>
-									Ela não conseguia acreditar no tamanho
-									daquilo que via na sua frente, mas nem
-									aquela imensidão era capaz de superar os
-									rápidos vídeos que ficavam na sua mente após
-									passar por aquela pela tela que parecia
-									flutuar nas mãos.<br /><br />
-									<span class="hidden sm2:block"
-										>Como o garoto era muito esperto fez com
-										que tudo dentro daquele mundo fosse
-										controlado por ele com o poder da
-										imaginação, logo o celular que parecia
-										grudado na mão da pequena sumiu como um
-										piscar de olhos. O único jeito de
-										recuperar tal máquina era com os dois
-										passando juntos pelas histórias dos
-										livros digitais criados pelo mais
-										velho. <br /><br />
-										No começo a jovem ficou enfurecida querendo
-										voltar para casa, mas não tinha jeito. Então
-										partiram juntos explorando todas as coleções
-										e ela começou a se divertir com o passar
-										do tempo. <br /><br />
-										Quando terminaram e voltaram à residência
-										a mãe se espantou com a felicidade dos filhos
-										e perguntou o motivo de tantas gargalhadas
-										estridentes. Depois das explicações a tradição
-										de ler livros, por mais que agora esses fossem
-										digitais, voltou a trazer alegrias para aquele
-										lar.</span
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="bg-transparent w-full mt-6">
+				<div class="flex items-center flex-col sm:flex-row 2xl:flex-row">
+					<div>
+						<HomeImg03
+							className="h-fit w-inherit max-w-[80px] sm:w-[120px] md:w-[140px] lg:w-[160px] sm:max-w-none 2xl:max-w-none 2xl:w-[185px]"
+						/>
+					</div>
+					<div
+						class="flex flex-col ml-2 mt-2 sm:ml-4 md:ml-6 2xl:ml-8 sm:mt-0 2xl:mt-0"
+					>
+						<div
+							class="text-[#EE8A21] mb-2 md:mb-4 2xl:mb-6 font-medium text-[18px] sm:text-[24px] md:text-[35px] 2xl:text-[40px]"
+						>
+							Como funciona?
+						</div>
+						<p
+							class="p-0 m-0 text-start font-medium text-[12px] md:text-[14px] 2xl:text-[16px]"
+						>
+							Lorem ipsum dolor sit amet consectetur. Curabitur mollis
+							sed venenatis aliquet. At auctor cras ullamcorper augue
+							mauris. Sagittis nibh velit porta interdum integer
+							condimentum pellentesque. Pulvinar sit urna arcu in. Et
+							orci arcu felis eget eget ut eros ullamcorper molestie.
+							Sed netus sit gravida cursus pulvinar dui eros netus.
+							Felis turpis ornare tincidunt eget. Sapien sit accumsan
+							massa ut molestie ut aliquam. Auctor magna a ullamcorper
+							elementum dignissim id venenatis pellentesque nulla.<br
+							/><br />
+							At feugiat leo maecenas mus eget nisl mauris velit. Tincidunt
+							nunc id faucibus volutpat imperdiet. At sit erat fermentum
+							velit ornare. Tortor semper convallis quisque ultricies orci.
+							Elementum in in arcu nulla tristique vulputate ut. Vitae
+							sed quam a arcu donec in est. Non aenean in parturient turpis.
+							Gravida nulla pellentesque feugiat platea sodales dictum
+							suspendisse. Vulputate odio feugiat quis ac.
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="w-full mt-12 border-[2px] rounded-2xl border-[#CFDA29]">
+				<div class="w-full bg-[#CFDA29] rounded-xl p-3 md:p-4 2lx:p-5">
+					<div
+						class="flex border-dotted border-[2px] border-black rounded-xl p-3 flex-col justify-center md:flex-row 2xl:flex-row items-center"
+					>
+						<div>
+							<LogoIcon
+								size="400"
+								height="300"
+								className="w-[200px] h-[100px] sm:w-[300px] sm:h-[150px] md:h-[250px] md:w-[250px] lg:w-[300px] xl:h-[300px] xl:w-[400px]"
+							/>
+						</div>
+						<div
+							class="ml-0 md:ml-12 2xl:ml-12 font-semibold text-white text-[30px] sm:text-[48px] md:text-[48px] lg:text-[55px] xl:text-[63px] 2xl:text-[70px] leading-[2rem] sm:leading-[4rem] 2xl:leading-[4rem] text-center md:text-start 2xl:text-start"
+						>
+							Um mundo <br />
+							E-Maginário para amar
+						</div>
+					</div>
+				</div>
+				<div class="p-3 md:p-4 2lx:p-5">
+					<div class="w-full block">
+						<p
+							class="p-0 m-0 text-start font-medium text-[12px] md:text-[14px] 2xl:text-[16px]"
+						>
+							Nossa história começa em 2023 em uma cidade maranhense
+							chamada Codó, na qual viviam um jovem e sua irmã mais
+							nova, eles tinham uma grande diferença de idade. Com o
+							passar do tempo sua irmãzinha havia perdido o interesse
+							em chama-lo para brincar como nos tempos antigos, ela
+							estava cada dia mais imersa no mundo das redes sociais,
+							fato que sempre trazia tristeza ao seu querido irmão. <br
+							/><br />
+							Buscando alternativas para que se reaproximasse dela, o garoto
+							foi atrás de coisas que ambos gostavam de fazer juntos. De
+							repente ele se lembrou que a leitura dos livros infantis,
+							que a pequena herdou dele, era um momento de grande diversão
+							e varias gargalhadas, principalmente com as imitações das
+							vozes que passavam pelas cabecinhas criativas dos dois. <br
+							/><br />
+							O bravo explorador enfrentou aranhas e escorpiões gigantes
+							para achar seus antigos livros, mas quando chegou com o tesouro
+							sua irmã não ligou nenhum pouco para a novidade. Com um instinto
+							voraz e uma esperança que moveria facilmente montanhas o
+							jovem passou noites em claro pensando em soluções. Numa bela
+							manhã ensolarada ele encaminha um link para sua irmã, o que
+							havia ali? Quando ela clicou, com uma curiosidade maior que
+							seu corpo, foi sugada para dentro do seu celular. Lá ela
+							encontrou seu irmão arrumando algo imenso com as próprias
+							mãos. <br /><br />
+							Desconfiada perguntou – O que você está fazendo?
+						</p>
+					</div>
+					<div
+						class="mt-2 sm:mt-6 md:mt-9 2xl:mt-12 relative w-full block"
+					>
+						<div class="flex flex-col w-full">
+							<div class="w-full block">
+								<div
+									class="flex items-center ml-0 sm:ml-24 md:ml-24 lg:ml-32 2xl:ml-48"
+								>
+									<TalkBoxIcon
+										className="h-[74px] w-[25rem] sm:h-[120px] sm:w-[32rem] md:h-[150px] md:w-[42rem] lg:h-[200px] lg:w-[50rem] 2xl:w-[1286px] 2xl:h-[292px]"
+									/>
+								</div>
+							</div>
+							<div class="flex flex-row items-center">
+								<div>
+									<HomeImg04
+										className="h-fit w-inherit max-w-[70px] sm:w-[145px] md:w-[180px] lg:w-[220px] sm:max-w-none 2xl:max-w-none 2xl:w-[341px]"
+									/>
+								</div>
+								<div class="ml-6">
+									<p
+										class="p-0 leading-3 md:leading-5 2xl:leading-6 m-0 text-start font-medium text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]"
 									>
+										Ela não conseguia acreditar no tamanho
+										daquilo que via na sua frente, mas nem
+										aquela imensidão era capaz de superar os
+										rápidos vídeos que ficavam na sua mente após
+										passar por aquela pela tela que parecia
+										flutuar nas mãos.<br /><br />
+										<span class="hidden sm2:block"
+											>Como o garoto era muito esperto fez com
+											que tudo dentro daquele mundo fosse
+											controlado por ele com o poder da
+											imaginação, logo o celular que parecia
+											grudado na mão da pequena sumiu como um
+											piscar de olhos. O único jeito de
+											recuperar tal máquina era com os dois
+											passando juntos pelas histórias dos
+											livros digitais criados pelo mais
+											velho. <br /><br />
+											No começo a jovem ficou enfurecida querendo
+											voltar para casa, mas não tinha jeito. Então
+											partiram juntos explorando todas as coleções
+											e ela começou a se divertir com o passar
+											do tempo. <br /><br />
+											Quando terminaram e voltaram à residência
+											a mãe se espantou com a felicidade dos filhos
+											e perguntou o motivo de tantas gargalhadas
+											estridentes. Depois das explicações a tradição
+											de ler livros, por mais que agora esses fossem
+											digitais, voltou a trazer alegrias para aquele
+											lar.</span
+										>
+									</p>
+								</div>
+							</div>
+							<div class="block sm2:hidden">
+								<p
+									class="p-0 m-0 text-start font-medium text-[12px] md:text-[14px] 2xl:text-[16px]"
+								>
+									Como o garoto era muito esperto fez com que tudo
+									dentro daquele mundo fosse controlado por ele
+									com o poder da imaginação, logo o celular que
+									parecia grudado na mão da pequena sumiu como um
+									piscar de olhos. O único jeito de recuperar tal
+									máquina era com os dois passando juntos pelas
+									histórias dos livros digitais criados pelo mais
+									velho. <br /><br />
+									No começo a jovem ficou enfurecida querendo voltar
+									para casa, mas não tinha jeito. Então partiram juntos
+									explorando todas as coleções e ela começou a se divertir
+									com o passar do tempo. <br /><br />
+									Quando terminaram e voltaram à residência a mãe se
+									espantou com a felicidade dos filhos e perguntou
+									o motivo de tantas gargalhadas estridentes. Depois
+									das explicações a tradição de ler livros, por mais
+									que agora esses fossem digitais, voltou a trazer
+									alegrias para aquele lar.
 								</p>
 							</div>
 						</div>
-						<div class="block sm2:hidden">
-							<p
-								class="p-0 m-0 text-start font-medium text-[12px] md:text-[14px] 2xl:text-[16px]"
+					</div>
+				</div>
+			</div>
+			<div class="mt-3 md:pt-6 2xl:mt-12 block w-full">
+				<div
+					class="flex flex-col md:flex-row 2xl:flex-row items-center gap-5 w-full"
+				>
+					<div
+						class="border-[2px] w-full hover:shadow-[#ee8b2152] shadow-md shadow-transparent rounded-2xl border-[#EE8A21] p-3 block flex-1 md:h-[630px] lg:h-[685px] 2xl:h-[730px]"
+					>
+						<div
+							class="flex flex-col items-baseline justify-center justify-items-center w-full"
+						>
+							<div class="w-full flex justify-center">
+								<HomeImg05
+									className="h-fit w-inherit max-w-[110px] sm:w-[145px] md:w-[180px] lg:w-[220px] sm:max-w-none 2xl:max-w-none 2xl:w-[268px]"
+								/>
+							</div>
+							<div
+								class="w-full leading-9 text-[24px] sm:text-[27px] md:text-[35px] lg:text-[38px] 2xl:text-[40px] text-[#BCC626] font-semibold text-center md:mt-4 2xl:mt-6"
 							>
-								Como o garoto era muito esperto fez com que tudo
-								dentro daquele mundo fosse controlado por ele
-								com o poder da imaginação, logo o celular que
-								parecia grudado na mão da pequena sumiu como um
-								piscar de olhos. O único jeito de recuperar tal
-								máquina era com os dois passando juntos pelas
-								histórias dos livros digitais criados pelo mais
-								velho. <br /><br />
-								No começo a jovem ficou enfurecida querendo voltar
-								para casa, mas não tinha jeito. Então partiram juntos
-								explorando todas as coleções e ela começou a se divertir
-								com o passar do tempo. <br /><br />
-								Quando terminaram e voltaram à residência a mãe se
-								espantou com a felicidade dos filhos e perguntou
-								o motivo de tantas gargalhadas estridentes. Depois
-								das explicações a tradição de ler livros, por mais
-								que agora esses fossem digitais, voltou a trazer
-								alegrias para aquele lar.
-							</p>
+								Nossa Missão
+							</div>
+							<div
+								class="w-full flex md:text-[16px] lg:text-[18px] 2xl:text-[20px] justify-center font-medium md:mt-4 2xl:mt-6"
+							>
+								<p class="w-5/6 md:w-4/5 2xl:w-2/3 text-center">
+									Possibilitar a criação de um futuro melhor para
+									o mundo através da educação lúdica para
+									crianças.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div
+						class="border-[2px] w-full hover:shadow-[#ee8b2152] shadow-md shadow-transparent rounded-2xl border-[#EE8A21] p-3 block flex-1 md:h-[630px] lg:h-[685px] 2xl:h-[730px]"
+					>
+						<div
+							class="flex flex-col items-baseline justify-center justify-items-center w-full"
+						>
+							<div class="w-full flex justify-center">
+								<HomeImg06
+									className="h-fit w-inherit max-w-[110px] sm:w-[145px] md:w-[180px] lg:w-[220px] sm:max-w-none 2xl:max-w-none 2xl:w-[305px]"
+								/>
+							</div>
+							<div
+								class="w-full leading-9 text-[24px] sm:text-[27px] md:text-[35px] lg:text-[38px] 2xl:text-[40px] text-[#BCC626] font-semibold text-center md:mt-4 2xl:mt-6"
+							>
+								Nossa Visão
+							</div>
+							<div
+								class="w-full flex md:text-[16px] lg:text-[18px] 2xl:text-[20px] justify-center font-medium md:mt-4 2xl:mt-6"
+							>
+								<p class="w-5/6 md:w-11/12 2xl:w-2/3 text-center">
+									Criar a oportunidade de existirem, ao redor de
+									todo o mundo, jovens e adultos conscientes,
+									responsáveis e mais preparados para a vida. Se
+									tornando assim uma referência mundial no ramo
+									literário.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div
+						class="border-[2px] w-full hover:shadow-[#ee8b2152] shadow-md shadow-transparent rounded-2xl border-[#EE8A21] p-3 block flex-1 md:h-[630px] lg:h-[685px] 2xl:h-[730px]"
+					>
+						<div
+							class="flex flex-col items-baseline justify-center justify-items-center w-full"
+						>
+							<div class="w-full flex justify-center">
+								<HomeImg07
+									className="h-fit w-inherit max-w-[110px] sm:w-[145px] md:w-[180px] lg:w-[220px] sm:max-w-none 2xl:max-w-none 2xl:w-[268px]"
+								/>
+							</div>
+							<div
+								class="w-full sm:text-[27px] text-[24px] leading-9 md:text-[35px] lg:text-[38px] 2xl:text-[40px] text-[#BCC626] font-semibold text-center md:mt-4 2xl:mt-6"
+							>
+								Nossos Valores
+							</div>
+							<div
+								class="w-full flex md:text-[16px] lg:text-[18px] 2xl:text-[20px] text-center justify-center font-medium md:mt-4 2xl:mt-6"
+							>
+								<ul
+									class="list-disc text-center justify-center flex flex-col items-center"
+								>
+									<li>Ética</li>
+									<li>Inovação</li>
+									<li>Responsabilidade</li>
+									<li>Imparcialidade</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="mt-3 md:pt-6 2xl:mt-12 block w-full">
-			<div
-				class="flex flex-col md:flex-row 2xl:flex-row items-center gap-5 w-full"
-			>
-				<div
-					class="border-[2px] w-full hover:shadow-[#ee8b2152] shadow-md shadow-transparent rounded-2xl border-[#EE8A21] p-3 block flex-1 md:h-[630px] lg:h-[685px] 2xl:h-[730px]"
-				>
-					<div
-						class="flex flex-col items-baseline justify-center justify-items-center w-full"
-					>
-						<div class="w-full flex justify-center">
-							<HomeImg05
-								className="h-fit w-inherit max-w-[110px] sm:w-[145px] md:w-[180px] lg:w-[220px] sm:max-w-none 2xl:max-w-none 2xl:w-[268px]"
-							/>
-						</div>
-						<div
-							class="w-full leading-9 text-[24px] sm:text-[27px] md:text-[35px] lg:text-[38px] 2xl:text-[40px] text-[#BCC626] font-semibold text-center md:mt-4 2xl:mt-6"
-						>
-							Nossa Missão
-						</div>
-						<div
-							class="w-full flex md:text-[16px] lg:text-[18px] 2xl:text-[20px] justify-center font-medium md:mt-4 2xl:mt-6"
-						>
-							<p class="w-5/6 md:w-4/5 2xl:w-2/3 text-center">
-								Possibilitar a criação de um futuro melhor para
-								o mundo através da educação lúdica para
-								crianças.
-							</p>
-						</div>
-					</div>
-				</div>
-				<div
-					class="border-[2px] w-full hover:shadow-[#ee8b2152] shadow-md shadow-transparent rounded-2xl border-[#EE8A21] p-3 block flex-1 md:h-[630px] lg:h-[685px] 2xl:h-[730px]"
-				>
-					<div
-						class="flex flex-col items-baseline justify-center justify-items-center w-full"
-					>
-						<div class="w-full flex justify-center">
-							<HomeImg06
-								className="h-fit w-inherit max-w-[110px] sm:w-[145px] md:w-[180px] lg:w-[220px] sm:max-w-none 2xl:max-w-none 2xl:w-[305px]"
-							/>
-						</div>
-						<div
-							class="w-full leading-9 text-[24px] sm:text-[27px] md:text-[35px] lg:text-[38px] 2xl:text-[40px] text-[#BCC626] font-semibold text-center md:mt-4 2xl:mt-6"
-						>
-							Nossa Visão
-						</div>
-						<div
-							class="w-full flex md:text-[16px] lg:text-[18px] 2xl:text-[20px] justify-center font-medium md:mt-4 2xl:mt-6"
-						>
-							<p class="w-5/6 md:w-11/12 2xl:w-2/3 text-center">
-								Criar a oportunidade de existirem, ao redor de
-								todo o mundo, jovens e adultos conscientes,
-								responsáveis e mais preparados para a vida. Se
-								tornando assim uma referência mundial no ramo
-								literário.
-							</p>
-						</div>
-					</div>
-				</div>
-				<div
-					class="border-[2px] w-full hover:shadow-[#ee8b2152] shadow-md shadow-transparent rounded-2xl border-[#EE8A21] p-3 block flex-1 md:h-[630px] lg:h-[685px] 2xl:h-[730px]"
-				>
-					<div
-						class="flex flex-col items-baseline justify-center justify-items-center w-full"
-					>
-						<div class="w-full flex justify-center">
-							<HomeImg07
-								className="h-fit w-inherit max-w-[110px] sm:w-[145px] md:w-[180px] lg:w-[220px] sm:max-w-none 2xl:max-w-none 2xl:w-[268px]"
-							/>
-						</div>
-						<div
-							class="w-full sm:text-[27px] text-[24px] leading-9 md:text-[35px] lg:text-[38px] 2xl:text-[40px] text-[#BCC626] font-semibold text-center md:mt-4 2xl:mt-6"
-						>
-							Nossos Valores
-						</div>
-						<div
-							class="w-full flex md:text-[16px] lg:text-[18px] 2xl:text-[20px] text-center justify-center font-medium md:mt-4 2xl:mt-6"
-						>
-							<ul
-								class="list-disc text-center justify-center flex flex-col items-center"
-							>
-								<li>Ética</li>
-								<li>Inovação</li>
-								<li>Responsabilidade</li>
-								<li>Imparcialidade</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<DepoimentsComponent client:load items={depoinments} />
 	</div>
-	<DepoimentsComponent client:load items={depoinments} />
 </Layout>
 
 <script>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../../api';
 
 // css
+import '../../../index.css'
 import 'react-loading-skeleton/dist/skeleton.css';
 
 // icons
