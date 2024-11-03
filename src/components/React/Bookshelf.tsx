@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import api from "../../api";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+
+import '../../../index.css'
 import 'react-loading-skeleton/dist/skeleton.css';
 
 // types
