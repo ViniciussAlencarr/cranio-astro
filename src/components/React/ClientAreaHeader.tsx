@@ -20,6 +20,7 @@ export const ClientAreaHeader = () => {
     }, [])
 
     const logOut = () => {
+        console.log('sair')
         localStorage.clear()
         window.location.href = window.location.origin
     }
@@ -52,16 +53,16 @@ export const ClientAreaHeader = () => {
                 <div className="pt-[10vh] py-3 px-5 sm:px-7 md:px-14 xl:px-14 top-[10vh] h-full w-full left-0 flex flex-col">
                     <div onClick={goToAccount} className="flex flex-row items-center cursor-pointer">
                         <div><LuUserSquare2 className="w-[50px] h-[50px] md:w-[65px] md:h-[65px] 2xl:w-[75px] 2xl:h-[75px]" /></div>
-                        <div id="username" className="ml-3 2xl:ml-6 font-medium text-[20px]">{userName}</div>
+                        <div className="ml-3 2xl:ml-6 font-medium text-[20px]">{userName}</div>
                     </div>
                     <div onClick={goToBooks} className="mt-6 cursor-pointer">
                         <span className="text-[20px] font-semibold text-[#CFDA29] hover:underline cursor-pointer">Livros</span>
                     </div>
                     <div className="content-end flex-1">
-                        <div onClick={logOut} id="logOutBtn" className="flex flex-row items-center cursor-pointer hover:opacity-70">
+                        <button onClick={() => logOut()}  className="flex flex-row items-center cursor-pointer hover:opacity-70">
                             <div><CiLogout color="#F7262E" className="w-[30px] h-[30px] md:w-[40px] md:h-[40px] 2xl:w-[50px] 2xl:h-[50px]" /></div>
                             <div className="font-semibold ml-3 2xl:ml-6 text-[20px]">Sair</div>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
