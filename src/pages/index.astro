@@ -107,12 +107,14 @@ const depoinments = [
 							class="flex flex-col items-start ml-2 sm:ml-4 md:ml-6 2xl:ml-8 h-full w-full"
 						>
 							<div
+								
 								class="font-semibold text-[18px] sm:text-[24px] md:text-[35px] 2xl:text-[40px] leading-[1.5rem] md:leading-[3rem] 2xl:leading-[3rem] max-w-min"
 							>
 								Últimos Lançamentos
 							</div>
 							<div class="mt-6 md:mt-8 2xl:mt-11 w-full">
 								<button
+								id="latestReleases"
 									class="text-[12px] md:text-[14px] lg:text-[17px] 2xl:text-[20px] bg-[#EE8A21] hover:opacity-70 transition-all py-2 px-6 md:py-3 md:px-4 2xl:px-6 2xl:py-3 rounded-full w-full sm:w-[120px] md:w-[150px] lg:w-[180px] 2xl:w-[200px] text-white font-semibold"
 									>Ver agora</button
 								>
@@ -139,23 +141,12 @@ const depoinments = [
 						<p
 							class="p-0 m-0 text-start font-medium text-[12px] md:text-[14px] 2xl:text-[16px]"
 						>
-							Lorem ipsum dolor sit amet consectetur. Curabitur mollis
-							sed venenatis aliquet. At auctor cras ullamcorper augue
-							mauris. Sagittis nibh velit porta interdum integer
-							condimentum pellentesque. Pulvinar sit urna arcu in. Et
-							orci arcu felis eget eget ut eros ullamcorper molestie.
-							Sed netus sit gravida cursus pulvinar dui eros netus.
-							Felis turpis ornare tincidunt eget. Sapien sit accumsan
-							massa ut molestie ut aliquam. Auctor magna a ullamcorper
-							elementum dignissim id venenatis pellentesque nulla.<br
-							/><br />
-							At feugiat leo maecenas mus eget nisl mauris velit. Tincidunt
-							nunc id faucibus volutpat imperdiet. At sit erat fermentum
-							velit ornare. Tortor semper convallis quisque ultricies orci.
-							Elementum in in arcu nulla tristique vulputate ut. Vitae
-							sed quam a arcu donec in est. Non aenean in parturient turpis.
-							Gravida nulla pellentesque feugiat platea sodales dictum
-							suspendisse. Vulputate odio feugiat quis ac.
+						Seja bem-vindo! É sua primeira vez aqui? Você pode ver as histórias disponíveis clicando em <b>Livros</b>,
+						na barra de navegação superior, ou em <b>Últimos lançamentos</b>, logo aqui em cima. <br/><br/>
+						
+						Para encontrar mais rapidamente o livrinho desejado, use a barra de pesquisa.<br/><br/>
+						
+						Ainda não tem uma conta? Não se preocupe! O processo de criação de conta é fácil, rápido e intuitivo, ao clicar no carrinho você será redirecionado para a tela de login, basta clicar em Criar conta para começar a jornada. Com a conta criada, você terá acesso à <b>Área do Usuário</b>, onde os livros das crianças estarão na estante. Lá, as histórias podem ser lidas e relidas quantas vezes quiser.
 						</p>
 					</div>
 				</div>
@@ -268,6 +259,12 @@ const depoinments = [
 										>
 									</p>
 								</div>
+							</div>
+							<div class="mt-3 md:mt-6">
+								<p class="p-0 leading-3 md:leading-5 2xl:leading-6 m-0 text-start font-medium text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]">
+									Logo o garoto se preocupou com os demais lares que poderiam sofrer com algo parecido. <br/><br/>
+Ele tratou de ir o mais rápido possível atrás das pessoas que pudessem ajuda-lo a resolver isso. A Crânio pensa e trabalha incansavelmente para criar um futuro melhor para o mundo através da educação lúdica com livros digitais para crianças, tratando de assuntos que serão importantes para sua vida no futuro e trazendo uma leitura leve, divertida e que promova um grande estímulo à sua imaginação.
+								</p>
 							</div>
 							<div class="block sm2:hidden">
 								<p
@@ -397,7 +394,11 @@ const depoinments = [
 <script>
 	import { validateTokenJwt } from '../utils/validateJwt'
 
+	const latestReleases = document.getElementById('latestReleases')
 	const goToLoginBtn = document.getElementById('goToLoginBtn')
+	
+	latestReleases?.addEventListener('click', () => window.location.href = `${window.location.origin}/livros`)
+
 	if (goToLoginBtn) {
 		const tokenExpired = validateTokenJwt()
 

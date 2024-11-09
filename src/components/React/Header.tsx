@@ -101,7 +101,7 @@ export const Header = () => {
                             {openOpts ? (<IoMdClose className="w-[38px] h-[38px] sm:w-[45px] sm:h-[45px] md:w-[50px] md:h-[50px]" />) : (<IoReorderThreeOutline className="w-[38px] h-[38px] sm:w-[45px] sm:h-[45px] md:w-[50px] md:h-[50px]" />)}
                         </>
                     </div>
-                    <div><LogoIcon className="w-[150px] sm:w-[160px] md:w-[180px] xl:w-[200px]" /></div>
+                    <a href="/"><LogoIcon className="w-[150px] sm:w-[160px] md:w-[180px] xl:w-[200px]" /></a>
                     <div className="hidden lg:flex xl:flex items-center justify-evenly ">
                         {links.map((link, index) => <a className="text-[#fff] truncate lg:mx-2 xl:mx-4 md:text-[16px] text-center lg:text-[18px] xl:text-[20px] font-semibold cursor-pointer hover:underline transition-all" key={index} href={link.path}>{link.text}</a>)}
                     </div>
