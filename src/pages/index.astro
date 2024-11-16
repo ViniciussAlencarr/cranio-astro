@@ -131,6 +131,7 @@ const depoinments = [
 						/>
 					</div>
 					<div
+					id="how-it-works"
 						class="flex flex-col ml-2 mt-2 sm:ml-4 md:ml-6 2xl:ml-8 sm:mt-0 2xl:mt-0"
 					>
 						<div
@@ -151,7 +152,7 @@ const depoinments = [
 					</div>
 				</div>
 			</div>
-			<div class="w-full mt-12 border-[2px] rounded-2xl border-[#CFDA29]">
+			<div id="cranio-about" class="w-full mt-12 border-[2px] rounded-2xl border-[#CFDA29]">
 				<div class="w-full bg-[#CFDA29] rounded-xl p-3 md:p-4 2lx:p-5">
 					<div
 						class="flex border-dotted border-[2px] border-black rounded-xl p-3 flex-col justify-center md:flex-row 2xl:flex-row items-center"
@@ -396,6 +397,38 @@ Ele tratou de ir o mais rápido possível atrás das pessoas que pudessem ajuda-
 
 	const latestReleases = document.getElementById('latestReleases')
 	const goToLoginBtn = document.getElementById('goToLoginBtn')
+
+	const queryString = window.location.search;
+
+	// Cria um objeto URLSearchParams para facilitar o acesso aos parâmetros
+	const urlParams = new URLSearchParams(queryString);
+
+	// Pega o valor de um parâmetro, por exemplo, 'nome' e 'idade'
+	const ref = urlParams.get('refBy');
+
+	const goToRef = (id: string) => {
+        document.getElementById(id)?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'start'     
+		})
+    }
+
+	switch(ref) {
+		case 'como_funciona':
+			goToRef('how-it-works')
+			break;
+		case 'sobre':
+			goToRef('cranio-about')
+			break;
+		case 'depoimentos':
+			setTimeout(() => goToRef('depoiments'), 500)
+			break;
+		case 'contato':
+			setTimeout(() => goToRef('home-footer'), 500)
+			break
+		default:
+			break
+	}
 	
 	latestReleases?.addEventListener('click', () => window.location.href = `${window.location.origin}/livros`)
 

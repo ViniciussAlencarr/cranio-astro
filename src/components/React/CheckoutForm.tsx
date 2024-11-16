@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import * as A from "react-loader-spinner";
 import api from '../../api';
 import {
     Elements,
@@ -27,6 +28,7 @@ interface PaymentMethods {
     pix: string;
     debit_card: string;
 }
+
 import type { ShoppingCart } from '../../types/globalTypes';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
@@ -43,7 +45,11 @@ const CheckoutForm = ({ baseUrl = '' }) => {
     const [cpf, setCpf] = useState('')
     const [loading, setLoading] = useState(true)
     const [userId, setUserId] = useState<string | undefined>()
-    const [paymentMethod, setPaymentMethod] = useState<keyof PaymentMethods>('credit_card')
+    const [payment_method, setPayment_method] = useState<keyof PaymentMethods>('credit_card')
+    const [installments, setInstallments] = useState(3)
+    const [qrCodeImage, setQrCodeImage] = useState();
+    const [pixCode, setPixCode] = useState('')
+    const [loadingQrCode, setLoadingQrCode] = useState(true)
 
     useEffect(() => {
         const userIdStorage = localStorage.getItem('user_id') as string
@@ -52,6 +58,19 @@ const CheckoutForm = ({ baseUrl = '' }) => {
             getUserById(userIdStorage)
         }
     }, [])
+
+    useEffect(() => {
+        if (payment_method === 'pix') {
+            const generatePix = async () => {
+                const { data } = await api.post('/generatePixQrCode', {
+                    amount: totalPrice
+                })
+                setQrCodeImage(data.pixImage)
+                setPixCode(data.brCode)
+            }
+            generatePix()
+        }
+    }, [payment_method])
 
     useEffect(() => {
         const getShoppingCartProducts = async () => {
@@ -66,6 +85,11 @@ const CheckoutForm = ({ baseUrl = '' }) => {
         }
         getShoppingCartProducts()
     }, [])
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(pixCode)
+        .then(() => toast.success('Copiado para a área de transferência!'))
+    }
 
     const getUserById = async (userId: string) => {
         try {
@@ -102,6 +126,8 @@ const CheckoutForm = ({ baseUrl = '' }) => {
         } else {
             const { data } = await api.post('/create-payment-intent', {
                 amount: totalPrice * 100,
+                card_type: payment_method,
+                installments,
                 payment_method_id: paymentMethod.id
             });
 
@@ -275,17 +301,17 @@ const CheckoutForm = ({ baseUrl = '' }) => {
                             <div className='font-semibold text-[16px] sm:text-[20px] md:text-[24px] 2xl:text-[30px]'>Pagamento</div>
                             <div className='mt-3 md:mt-6 flex flex-col sm:flex-row items-center border-2 border-[#DDCC13] rounded-2xl p-3 md:p-6'>
                                 <div className='flex-1 flex-col text-[14px] md:text-[18px] 2xl:text-[26px] w-full'>
-                                    <div onClick={() => setPaymentMethod('pix')} className={`${paymentMethod === 'pix' ? 'bg-[#DDCC13] !text-white' : 'text-[#DDCC13]'} w-full text-center border-[#DDCC13] rounded-full border-2 py-2 px-6 uppercase font-semibold mt-3 cursor-pointer hover:opacity-75`}>
+                                    <div onClick={() => setPayment_method('pix')} className={`${payment_method === 'pix' ? 'bg-[#DDCC13] !text-white' : 'text-[#DDCC13]'} w-full text-center border-[#DDCC13] rounded-full border-2 py-2 px-6 uppercase font-semibold mt-3 cursor-pointer hover:opacity-75`}>
                                         pix
                                     </div>
-                                    <div onClick={() => setPaymentMethod('credit_card')} className={`${paymentMethod === 'credit_card' ? 'bg-[#DDCC13] !text-white' : 'text-[#DDCC13]'} w-full text-center border-[#DDCC13] rounded-full border-2 py-2 px-6 uppercase font-semibold mt-3 cursor-pointer hover:opacity-75`}>
+                                    <div onClick={() => setPayment_method('credit_card')} className={`${payment_method === 'credit_card' ? 'bg-[#DDCC13] !text-white' : 'text-[#DDCC13]'} w-full text-center border-[#DDCC13] rounded-full border-2 py-2 px-6 uppercase font-semibold mt-3 cursor-pointer hover:opacity-75`}>
                                         cartão de crédito
                                     </div>
-                                    <div onClick={() => setPaymentMethod('debit_card')} className={`${paymentMethod === 'debit_card' ? 'bg-[#DDCC13] !text-white' : 'text-[#DDCC13]'} w-full text-center border-[#DDCC13] border-2 rounded-full py-2 px-6 uppercase font-semibold mt-3 cursor-pointer hover:opacity-75`}>
+                                    <div onClick={() => setPayment_method('debit_card')} className={`${payment_method === 'debit_card' ? 'bg-[#DDCC13] !text-white' : 'text-[#DDCC13]'} w-full text-center border-[#DDCC13] border-2 rounded-full py-2 px-6 uppercase font-semibold mt-3 cursor-pointer hover:opacity-75`}>
                                         cartão de débito
                                     </div>
                                 </div>
-                                <div className='flex-1 ml-0 mt-3 sm:mt-0 sm:ml-3 md:ml-6 bg-[#E7EAC0] rounded-2xl border-2 border-[#CFDA29] p-3 w-full'>
+                                {payment_method !== 'pix' && (<div className='flex-1 ml-0 mt-3 sm:mt-0 sm:ml-3 md:ml-6 bg-[#E7EAC0] rounded-2xl border-2 border-[#CFDA29] p-3 w-full'>
                                     <div className='w-full p'>
                                         <label className='px-2' htmlFor="">Número do cartão</label>
                                         <CardNumberElement className='rounded-full bg-white p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
@@ -300,7 +326,25 @@ const CheckoutForm = ({ baseUrl = '' }) => {
                                             <CardCvcElement className='rounded-full bg-white p-2 w-full placeholder:text-[#969696] outline-none border border-[#969696] text-[#000000]' />
                                         </div>
                                     </div>
-                                </div>
+                                </div>)}
+                                {payment_method === 'pix' && (<div className='flex-1 ml-0 mt-3 sm:mt-0 items-center sm:ml-3 md:ml-6 bg-[#E7EAC0] rounded-2xl border-2 border-[#CFDA29] p-3 w-full'>
+                                    {loadingQrCode && (<div className='flex flex-1 items-center justify-center'>
+                                        <div>Gerando QrCode...</div>
+                                        <A.ColorRing
+                                            visible={true}
+                                            ariaLabel="color-ring-loading"
+                                            wrapperStyle={{}}
+                                            wrapperClass="w-[30px] h-[30px]"
+                                            colors={['#F6F6F6', '#F6F6F6', '#F6F6F6', '#F6F6F6', '#F6F6F6']}
+                                        />
+                                    </div>)}
+                                    <div className='flex-1 flex items-center justify-center'>
+                                        <img onLoad={() => setLoadingQrCode(false)} className='object-contain rounded-lg' src={qrCodeImage} alt="" />
+                                    </div>
+                                    {!loadingQrCode && (<div onClick={copyToClipboard} className='flex-1 mt-3 flex cursor-pointer items-center justify-center'>
+                                        <div className='bg-white border-[#DDCC13] text-[14px] md:text-[16px] hover:border-[#fff] transition-all border text-[#DDCC13] py-3 px-6 rounded-full'>Copiar código</div>
+                                    </div>)}
+                                </div>)}
                             </div>
                         </div>
                     </div>
@@ -356,7 +400,7 @@ const CheckoutForm = ({ baseUrl = '' }) => {
 
 export const Checkout = ({ stripePk, baseUrl }: Params) => (
     <Elements stripe={loadStripe(stripePk)}>
-        <CheckoutForm  baseUrl={baseUrl} />
+        <CheckoutForm baseUrl={baseUrl} />
         <ToastContainer />
     </Elements>
 );

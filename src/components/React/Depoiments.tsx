@@ -74,7 +74,7 @@ export const DepoimentsComponent = ({ }: Params) => {
     };
 
     return (
-        <div className="mt-3 md:mt-6 2xl:mt-12 bg-[#FBB914] w-full">
+        <div id="depoiments" className="mt-3 md:mt-6 2xl:mt-12 bg-[#FBB914] w-full">
             <div className="py-3 md:py-6 2xl:py-12 flex flex-col w-full">
                 <div className="text-white text-center leading-9 text-[24px] sm:text-[27px] md:text-[35px] lg:text-[38px] 2xl:text-[40px] font-semibold">
                     Depoimentos

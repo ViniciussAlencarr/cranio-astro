@@ -58,7 +58,7 @@ export const ClientAreaHeader = () => {
                     <div onClick={goToBooks} className="mt-6 cursor-pointer">
                         <span className="text-[20px] font-semibold text-[#CFDA29] hover:underline cursor-pointer">Livros</span>
                     </div>
-                    <div className="content-end flex-1">
+                    <div className="flex items-end flex-1">
                         <button onClick={() => logOut()}  className="flex flex-row items-center cursor-pointer hover:opacity-70">
                             <div><CiLogout color="#F7262E" className="w-[30px] h-[30px] md:w-[40px] md:h-[40px] 2xl:w-[50px] 2xl:h-[50px]" /></div>
                             <div className="font-semibold ml-3 2xl:ml-6 text-[20px]">Sair</div>

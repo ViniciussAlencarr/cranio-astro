@@ -1,11 +1,8 @@
 ---
-import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
-import { FaLinkedinIn } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa6";
 
 const topics = [
-    { title: 'Navegue', childrens: [{ text: 'Home' }, { text: 'Como Funciona' }, { text: 'Crânio' }, { text: 'Livros' }] },
+    { title: 'Navegue', childrens: [{ text: 'Home', path: '/' }, { text: 'Como Funciona', path: '/?refBy=como_funciona' }, { text: 'Crânio', path: '/?refBy=sobre' }, { text: 'Livros', path: '/livros' }] },
 ]
 ---
 
@@ -21,7 +18,7 @@ const topics = [
             </div> -->
             {topics.map(topic => (<div class="flex flex-col">
                 <div class="text-white font-semibold uppercase my-3 sm:m-0 2xl:m-0">{topic.title}</div>
-                {topic.childrens.map(child => <div class="hover:underline transition-all cursor-pointer ">{child.text}</div>)}
+                {topic.childrens.map(child => <a href={child.path} class="hover:underline transition-all cursor-pointer ">{child.text}</a>)}
             </div>))}
             <div class="flex flex-col items-center sm:items-start 2xl:items-start mt-3 sm:m-0 2xl:m-0">
                 <div class="text-white font-semibold uppercase">Redes sociais</div>

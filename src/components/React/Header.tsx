@@ -68,13 +68,17 @@ export const Header = () => {
         setShoppingCartSize(currentSize)
     }
 
+    const goToRef = (id: string) => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    }
+
     const links = [
         { key: 'home', text: 'Home', path: '/' },
-        { key: 'howWorks', text: 'Como funciona?', path: '' },
-        { key: 'about', text: 'Crânio', path: '' },
+        { key: 'howWorks', text: 'Como funciona?', path: '?refBy=como_funciona' },
+        { key: 'about', text: 'Crânio', path: '/?refBy=sobre' },
         { key: 'books', text: 'Livros', path: '/livros' },
-        { key: 'testimonials', text: 'Depoimentos', path: '' },
-        { key: 'contact', text: 'Contato', path: '' }
+        { key: 'testimonials', text: 'Depoimentos', path: '/?refBy=depoimentos' },
+        { key: 'contact', text: 'Contato', path: '/?refBy=contato' }
     ]
 
     const logOut = () => {
@@ -138,7 +142,7 @@ export const Header = () => {
                     <div onClick={goToBooks} className="mt-6 cursor-pointer">
                         <span className="text-[20px] font-semibold text-[#CFDA29] hover:underline cursor-pointer">Livros</span>
                     </div>
-                    <div className="content-end flex-1">
+                    <div className="flex items-end flex-1">
                         <div onClick={logOut} id="logOutBtn" className="flex flex-row items-center cursor-pointer hover:opacity-70">
                             <div><CiLogout color="#F7262E" className="w-[30px] h-[30px] md:w-[40px] md:h-[40px] 2xl:w-[50px] 2xl:h-[50px]" /></div>
                             <div className="font-semibold ml-3 2xl:ml-6 text-[20px]">Sair</div>

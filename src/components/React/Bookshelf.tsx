@@ -59,7 +59,6 @@ export const Bookshelf = ({ baseUrl }: Params) => {
         getShoppingCartProducts()
     }, [])
 
-    const formatPrice = (price: number) => price.toLocaleString('pt-BR', { currency: 'BRL', style: 'currency' })
 
     const goToDetailShelfBooks = (indexOfBook: number) => window.location.href = `${window.location.origin}/estante/detalhes?index=${indexOfBook}`
 
@@ -87,7 +86,6 @@ export const Bookshelf = ({ baseUrl }: Params) => {
                             <div className=''>
                                 <div className='text-[14px] md:text-[18px] 2xl:text-[26px]'>{book.product.title}</div>
                                 <div className='text-[#D76B2A] text-[12px] md:text-[14px] 2xl:text-[14px] mb-2 md:mb-3 2xl:mb-3'>{book.product.authorName}</div>
-                                <div className='text-[#CFDA29] text-[14px] md:text-[18px] 2xl:text-[26px] font-semibold'>{formatPrice(book.price)}</div>
                             </div>
                         </div>)}
                     </div>)
