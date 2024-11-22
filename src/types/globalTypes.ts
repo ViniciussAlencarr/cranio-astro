@@ -7,6 +7,7 @@ export interface ShoppingCart {
     publishedAt: string;
     updatedAt: string;
     cover: any;
+    discount: number;
     createdAt: string;
     amount: number;
     name: string;

@@ -29,6 +29,7 @@ interface Book {
     publishedAt: string;
     title: string;
     updatedAt: string;
+    discount: number;
     gender: string;
     edition: string;
     indicatedAge: string;
@@ -82,9 +83,9 @@ export const Book = ({ id = '', baseUrl = '' }) => {
         try {
             const userId = localStorage.getItem('user_id') as string
 
-            const { data } = await api.get(`/books/${id}?populate=cover,reviews.picture&userId=${userId}`)
+            const { data } = await api.get(`/books/${id}?populate=cover,coupons,reviews.picture&userId=${userId}`)
 
-            setBook({ ...data, cover: { ...data.cover }, id: data.id })
+            setBook({ ...data, cover: { ...data.cover }, discount: buildCouponValue(data.coupons), id: data.id })
             setReviews(data.reviews.map((review: any) => ({ ...review, picture: { ...review.picture } })))
         } catch (err) {
             console.log(err)
@@ -96,6 +97,12 @@ export const Book = ({ id = '', baseUrl = '' }) => {
     const getPublishedYear = (isoDate: string) => {
         const date = new Date(isoDate);
         return date.getFullYear();
+    }
+
+    const buildCouponValue = (coupons: any[]) => {
+        if (coupons.length === 0) return 0;
+
+        return coupons.reduce((acc, coupon) => acc + coupon.value, 0)
     }
 
     const formatISODate = (isoDate: string) => {
@@ -194,7 +201,7 @@ export const Book = ({ id = '', baseUrl = '' }) => {
                         borderRadius="0.5rem"
                         duration={4}
                     >
-                        <div className='h-full items-stretch flex flex-col'>
+                        <div className='h-full items-stretch flex flex-col py-3 px-5 sm:px-7 md:px-14 md:py-3 xl:py-6 xl:px-14'>
                             <Skeleton className='w-[20px] h-[20px]' />
                             <Skeleton className='h-[100svh] box-border p-3 mt-3 2xl:mt-6' width={'100%'} />
                         </div>
@@ -239,8 +246,9 @@ export const Book = ({ id = '', baseUrl = '' }) => {
                                     {book?.authorName || 'Nome autor'}
                                 </div>
                                 <div
-                                    className="text-[#CFDA29] text-[24px] sm:text-[27px] md:text-[35px] lg:text-[38px] 2xl:text-[40px] font-semibold">
-                                    {formatPrice(book?.price || 0)}
+                                    className="text-[#CFDA29] flex flex-wrap items-center gap-x-3 text-[24px] sm:text-[27px] md:text-[35px] lg:text-[38px] 2xl:text-[40px] font-semibold">
+                                    <span>{formatPrice(((book?.price as number) - (book?.discount as number)) || 0)}</span>
+                                    {(book?.discount as number) !== 0 && <span className="line-through text-[#636363] text-[12px] md:text-[14px] 2xl:text-[16px]">{formatPrice(book?.price || 0)}</span>}
                                 </div>
                                 <div className="hidden sm:flex 2xl:flex flex-row items-center gap-3 mt-6">
                                     <div className="block">

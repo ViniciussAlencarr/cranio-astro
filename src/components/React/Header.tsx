@@ -21,6 +21,7 @@ export const Header = () => {
     const [isLogged, setIsLogged] = useState(false)
     const [userName, setUserName] = useState('')
     const [openOpts, setOpenOpts] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const [shoppingCartSize, setShoppingCartSize] = useState<string | null>(null)
 
@@ -95,6 +96,30 @@ export const Header = () => {
         window.location.href = `${window.location.origin}/livros`
     }
 
+    const handleSearchChange = (event: any) => {
+        const value = event.target.value;
+
+        setSearchTerm(value);
+
+        // Cria uma instância de URLSearchParams a partir da URL atual
+        const searchParams = new URLSearchParams(window.location.search);
+
+        if (!value) {
+            searchParams.delete('search')
+            document.querySelector('#slot-main')?.classList.remove('hidden')
+            document.querySelector('#search-main')?.classList.add('hidden')
+        } else {
+            // Atualiza ou adiciona o parâmetro 'search'
+            document.querySelector('#slot-main')?.classList.add('hidden')
+            document.querySelector('#search-main')?.classList.remove('hidden')
+            searchParams.set('search', value);
+        }
+
+        // Atualiza a URL no navegador sem recarregar a página
+        const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+        window.history.pushState({ path: newUrl }, '', newUrl);
+    };
+
     return (
         <div className='bg-[#CFDA29] relative py-3 px-5 sm:px-7 md:px-14 xl:px-14'>
             <div className="flex flex-col xl3:flex-row items-center w-full">
@@ -111,7 +136,7 @@ export const Header = () => {
                     </div>
                     <div className="items-center justify-center px-4 py-3 w-auto xl3:w-[350px] rounded-full bg-white hidden xl3:flex">
                         <div><IoIosSearch color="#CFDA29" size={25} /></div>
-                        <input type="text" className="border-none w-full placeholder:text-black text-center bg-none bg-transparent outline-none" placeholder="O que você busca?" />
+                        <input type="text" className="border-none w-full placeholder:text-black text-center bg-none bg-transparent outline-none" onChange={handleSearchChange} id="asd" value={searchTerm} placeholder="O que você busca?" />
                     </div>
                     <div className="relative">
                         {shoppingCartSize && (<div className="p-2 flex justify-center items-center font-semibold w-[20px] h-[20px] border-white text-center  text-[14px] border rounded-full bg-[#fff] absolute top-0 right-0 z-20">{shoppingCartSize}</div>)}
@@ -130,7 +155,7 @@ export const Header = () => {
                 </div>
                 <div className="items-center justify-center p-2 sm:px-3 sm:py-2 md:px-4 md:py-3 lg:px-4 lg:py-3 w-full sm:w-[350px] lg:w-[350px] mt-3 rounded-full bg-white flex xl3:hidden">
                     <div><IoIosSearch color="#CFDA29" size={25} /></div>
-                    <input type="text" className="border-none w-full placeholder:text-black text-center text-[14px] md:text-[16px] lg:text-[16px] bg-none bg-transparent outline-none" placeholder="O que você busca?" />
+                    <input type="text" className="border-none w-full placeholder:text-black text-center text-[14px] md:text-[16px] lg:text-[16px] bg-none bg-transparent outline-none" onChange={handleSearchChange} value={searchTerm} placeholder="O que você busca?" />
                 </div>
             </div>
             <div className={`${openOpts ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-200 lg:hidden xl:hidden fixed z-10 left-0 w-[calc(100%-5rem)] bg-white p-3 top-0 h-svh border shadow-xl shadow-gray-700 rounded-br-2xl`}>

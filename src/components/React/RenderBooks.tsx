@@ -17,6 +17,7 @@ interface Book {
     price: number;
     theme: string;
     publishedAt: string;
+    discount: number;
     authorName: string | null;
     updatedAt: string;
     cover: any;
@@ -45,8 +46,8 @@ export const RenderBooks = ({ baseUrl = '' }) => {
     useEffect(() => {
         const getBooks = async () => {
             try {
-                const { data } = await api.get('books?populate=*')
-                const books = data.map((book: any) => ({ ...book, cover: { ...book.cover }, id: book.id, }))
+                const { data } = await api.get('books?populate=cover,coupons,reviews.picture')
+                const books = data.map((book: any) => ({ ...book, cover: { ...book.cover }, discount: buildCouponValue(book.coupons), id: book.id, }))
                 setBooks(books)
                 setThemes(buildThemes(books))
                 setLoading(false)
@@ -76,6 +77,12 @@ export const RenderBooks = ({ baseUrl = '' }) => {
         }));
     };
 
+    const buildCouponValue = (coupons: any[]) => {
+        if (coupons.length === 0) return 0;
+
+        return coupons.reduce((acc, coupon) => acc + coupon.value, 0)
+    }
+
     const formatPrice = (price: number) => price.toLocaleString('pt-BR', { currency: 'BRL', style: 'currency' })
 
     const loadMoreBooks = () => setBooksPerPage(prev => prev + 8)
@@ -100,11 +107,8 @@ export const RenderBooks = ({ baseUrl = '' }) => {
             )}
             <div className={`transition-opacity duration-500 ${loading ? 'opacity-0 h-0' : 'opacity-100 h-full'}`}>
                 <div className='h-full flex flex-col'>
-                    {/* <div className="grid grid-cols-2 2xl:grid-cols-4 gap-2 md:gap-3 2xl:gap-4 w-full text-white">
-                        {themes.map((theme, index) => <div key={index} onClick={() => setSelectedTheme(theme)} style={{ background: `#${theme.color}` }} className={`w-full flex items-center justify-between bg-[#${theme.color}] rounded-xl py-2 px-8 cursor-pointer hover:opacity-70 font-semibold text-[16px] md:text-[18px] lg:text-[20px] 2xl:text-[26px] text-center`}><span className='flex-1'>{theme.value}</span> <span><IoMdClose className="w-[20px] h-[20px] md:w-[25px] md:h-[25px]" /></span></div>)}
-                    </div> */}
                     <div className="flex flex-col sm:flex-row sm:flex-wrap flex-nowrap gap-2 md:gap-3 2xl:gap-4 w-full text-white">
-                        {themes.map((theme, index) => <div key={index}  style={{ background: `#${theme.color}` }} className={`min-w-fit flex-1 w-full flex items-center justify-between bg-[#${theme.color}] rounded-xl py-2 px-8 cursor-pointer hover:opacity-70 font-semibold text-[16px] md:text-[18px] lg:text-[20px] 2xl:text-[26px] text-center`}><span onClick={() => setSelectedTheme(theme)} className='flex-1'>{theme.value}</span> {theme === selectedTheme &&(<span onClick={() => setSelectedTheme(undefined)}><IoMdClose className="w-[20px] h-[20px] md:w-[25px] md:h-[25px]" /></span>)}</div>)}
+                        {themes.map((theme, index) => <div key={index} style={{ background: `#${theme.color}` }} className={`min-w-fit flex-1 w-full flex items-center justify-between bg-[#${theme.color}] rounded-xl py-2 px-8 cursor-pointer hover:opacity-70 font-semibold text-[16px] md:text-[18px] lg:text-[20px] 2xl:text-[26px] text-center`}><span onClick={() => setSelectedTheme(theme)} className='flex-1'>{theme.value}</span> {theme === selectedTheme && (<span onClick={() => setSelectedTheme(undefined)}><IoMdClose className="w-[20px] h-[20px] md:w-[25px] md:h-[25px]" /></span>)}</div>)}
                     </div>
                     <div className='bg-white rounded-xl my-6 md:my-8 2xl:my-11 flex-1'>
                         {filteredBooks.length !== 0 ? (<div className='flex rounded-lg flex-row flex-wrap'>
@@ -115,7 +119,8 @@ export const RenderBooks = ({ baseUrl = '' }) => {
                                 <div className=''>
                                     <div className='text-[14px] md:text-[18px] 2xl:text-[26px] max-w-[120px] md:max-w-none'>{book.title}</div>
                                     <div className='text-[#D76B2A] text-[12px] md:text-[14px] 2xl:text-[14px] mb-2 md:mb-3 2xl:mb-3'>{book.authorName}</div>
-                                    <div className='text-[#CFDA29] text-[14px] md:text-[18px] 2xl:text-[26px] font-semibold'>{formatPrice(book.price || 0)}</div>
+                                    {book.discount !== 0 && (<div className="line-through text-[#636363] text-[12px] md:text-[14px] 2xl:text-[16px]">{formatPrice(book.price)}</div>)}
+                                    <div className='text-[#CFDA29] text-[14px] md:text-[18px] 2xl:text-[26px] font-semibold'>{formatPrice((book.price - book.discount) || 0)}</div>
                                 </div>
                             </a>)}
                         </div>)

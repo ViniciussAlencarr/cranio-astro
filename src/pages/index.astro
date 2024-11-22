@@ -11,7 +11,7 @@ import {
 	HomeImg06,
 	HomeImg07,
 } from "../utils/getSvgIcons";
-import '../../index.css'
+import "../../index.css";
 import { DepoimentsComponent } from "../components/React/Depoiments";
 
 const depoinments = [
@@ -64,9 +64,11 @@ const depoinments = [
 ---
 
 <Layout title="Home">
-	<div class="h-full flex flex-col">
+	<div id="home" class="h-full flex flex-col">
 		<div class="py-3 px-5 sm:px-7 md:px-14 xl:py-8 xl:px-14 h-full flex-1">
-			<div class="items-center flex flex-col 2xl:flex-row justify-between">
+			<div
+				class="items-center flex flex-col 2xl:flex-row justify-between"
+			>
 				<div
 					class="w-full flex items-center rounded-xl bg-white p-2 md:p-4 2xl:p-6 min-h-[150px] sm:min-h-[200px] md:min-h-[250px] lg:min-h-[350px] 2xl:min-h-[400px] transition-all ease-in-out shadow-xl hover:shadow-[#fbba1433] shadow-transparent"
 				>
@@ -86,7 +88,7 @@ const depoinments = [
 							</div>
 							<div class="mt-6 md:mt-8 2xl:mt-11 w-full">
 								<button
-								id="goToLoginBtn"
+									id="goToLoginBtn"
 									class="text-[12px] md:text-[14px] lg:text-[17px] 2xl:text-[20px] bg-[#FBB914] hover:opacity-70 transition-all py-2 px-6 md:py-3 md:px-4 2xl:px-6 2xl:py-3 rounded-full w-full sm:w-[120px] md:w-[150px] lg:w-[180px] 2xl:w-[200px] text-white font-semibold"
 									>Entrar</button
 								>
@@ -107,14 +109,13 @@ const depoinments = [
 							class="flex flex-col items-start ml-2 sm:ml-4 md:ml-6 2xl:ml-8 h-full w-full"
 						>
 							<div
-								
 								class="font-semibold text-[18px] sm:text-[24px] md:text-[35px] 2xl:text-[40px] leading-[1.5rem] md:leading-[3rem] 2xl:leading-[3rem] max-w-min"
 							>
 								Últimos Lançamentos
 							</div>
 							<div class="mt-6 md:mt-8 2xl:mt-11 w-full">
 								<button
-								id="latestReleases"
+									id="latestReleases"
 									class="text-[12px] md:text-[14px] lg:text-[17px] 2xl:text-[20px] bg-[#EE8A21] hover:opacity-70 transition-all py-2 px-6 md:py-3 md:px-4 2xl:px-6 2xl:py-3 rounded-full w-full sm:w-[120px] md:w-[150px] lg:w-[180px] 2xl:w-[200px] text-white font-semibold"
 									>Ver agora</button
 								>
@@ -124,14 +125,16 @@ const depoinments = [
 				</div>
 			</div>
 			<div class="bg-transparent w-full mt-6">
-				<div class="flex items-center flex-col sm:flex-row 2xl:flex-row">
+				<div
+					class="flex items-center flex-col sm:flex-row 2xl:flex-row"
+				>
 					<div>
 						<HomeImg03
 							className="h-fit w-inherit max-w-[80px] sm:w-[120px] md:w-[140px] lg:w-[160px] sm:max-w-none 2xl:max-w-none 2xl:w-[185px]"
 						/>
 					</div>
 					<div
-					id="how-it-works"
+						id="how-it-works"
 						class="flex flex-col ml-2 mt-2 sm:ml-4 md:ml-6 2xl:ml-8 sm:mt-0 2xl:mt-0"
 					>
 						<div
@@ -142,17 +145,32 @@ const depoinments = [
 						<p
 							class="p-0 m-0 text-start font-medium text-[12px] md:text-[14px] 2xl:text-[16px]"
 						>
-						Seja bem-vindo! É sua primeira vez aqui? Você pode ver as histórias disponíveis clicando em <b>Livros</b>,
-						na barra de navegação superior, ou em <b>Últimos lançamentos</b>, logo aqui em cima. <br/><br/>
-						
-						Para encontrar mais rapidamente o livrinho desejado, use a barra de pesquisa.<br/><br/>
-						
-						Ainda não tem uma conta? Não se preocupe! O processo de criação de conta é fácil, rápido e intuitivo, ao clicar no carrinho você será redirecionado para a tela de login, basta clicar em Criar conta para começar a jornada. Com a conta criada, você terá acesso à <b>Área do Usuário</b>, onde os livros das crianças estarão na estante. Lá, as histórias podem ser lidas e relidas quantas vezes quiser.
+							Seja bem-vindo! É sua primeira vez aqui? Você pode
+							ver as histórias disponíveis clicando em <b
+								>Livros</b
+							>, na barra de navegação superior, ou em <b
+								>Últimos lançamentos</b
+							>, logo aqui em cima. <br /><br />
+
+							Para encontrar mais rapidamente o livrinho desejado,
+							use a barra de pesquisa.<br /><br />
+
+							Ainda não tem uma conta? Não se preocupe! O processo
+							de criação de conta é fácil, rápido e intuitivo, ao
+							clicar no carrinho você será redirecionado para a
+							tela de login, basta clicar em Criar conta para
+							começar a jornada. Com a conta criada, você terá
+							acesso à <b>Área do Usuário</b>, onde os livros das
+							crianças estarão na estante. Lá, as histórias podem
+							ser lidas e relidas quantas vezes quiser.
 						</p>
 					</div>
 				</div>
 			</div>
-			<div id="cranio-about" class="w-full mt-12 border-[2px] rounded-2xl border-[#CFDA29]">
+			<div
+				id="cranio-about"
+				class="w-full mt-12 border-[2px] rounded-2xl border-[#CFDA29]"
+			>
 				<div class="w-full bg-[#CFDA29] rounded-xl p-3 md:p-4 2lx:p-5">
 					<div
 						class="flex border-dotted border-[2px] border-black rounded-xl p-3 flex-col justify-center md:flex-row 2xl:flex-row items-center"
@@ -177,31 +195,31 @@ const depoinments = [
 						<p
 							class="p-0 m-0 text-start font-medium text-[12px] md:text-[14px] 2xl:text-[16px]"
 						>
-							Nossa história começa em 2023 em uma cidade maranhense
-							chamada Codó, na qual viviam um jovem e sua irmã mais
-							nova, eles tinham uma grande diferença de idade. Com o
-							passar do tempo sua irmãzinha havia perdido o interesse
-							em chama-lo para brincar como nos tempos antigos, ela
-							estava cada dia mais imersa no mundo das redes sociais,
-							fato que sempre trazia tristeza ao seu querido irmão. <br
-							/><br />
-							Buscando alternativas para que se reaproximasse dela, o garoto
-							foi atrás de coisas que ambos gostavam de fazer juntos. De
-							repente ele se lembrou que a leitura dos livros infantis,
-							que a pequena herdou dele, era um momento de grande diversão
-							e varias gargalhadas, principalmente com as imitações das
-							vozes que passavam pelas cabecinhas criativas dos dois. <br
-							/><br />
+							Nossa história começa em 2023 em uma cidade
+							maranhense chamada Codó, na qual viviam um jovem e
+							sua irmã mais nova, eles tinham uma grande diferença
+							de idade. Com o passar do tempo sua irmãzinha havia
+							perdido o interesse em chama-lo para brincar como
+							nos tempos antigos, ela estava cada dia mais imersa
+							no mundo das redes sociais, fato que sempre trazia
+							tristeza ao seu querido irmão. <br /><br />
+							Buscando alternativas para que se reaproximasse dela,
+							o garoto foi atrás de coisas que ambos gostavam de fazer
+							juntos. De repente ele se lembrou que a leitura dos livros
+							infantis, que a pequena herdou dele, era um momento de
+							grande diversão e varias gargalhadas, principalmente
+							com as imitações das vozes que passavam pelas cabecinhas
+							criativas dos dois. <br /><br />
 							O bravo explorador enfrentou aranhas e escorpiões gigantes
-							para achar seus antigos livros, mas quando chegou com o tesouro
-							sua irmã não ligou nenhum pouco para a novidade. Com um instinto
-							voraz e uma esperança que moveria facilmente montanhas o
-							jovem passou noites em claro pensando em soluções. Numa bela
-							manhã ensolarada ele encaminha um link para sua irmã, o que
-							havia ali? Quando ela clicou, com uma curiosidade maior que
-							seu corpo, foi sugada para dentro do seu celular. Lá ela
-							encontrou seu irmão arrumando algo imenso com as próprias
-							mãos. <br /><br />
+							para achar seus antigos livros, mas quando chegou com
+							o tesouro sua irmã não ligou nenhum pouco para a novidade.
+							Com um instinto voraz e uma esperança que moveria facilmente
+							montanhas o jovem passou noites em claro pensando em
+							soluções. Numa bela manhã ensolarada ele encaminha um
+							link para sua irmã, o que havia ali? Quando ela clicou,
+							com uma curiosidade maior que seu corpo, foi sugada para
+							dentro do seu celular. Lá ela encontrou seu irmão arrumando
+							algo imenso com as próprias mãos. <br /><br />
 							Desconfiada perguntou – O que você está fazendo?
 						</p>
 					</div>
@@ -231,64 +249,79 @@ const depoinments = [
 										Ela não conseguia acreditar no tamanho
 										daquilo que via na sua frente, mas nem
 										aquela imensidão era capaz de superar os
-										rápidos vídeos que ficavam na sua mente após
-										passar por aquela pela tela que parecia
-										flutuar nas mãos.<br /><br />
+										rápidos vídeos que ficavam na sua mente
+										após passar por aquela pela tela que
+										parecia flutuar nas mãos.<br /><br />
 										<span class="hidden sm2:block"
-											>Como o garoto era muito esperto fez com
-											que tudo dentro daquele mundo fosse
-											controlado por ele com o poder da
-											imaginação, logo o celular que parecia
-											grudado na mão da pequena sumiu como um
-											piscar de olhos. O único jeito de
-											recuperar tal máquina era com os dois
-											passando juntos pelas histórias dos
-											livros digitais criados pelo mais
-											velho. <br /><br />
+											>Como o garoto era muito esperto fez
+											com que tudo dentro daquele mundo
+											fosse controlado por ele com o poder
+											da imaginação, logo o celular que
+											parecia grudado na mão da pequena
+											sumiu como um piscar de olhos. O
+											único jeito de recuperar tal máquina
+											era com os dois passando juntos
+											pelas histórias dos livros digitais
+											criados pelo mais velho. <br /><br
+											/>
 											No começo a jovem ficou enfurecida querendo
-											voltar para casa, mas não tinha jeito. Então
-											partiram juntos explorando todas as coleções
-											e ela começou a se divertir com o passar
-											do tempo. <br /><br />
+											voltar para casa, mas não tinha jeito.
+											Então partiram juntos explorando todas
+											as coleções e ela começou a se divertir
+											com o passar do tempo. <br /><br />
 											Quando terminaram e voltaram à residência
-											a mãe se espantou com a felicidade dos filhos
-											e perguntou o motivo de tantas gargalhadas
-											estridentes. Depois das explicações a tradição
-											de ler livros, por mais que agora esses fossem
-											digitais, voltou a trazer alegrias para aquele
-											lar.</span
+											a mãe se espantou com a felicidade dos
+											filhos e perguntou o motivo de tantas
+											gargalhadas estridentes. Depois das explicações
+											a tradição de ler livros, por mais que
+											agora esses fossem digitais, voltou a
+											trazer alegrias para aquele lar.</span
 										>
 									</p>
 								</div>
 							</div>
 							<div class="mt-3 md:mt-6">
-								<p class="p-0 leading-3 md:leading-5 2xl:leading-6 m-0 text-start font-medium text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]">
-									Logo o garoto se preocupou com os demais lares que poderiam sofrer com algo parecido. <br/><br/>
-Ele tratou de ir o mais rápido possível atrás das pessoas que pudessem ajuda-lo a resolver isso. A Crânio pensa e trabalha incansavelmente para criar um futuro melhor para o mundo através da educação lúdica com livros digitais para crianças, tratando de assuntos que serão importantes para sua vida no futuro e trazendo uma leitura leve, divertida e que promova um grande estímulo à sua imaginação.
+								<p
+									class="p-0 leading-3 md:leading-5 2xl:leading-6 m-0 text-start font-medium text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]"
+								>
+									Logo o garoto se preocupou com os demais
+									lares que poderiam sofrer com algo
+									parecido. <br /><br />
+									Ele tratou de ir o mais rápido possível atrás
+									das pessoas que pudessem ajuda-lo a resolver
+									isso. A Crânio pensa e trabalha incansavelmente
+									para criar um futuro melhor para o mundo através
+									da educação lúdica com livros digitais para crianças,
+									tratando de assuntos que serão importantes para
+									sua vida no futuro e trazendo uma leitura leve,
+									divertida e que promova um grande estímulo à
+									sua imaginação.
 								</p>
 							</div>
 							<div class="block sm2:hidden">
 								<p
 									class="p-0 m-0 text-start font-medium text-[12px] md:text-[14px] 2xl:text-[16px]"
 								>
-									Como o garoto era muito esperto fez com que tudo
-									dentro daquele mundo fosse controlado por ele
-									com o poder da imaginação, logo o celular que
-									parecia grudado na mão da pequena sumiu como um
-									piscar de olhos. O único jeito de recuperar tal
-									máquina era com os dois passando juntos pelas
-									histórias dos livros digitais criados pelo mais
-									velho. <br /><br />
+									Como o garoto era muito esperto fez com que
+									tudo dentro daquele mundo fosse controlado
+									por ele com o poder da imaginação, logo o
+									celular que parecia grudado na mão da
+									pequena sumiu como um piscar de olhos. O
+									único jeito de recuperar tal máquina era com
+									os dois passando juntos pelas histórias dos
+									livros digitais criados pelo mais velho. <br
+									/><br />
 									No começo a jovem ficou enfurecida querendo voltar
-									para casa, mas não tinha jeito. Então partiram juntos
-									explorando todas as coleções e ela começou a se divertir
-									com o passar do tempo. <br /><br />
-									Quando terminaram e voltaram à residência a mãe se
-									espantou com a felicidade dos filhos e perguntou
+									para casa, mas não tinha jeito. Então partiram
+									juntos explorando todas as coleções e ela começou
+									a se divertir com o passar do tempo. <br
+									/><br />
+									Quando terminaram e voltaram à residência a mãe
+									se espantou com a felicidade dos filhos e perguntou
 									o motivo de tantas gargalhadas estridentes. Depois
-									das explicações a tradição de ler livros, por mais
-									que agora esses fossem digitais, voltou a trazer
-									alegrias para aquele lar.
+									das explicações a tradição de ler livros, por
+									mais que agora esses fossem digitais, voltou
+									a trazer alegrias para aquele lar.
 								</p>
 							</div>
 						</div>
@@ -319,8 +352,8 @@ Ele tratou de ir o mais rápido possível atrás das pessoas que pudessem ajuda-
 								class="w-full flex md:text-[16px] lg:text-[18px] 2xl:text-[20px] justify-center font-medium md:mt-4 2xl:mt-6"
 							>
 								<p class="w-5/6 md:w-4/5 2xl:w-2/3 text-center">
-									Possibilitar a criação de um futuro melhor para
-									o mundo através da educação lúdica para
+									Possibilitar a criação de um futuro melhor
+									para o mundo através da educação lúdica para
 									crianças.
 								</p>
 							</div>
@@ -345,12 +378,14 @@ Ele tratou de ir o mais rápido possível atrás das pessoas que pudessem ajuda-
 							<div
 								class="w-full flex md:text-[16px] lg:text-[18px] 2xl:text-[20px] justify-center font-medium md:mt-4 2xl:mt-6"
 							>
-								<p class="w-5/6 md:w-11/12 2xl:w-2/3 text-center">
-									Criar a oportunidade de existirem, ao redor de
-									todo o mundo, jovens e adultos conscientes,
-									responsáveis e mais preparados para a vida. Se
-									tornando assim uma referência mundial no ramo
-									literário.
+								<p
+									class="w-5/6 md:w-11/12 2xl:w-2/3 text-center"
+								>
+									Criar a oportunidade de existirem, ao redor
+									de todo o mundo, jovens e adultos
+									conscientes, responsáveis e mais preparados
+									para a vida. Se tornando assim uma
+									referência mundial no ramo literário.
 								</p>
 							</div>
 						</div>
@@ -393,10 +428,10 @@ Ele tratou de ir o mais rápido possível atrás das pessoas que pudessem ajuda-
 </Layout>
 
 <script>
-	import { validateTokenJwt } from '../utils/validateJwt'
+	import { validateTokenJwt } from "../utils/validateJwt";
 
-	const latestReleases = document.getElementById('latestReleases')
-	const goToLoginBtn = document.getElementById('goToLoginBtn')
+	const latestReleases = document.getElementById("latestReleases");
+	const goToLoginBtn = document.getElementById("goToLoginBtn");
 
 	const queryString = window.location.search;
 
@@ -404,39 +439,48 @@ Ele tratou de ir o mais rápido possível atrás das pessoas que pudessem ajuda-
 	const urlParams = new URLSearchParams(queryString);
 
 	// Pega o valor de um parâmetro, por exemplo, 'nome' e 'idade'
-	const ref = urlParams.get('refBy');
+	const ref = urlParams.get("refBy");
 
 	const goToRef = (id: string) => {
-        document.getElementById(id)?.scrollIntoView({
-			behavior: 'smooth',
-			block: 'start'     
-		})
-    }
+		document.getElementById(id)?.scrollIntoView({
+			behavior: "smooth",
+			block: "start",
+		});
+	};
 
-	switch(ref) {
-		case 'como_funciona':
-			goToRef('how-it-works')
+	switch (ref) {
+		case "como_funciona":
+			goToRef("how-it-works");
 			break;
-		case 'sobre':
-			goToRef('cranio-about')
+		case "sobre":
+			goToRef("cranio-about");
 			break;
-		case 'depoimentos':
-			setTimeout(() => goToRef('depoiments'), 500)
+		case "depoimentos":
+			setTimeout(() => goToRef("depoiments"), 500);
 			break;
-		case 'contato':
-			setTimeout(() => goToRef('home-footer'), 500)
-			break
+		case "contato":
+			setTimeout(() => goToRef("home-footer"), 500);
+			break;
 		default:
-			break
+			break;
 	}
-	
-	latestReleases?.addEventListener('click', () => window.location.href = `${window.location.origin}/livros`)
+
+	latestReleases?.addEventListener(
+		"click",
+		() => (window.location.href = `${window.location.origin}/livros`),
+	);
 
 	if (goToLoginBtn) {
-		const tokenExpired = validateTokenJwt()
+		const tokenExpired = validateTokenJwt();
 
-		goToLoginBtn.addEventListener('click', () => window.location.href = tokenExpired ? `${window.location.origin}/login` : `${window.location.origin}/estante`)
+		goToLoginBtn.addEventListener(
+			"click",
+			() =>
+				(window.location.href = tokenExpired
+					? `${window.location.origin}/login`
+					: `${window.location.origin}/estante`),
+		);
 
-		goToLoginBtn.innerHTML = tokenExpired ? 'Entrar' : 'Acessar'
+		goToLoginBtn.innerHTML = tokenExpired ? "Entrar" : "Acessar";
 	}
 </script>

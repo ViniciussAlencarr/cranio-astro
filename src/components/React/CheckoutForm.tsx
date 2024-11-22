@@ -50,6 +50,7 @@ const CheckoutForm = ({ baseUrl = '' }) => {
     const [qrCodeImage, setQrCodeImage] = useState();
     const [pixCode, setPixCode] = useState('')
     const [loadingQrCode, setLoadingQrCode] = useState(true)
+    const [totalDiscount, setTotalDiscount] = useState(0)
 
     useEffect(() => {
         const userIdStorage = localStorage.getItem('user_id') as string
@@ -63,7 +64,9 @@ const CheckoutForm = ({ baseUrl = '' }) => {
         if (payment_method === 'pix') {
             const generatePix = async () => {
                 const { data } = await api.post('/generatePixQrCode', {
-                    amount: totalPrice
+                    amount: totalPrice - totalDiscount,
+                    shoppingCart
+
                 })
                 setQrCodeImage(data.pixImage)
                 setPixCode(data.brCode)
@@ -73,10 +76,14 @@ const CheckoutForm = ({ baseUrl = '' }) => {
     }, [payment_method])
 
     useEffect(() => {
+        setTotalDiscount(shoppingCart.reduce((acc, item) => acc + item.discount, 0))
+    }, [shoppingCart])
+
+    useEffect(() => {
         const getShoppingCartProducts = async () => {
             try {
                 const { data } = await getShoppingInCart()
-                setShoppingCart(data.map((book: any) => ({ ...book, cover: { ...book.product?.cover }, id: book.id, })))
+                setShoppingCart(data.map((book: any) => ({ ...book, cover: { ...book.product?.cover }, discount: buildCouponValue(book.product.coupons), id: book.id, })).sort((a: any, b: any) => (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)))
                 setTotalPrice(data.reduce((acc: any, value: any) => acc + value.price, 0))
                 setLoading(false)
             } catch (err) {
@@ -105,6 +112,12 @@ const CheckoutForm = ({ baseUrl = '' }) => {
         }
     }
 
+    const buildCouponValue = (coupons: any[]) => {
+        if (coupons.length === 0) return 0;
+
+        return coupons.reduce((acc, coupon) => acc + coupon.value, 0)
+    }
+
     const sendPayment = async () => {
         if (!stripe || !elements) {
             console.log('stripe or elements is not set')
@@ -125,7 +138,7 @@ const CheckoutForm = ({ baseUrl = '' }) => {
             console.error(error);
         } else {
             const { data } = await api.post('/create-payment-intent', {
-                amount: totalPrice * 100,
+                amount: (totalPrice - totalDiscount) * 100,
                 card_type: payment_method,
                 installments,
                 payment_method_id: paymentMethod.id
@@ -364,7 +377,8 @@ const CheckoutForm = ({ baseUrl = '' }) => {
                                     </div>
                                     <div className="flex-1 flex items-center justify-end sm:justify-center">
                                         <div className="flex flex-col items-center">
-                                            {<div className="text-[14px] sm:text-[16px] md:text-[18px] 2xl:text-[24px] font-medium">{formatPrice(item.price)}</div>}
+                                            {item.discount !== 0 && <div className="line-through text-[#636363] text-[12px] md:text-[14px] 2xl:text-[16px]">{formatPrice(item.price)}</div>}
+                                            <div className="text-[14px] sm:text-[16px] md:text-[18px] 2xl:text-[24px] font-medium">{formatPrice(item.price - item.discount)}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -381,11 +395,11 @@ const CheckoutForm = ({ baseUrl = '' }) => {
                             </div>
                             <div className="border-b-[2px] flex flex-row justify-between items-center pb-3">
                                 <div>Descontos</div>
-                                <div className="font-semibold">R$000,00</div>
+                                <div className="font-semibold">{formatPrice(totalDiscount)}</div>
                             </div>
                             <div className="flex flex-row justify-between items-center text-[#CFDA29] pb-3">
                                 <div>Total</div>
-                                <div className="font-semibold">{formatPrice(totalPrice)}</div>
+                                <div className="font-semibold">{formatPrice(totalPrice - totalDiscount)}</div>
                             </div>
                             <div className='w-full'>
                                 <button type="submit" disabled={!stripe || shoppingCart.length === 0} className="bg-[#CFDA29] disabled:cursor-not-allowed disabled:bg-[#c3c3c3] disabled:opacity-70 text-black hover:opacity-70 font-medium rounded-full py-2 px-10 w-full text-center">Finalizar Compra</button>

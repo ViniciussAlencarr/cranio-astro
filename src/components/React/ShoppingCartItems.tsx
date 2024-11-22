@@ -19,12 +19,13 @@ export const ShoppingCartItems = ({ baseUrl = '' }) => {
     const [shoppingCart, setShoppingCart] = useState<ShoppingCart[]>([])
     const [loading, setLoading] = useState(false)
     const [total, setTotal] = useState(0.0)
+    const [totalDiscount, setTotalDiscount] = useState(0)
 
     useEffect(() => {
         const getShoppingCartProducts = async () => {
             try {
                 const { data } = await getShoppingInCart()
-                setShoppingCart(data.map((book: any) => ({ ...book, cover: { ...book.product?.cover }, id: book.id, })))
+                setShoppingCart(data.map((book: any) => ({ ...book, cover: { ...book.product?.cover }, discount: buildCouponValue(book.product.coupons), id: book.id, })).sort((a: any, b: any) => (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)))
                 setLoading(true)
             } catch (err) {
                 console.log(err)
@@ -32,6 +33,10 @@ export const ShoppingCartItems = ({ baseUrl = '' }) => {
         }
         getShoppingCartProducts()
     }, [])
+    
+    useEffect(() => {
+        setTotalDiscount(shoppingCart.reduce((acc, item) => acc + item.discount, 0))
+    }, [shoppingCart])
 
     useEffect(() => setTotal(shoppingCart.reduce((acc, value) => acc + value.price, 0)), [shoppingCart])
 
@@ -45,12 +50,11 @@ export const ShoppingCartItems = ({ baseUrl = '' }) => {
             .catch(err => console.log(err))
     }
 
-    /* function getRandomFloat(min: number, max: number) {
-        const randomNumber = Math.random() * (max - min) + min;
+    const buildCouponValue = (coupons: any[]) => {
+        if (coupons.length === 0) return 0;
 
-        // Arredonda para duas casas decimais
-        return Math.round(randomNumber * 100) / 100;
-    }; */
+        return coupons.reduce((acc, coupon) => acc + coupon.value, 0)
+    }
 
     const removeFromCart = async (productId: string) => {
         try {
@@ -101,8 +105,8 @@ export const ShoppingCartItems = ({ baseUrl = '' }) => {
                                 </div>
                                 <div className="flex-1 flex items-center justify-end sm:justify-center">
                                     <div className="flex flex-col items-center">
-                                        {<div className="line-through text-[#636363] text-[12px] md:text-[14px] 2xl:text-[16px]">{formatPrice(item.price - (item.price * 0.10))}</div>}
-                                        {<div className="text-[#CFDA29] text-[14px] sm:text-[16px] md:text-[18px] 2xl:text-[24px] font-medium">{formatPrice(item.price)}</div>}
+                                        {item.discount !== 0 && <div className="line-through text-[#636363] text-[12px] md:text-[14px] 2xl:text-[16px]">{formatPrice(item.price)}</div>}
+                                        {<div className="text-[#CFDA29] text-[14px] sm:text-[16px] md:text-[18px] 2xl:text-[24px] font-medium">{formatPrice(item.price - (item.discount))}</div>}
                                     </div>
                                 </div>
                             </div>
@@ -121,11 +125,11 @@ export const ShoppingCartItems = ({ baseUrl = '' }) => {
                         </div>
                         <div className="border-b-[2px] flex flex-row justify-between items-center pb-3">
                             <div>Descontos</div>
-                            <div className="font-semibold">R$000,00</div>
+                            <div className="font-semibold">{formatPrice(totalDiscount)}</div>
                         </div>
                         <div className="flex flex-row justify-between items-center text-[#CFDA29] pb-3">
                             <div>Total</div>
-                            <div className="font-semibold">{formatPrice(total)}</div>
+                            <div className="font-semibold">{formatPrice(total - totalDiscount)}</div>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-3 items-center justify-evenly">
                             <div>
