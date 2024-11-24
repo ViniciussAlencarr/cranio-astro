@@ -65,11 +65,11 @@ const CheckoutForm = ({ baseUrl = '' }) => {
     }, [])
 
     useEffect(() => {
-        socket.on('connected', (message) => {
+        socket.on('connected', (message: any) => {
             console.log(message);
         });
 
-        socket.on('paymentSuccessfuly', (data) => {
+        socket.on('paymentSuccessfuly', () => {
             toast.promise(
                 finishOrder,
                 {
