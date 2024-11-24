@@ -19,6 +19,7 @@ interface Product {
     indicatedAge: string;
     isbnCode: string;
     language: string;
+    cover: any;
     pages: number;
     price: number;
     publishedAt: string;
@@ -49,7 +50,7 @@ export const Bookshelf = ({ baseUrl }: Params) => {
         const getShoppingCartProducts = async () => {
             try {
                 const { data } = await api.get(`/purchases/${userId}?populate=*`)
-                setBooks(data.map((book: any) => ({ ...book, cover: { ...book.product?.cover }, id: book.id, })).sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+                setBooks(data.map((book: any) => book.itens).flat().sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
                 setLoading(false)
             } catch (err) {
                 console.log(err)
@@ -58,7 +59,6 @@ export const Bookshelf = ({ baseUrl }: Params) => {
         }
         getShoppingCartProducts()
     }, [])
-
 
     const goToDetailShelfBooks = (indexOfBook: number) => window.location.href = `${window.location.origin}/estante/detalhes?index=${indexOfBook}`
 
@@ -81,7 +81,7 @@ export const Bookshelf = ({ baseUrl }: Params) => {
                     {books.length !== 0 ? (<div className='grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-4'>
                         {books.slice(-12).map((book, index) => <div onClick={() => goToDetailShelfBooks(index)} key={index} className='flex cursor-pointer flex-col items-center text-center'>
                             <div className='py-2 px-1 md:p-3 2xl:p-6 items-center rounded-lg'>
-                                <img src={`${baseUrl}${book.cover.url}`} alt="" className='object-contain w-[122px] rounded-lg h-auto sm:w-[220px] md:w-[300px] 2xl:w-[340px] shadow-xl' />
+                                <img src={`${baseUrl}${book.product.cover.url}`} alt="" className='object-contain w-[122px] rounded-lg h-auto sm:w-[220px] md:w-[300px] 2xl:w-[340px] shadow-xl' />
                             </div>
                             <div className=''>
                                 <div className='text-[14px] md:text-[18px] 2xl:text-[26px]'>{book.product.title}</div>

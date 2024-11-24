@@ -26,6 +26,7 @@ interface Product {
     indicatedAge: string;
     isbnCode: string;
     language: string;
+    cover: any;
     pages: number;
     price: number;
     publishedAt: string;
@@ -58,7 +59,7 @@ export const BookhelfDetails = ({ baseUrl, initialIndex = 0 }: Params) => {
         const getShoppingCartProducts = async () => {
             try {
                 const { data } = await api.get(`/purchases/${userId}`)
-                setBooks(data.map((book: any) => ({ ...book, cover: { ...book.product?.cover }, id: book.id, })).sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+                setBooks(data.map((book: any) => book.itens).flat().sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
                 setLoading(false)
             } catch (err) {
                 console.log(err)
@@ -87,7 +88,7 @@ export const BookhelfDetails = ({ baseUrl, initialIndex = 0 }: Params) => {
             return (
                 <div className="flex flex-col items-start justify-center">
                     <div className="shadow-xl rounded-lg mb-6 self-center">
-                        <img src={`${baseUrl}${currentItem.cover.url}`} alt="" className='object-contain rounded-lg w-full h-full sm:w-[220px] sm:h-[300px] md:h-[420px] md:w-[300px] 2xl:h-[487px] 2xl:w-[340px]' />
+                        <img src={`${baseUrl}${currentItem.product.cover.url}`} alt="" className='object-contain rounded-lg w-full h-full sm:w-[220px] sm:h-[300px] md:h-[420px] md:w-[300px] 2xl:h-[487px] 2xl:w-[340px]' />
                     </div>
                     <div className="flex">
                         {

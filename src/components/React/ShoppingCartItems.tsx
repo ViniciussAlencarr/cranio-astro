@@ -136,7 +136,7 @@ export const ShoppingCartItems = ({ baseUrl = '' }) => {
                                 <button onClick={() => window.location.href = `${window.location.origin}/livros`} className="bg-[#EE8A21] text-white font-medium hover:opacity-70 rounded-full py-2 px-6">Continuar comprando</button>
                             </div>
                             <div>
-                                <button onClick={() => window.location.href = `${window.location.origin}/carrinho/identificacao`} className="bg-[#CFDA29] text-black hover:opacity-70 font-medium rounded-full py-2 px-10">Finalizar compra</button>
+                                <button disabled={shoppingCart.length === 0} onClick={() => window.location.href = `${window.location.origin}/carrinho/identificacao`} className="bg-[#CFDA29] disabled:cursor-not-allowed disabled:bg-[#c3c3c3] disabled:opacity-70 text-black hover:opacity-70 font-medium rounded-full py-2 px-10">Finalizar compra</button>
                             </div>
                         </div>
                     </div>

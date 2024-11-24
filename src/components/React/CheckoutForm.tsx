@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import * as A from "react-loader-spinner";
 import api from '../../api';
+import io from 'socket.io-client';
 import {
     Elements,
     useStripe,
@@ -32,6 +33,8 @@ interface PaymentMethods {
 import type { ShoppingCart } from '../../types/globalTypes';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
+const socket = io('https://api.cranio.converter.tec.br'); // Endereço do servidor
+
 const CheckoutForm = ({ baseUrl = '' }) => {
     const stripe = useStripe();
     const elements = useElements();
@@ -51,6 +54,7 @@ const CheckoutForm = ({ baseUrl = '' }) => {
     const [pixCode, setPixCode] = useState('')
     const [loadingQrCode, setLoadingQrCode] = useState(true)
     const [totalDiscount, setTotalDiscount] = useState(0)
+    const [errLoadPix, setErrLoadPix] = useState(false)
 
     useEffect(() => {
         const userIdStorage = localStorage.getItem('user_id') as string
@@ -61,19 +65,60 @@ const CheckoutForm = ({ baseUrl = '' }) => {
     }, [])
 
     useEffect(() => {
-        if (payment_method === 'pix') {
-            const generatePix = async () => {
-                const { data } = await api.post('/generatePixQrCode', {
-                    amount: totalPrice - totalDiscount,
-                    shoppingCart
+        socket.on('connected', (message) => {
+            console.log(message);
+        });
 
-                })
-                setQrCodeImage(data.pixImage)
-                setPixCode(data.brCode)
+        socket.on('paymentSuccessfuly', (data) => {
+            toast.promise(
+                finishOrder,
+                {
+                    pending: 'Finalizando compra...',
+                    success: {
+                        render: () => {
+                            setTimeout(() => window.location.href = `${window.location.origin}/estante`, 1000)
+                            return 'Compra realizada com sucesso!'
+                        }
+                    },
+                    error: 'Ocorreu um problema ao realizar a compra.'
+                }
+            )
+        });
+
+        return () => {
+            socket.off('paymentSuccessfuly');
+        };
+    }, [shoppingCart]);
+
+    useEffect(() => {
+        if (payment_method === 'pix') {
+            setErrLoadPix(false)
+            const generatePix = async () => {
+                try {
+                    const { data } = await api.post('/generatePixQrCode', {
+                        amount: totalPrice - totalDiscount,
+                        shoppingCart
+
+                    })
+                    setQrCodeImage(data.qr_code_base64)
+                    setPixCode(data.qr_code)
+                } catch (err: any) {
+                    setErrLoadPix(true)
+                    if (err.response) {
+                        toast.error(err.response.data.error.message)
+                    } else {
+                        toast.error('Ocorreu um problema ao processar o QrCode')
+                    }
+                }
             }
-            generatePix()
+
+            if (((totalPrice - totalDiscount) <= 0) || shoppingCart.length === 0) {
+                setErrLoadPix(true); toast.info('Seu carrinho está vazio')
+            } else {
+                generatePix()
+            }
         }
-    }, [payment_method])
+    }, [payment_method, totalPrice, totalDiscount, shoppingCart.length])
 
     useEffect(() => {
         setTotalDiscount(shoppingCart.reduce((acc, item) => acc + item.discount, 0))
@@ -83,7 +128,7 @@ const CheckoutForm = ({ baseUrl = '' }) => {
         const getShoppingCartProducts = async () => {
             try {
                 const { data } = await getShoppingInCart()
-                setShoppingCart(data.map((book: any) => ({ ...book, cover: { ...book.product?.cover }, discount: buildCouponValue(book.product.coupons), id: book.id, })).sort((a: any, b: any) => (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)))
+                setShoppingCart(data.map((book: any) => ({ ...book, discount: buildCouponValue(book.product.coupons), id: book.id, })).sort((a: any, b: any) => (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)))
                 setTotalPrice(data.reduce((acc: any, value: any) => acc + value.price, 0))
                 setLoading(false)
             } catch (err) {
@@ -95,7 +140,7 @@ const CheckoutForm = ({ baseUrl = '' }) => {
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(pixCode)
-        .then(() => toast.success('Copiado para a área de transferência!'))
+            .then(() => toast.success('Copiado para a área de transferência!'))
     }
 
     const getUserById = async (userId: string) => {
@@ -116,6 +161,12 @@ const CheckoutForm = ({ baseUrl = '' }) => {
         if (coupons.length === 0) return 0;
 
         return coupons.reduce((acc, coupon) => acc + coupon.value, 0)
+    }
+
+    const finishOrder = async () => {
+        const newCustomer = await registerCustomer()
+        await createSale(newCustomer.id)
+        await clearCart()
     }
 
     const sendPayment = async () => {
@@ -151,9 +202,7 @@ const CheckoutForm = ({ baseUrl = '' }) => {
             if (confirmError) {
                 console.error(confirmError);
             } else {
-                const newCustomer = await registerCustomer()
-                await createSale(newCustomer.id)
-                await clearCart()
+                finishOrder()
             }
         }
     }
@@ -216,17 +265,14 @@ const CheckoutForm = ({ baseUrl = '' }) => {
     const createSale = async (userId: string) => {
         try {
             if (!shoppingCart || shoppingCart.length === 0) return;
-            for (let buy of shoppingCart) {
-                await api.post('/sales', {
-                    data: {
-                        price: buy.price,
-                        userId,
-                        couponCodes: "",
-                        status: "Em progresso",
-                        productId: `${buy.productId}`
-                    }
-                })
-            }
+            await api.post('/sales', {
+                data: {
+                    userId,
+                    itens: shoppingCart,
+                    price: shoppingCart.reduce((acc, shoppingCart) => acc + (shoppingCart.price - shoppingCart.discount), 0),
+                    status: "Em progresso",
+                }
+            })
         } catch (err) {
             throw err
         }
@@ -341,22 +387,27 @@ const CheckoutForm = ({ baseUrl = '' }) => {
                                     </div>
                                 </div>)}
                                 {payment_method === 'pix' && (<div className='flex-1 ml-0 mt-3 sm:mt-0 items-center sm:ml-3 md:ml-6 bg-[#E7EAC0] rounded-2xl border-2 border-[#CFDA29] p-3 w-full'>
-                                    {loadingQrCode && (<div className='flex flex-1 items-center justify-center'>
-                                        <div>Gerando QrCode...</div>
-                                        <A.ColorRing
-                                            visible={true}
-                                            ariaLabel="color-ring-loading"
-                                            wrapperStyle={{}}
-                                            wrapperClass="w-[30px] h-[30px]"
-                                            colors={['#F6F6F6', '#F6F6F6', '#F6F6F6', '#F6F6F6', '#F6F6F6']}
-                                        />
-                                    </div>)}
-                                    <div className='flex-1 flex items-center justify-center'>
-                                        <img onLoad={() => setLoadingQrCode(false)} className='object-contain rounded-lg' src={qrCodeImage} alt="" />
-                                    </div>
-                                    {!loadingQrCode && (<div onClick={copyToClipboard} className='flex-1 mt-3 flex cursor-pointer items-center justify-center'>
-                                        <div className='bg-white border-[#DDCC13] text-[14px] md:text-[16px] hover:border-[#fff] transition-all border text-[#DDCC13] py-3 px-6 rounded-full'>Copiar código</div>
-                                    </div>)}
+                                    {errLoadPix ? <div className='text-center'>
+                                        Erro ao carregar, tente novamente.
+                                    </div> :
+                                        <>
+                                            {loadingQrCode && (<div className='flex flex-1 items-center justify-center'>
+                                                <div>Gerando QrCode...</div>
+                                                <A.ColorRing
+                                                    visible={true}
+                                                    ariaLabel="color-ring-loading"
+                                                    wrapperStyle={{}}
+                                                    wrapperClass="w-[30px] h-[30px]"
+                                                    colors={['#F6F6F6', '#F6F6F6', '#F6F6F6', '#F6F6F6', '#F6F6F6']}
+                                                />
+                                            </div>)}
+                                            <div className='flex-1 flex items-center justify-center'>
+                                                <img onLoad={() => setLoadingQrCode(false)} className='object-contain rounded-lg' src={qrCodeImage ? `data:image/png;base64,${qrCodeImage}` : undefined} alt="" />
+                                            </div>
+                                            {!loadingQrCode && (<div onClick={copyToClipboard} className='flex-1 mt-3 flex cursor-pointer items-center justify-center'>
+                                                <div className='bg-white border-[#DDCC13] text-[14px] md:text-[16px] hover:border-[#fff] transition-all border text-[#DDCC13] py-3 px-6 rounded-full'>Copiar código</div>
+                                            </div>)}
+                                        </>}
                                 </div>)}
                             </div>
                         </div>
@@ -367,7 +418,7 @@ const CheckoutForm = ({ baseUrl = '' }) => {
                                 <div className='py-2'>
                                     {/* <CoverBookImg
                                         className="h-fit w-inherit max-w-[60px] sm:w-[110px] md:w-[110px] lg:w-[110px] sm:max-w-none 2xl:max-w-none 2xl:h-[150px] 2xl:w-[110px]" /> */}
-                                    <img src={`${baseUrl}${item?.cover.url}`} alt="" className='object-containh-fit w-inherit max-w-[60px] sm:w-[110px] md:w-[110px] lg:w-[110px] sm:max-w-none 2xl:max-w-none 2xl:h-[150px] 2xl:w-[110px]' />
+                                    <img src={`${baseUrl}${item?.product.cover.url}`} alt="" className='object-containh-fit w-inherit max-w-[60px] sm:w-[110px] md:w-[110px] lg:w-[110px] sm:max-w-none 2xl:max-w-none 2xl:h-[150px] 2xl:w-[110px]' />
 
                                 </div>
                                 <div className="flex-1 flex flex-col sm:flex-row justify-evenly">
@@ -402,7 +453,7 @@ const CheckoutForm = ({ baseUrl = '' }) => {
                                 <div className="font-semibold">{formatPrice(totalPrice - totalDiscount)}</div>
                             </div>
                             <div className='w-full'>
-                                <button type="submit" disabled={!stripe || shoppingCart.length === 0} className="bg-[#CFDA29] disabled:cursor-not-allowed disabled:bg-[#c3c3c3] disabled:opacity-70 text-black hover:opacity-70 font-medium rounded-full py-2 px-10 w-full text-center">Finalizar Compra</button>
+                                <button type="submit" disabled={!stripe || shoppingCart.length === 0 || payment_method === 'pix'} className="bg-[#CFDA29] disabled:cursor-not-allowed disabled:bg-[#c3c3c3] disabled:opacity-70 text-black hover:opacity-70 font-medium rounded-full py-2 px-10 w-full text-center">{payment_method === 'pix' ? 'Aguardando pagamento' : 'Finalizar Compra'}</button>
                             </div>
                         </div>
                     </div>
