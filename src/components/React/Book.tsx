@@ -38,6 +38,7 @@ interface Book {
     cover: any;
     pages: number;
     purchased?: boolean;
+    inShoppingCart?: boolean;
     publisher: string;
     synopsis: string;
     year: number;
@@ -60,7 +61,6 @@ export const Book = ({ id = '', baseUrl = '' }) => {
     const [reviews, setReviews] = useState<Review[]>()
     const [reviewsAverage, setReviewsAverage] = useState(0)
     const [isLogged, setIsLogged] = useState(false)
-    const [shoppingCartItems, setShoppingCartItems] = useState([])
 
     useEffect(() => {
         if (reviews) {
@@ -77,20 +77,20 @@ export const Book = ({ id = '', baseUrl = '' }) => {
 
     useEffect(() => {
         getBookById()
-    }, [shoppingCartItems])
+    }, [])
 
     const getBookById = useCallback(async () => {
         try {
             const userId = localStorage.getItem('user_id') as string
-
-            const { data } = await api.get(`/books/${id}?populate=cover,coupons,reviews.picture&userId=${userId}`)
+            const url = `/books/${id}?populate=cover,coupons,reviews.picture${userId ? `&userId=${userId}`: ''}`
+            const { data } = await api.get(url)
 
             setBook({ ...data, cover: { ...data.cover }, discount: buildCouponValue(data.coupons), id: data.id })
             setReviews(data.reviews.map((review: any) => ({ ...review, picture: { ...review.picture } })))
         } catch (err) {
             console.log(err)
         }
-    }, [shoppingCartItems, book, reviews,])
+    }, [book, reviews])
 
     const formatPrice = (price: number) => price.toLocaleString('pt-BR', { currency: 'BRL', style: 'currency' })
 
@@ -191,6 +191,14 @@ export const Book = ({ id = '', baseUrl = '' }) => {
         }
 
         window.location.href = `${window.location.origin}/carrinho/sacola`
+    }
+
+    const goToBookShelf = () => {
+        if (!isLogged) {
+            return window.location.href = `${window.location.origin}/estante`
+        }
+
+        window.location.href = `${window.location.origin}/estante`
     }
 
     return (
@@ -333,7 +341,13 @@ export const Book = ({ id = '', baseUrl = '' }) => {
                                         </div>
                                     </div>)}
                                 </div>
-                                {!book?.purchased ? (<div className="mt-1 md:mt-3 2xl:mt-6 block w-full">
+                                {book?.purchased ? (
+                                    <div className="mt-1 md:mt-3 2xl:mt-6 block w-full">
+                                        <div>
+                                            <button onClick={goToBookShelf} className="bg-[#CFDA29] rounded-full py-1 px-3 md:py-2 md:px-12 2xl:py-2 2xl:px-12 text-white font-semibold hover:opacity-70 text-[10px] sm:text-[12px] md:text-[14px] 2xl:text-[16px]">Na estante</button>
+                                        </div>
+                                    </div>
+                                ) : !book?.inShoppingCart ? (<div className="mt-1 md:mt-3 2xl:mt-6 block w-full">
                                     <div className="flex flex-col sm:flex-row 2xl:flex-row items-start">
                                         <div>
                                             <button onClick={() => addToCart()}
@@ -532,7 +546,7 @@ export const Book = ({ id = '', baseUrl = '' }) => {
                             </div>
                         </div>)}
                     </div>)
-                    : <div className="py-3 text-white font-semibold text-center md:text-start text-[14px] md:text-[16px] 2xl:text-[20px] mt-1 md:mt-3">Nenhuma avaliação encontrada</div>
+                        : <div className="py-3 text-white font-semibold text-center md:text-start text-[14px] md:text-[16px] 2xl:text-[20px] mt-1 md:mt-3">Nenhuma avaliação encontrada</div>
                     }
                 </div>
             </div>
