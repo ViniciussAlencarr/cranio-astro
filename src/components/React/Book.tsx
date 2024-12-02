@@ -233,7 +233,7 @@ export const Book = ({ id = '', baseUrl = '' }) => {
                     <div className="bg-white rounded-xl p-3 mt-3 2xl:mt-6">
                         <div className="flex flex-row justify-center items-start md:justify-start">
                             <div className="pr-3 rounded-lg">
-                                {book?.cover.url && <img src={`${baseUrl}${book?.cover.url}`} alt="" style={{ maxHeight: 'fit-content'}} className='object-contain rounded-lg h-fit max-h-fit w-inherit max-w-[100px] bg-[#e0e0e0] sm:w-[180px] md:w-[210px] lg:w-[250px] sm:max-w-none 2xl:max-w-none 2xl:h-[368px] 2xl:w-[257px] shadow-xl' />}
+                                {book?.cover.url && <img src={`${baseUrl}${book?.cover.url}`} alt="" className='object-contain rounded-lg h-min max-h-min w-inherit max-w-[100px] sm:w-[180px] md:w-[210px] lg:w-[250px] sm:max-w-none 2xl:max-w-none 2xl:h-[368px] 2xl:w-[257px] shadow-xl' />}
                             </div>
                             <div className="flex flex-col h-full items-baseline justify-start mt-3">
                                 <div className="block w-full">
